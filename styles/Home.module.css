@@ -1,9 +1,5 @@
 .container {
   padding: 0 0.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .title a {
@@ -59,6 +55,16 @@
   transition:
     color 0.15s ease,
     border-color 0.15s ease;
+}
+
+.editor {
+  margin: 1rem;
+  flex-basis: 45%;
+  padding: 1.5rem;
+  border: 1px solid #0070f3;
+  border-radius: 10px;
+  width: 600px;
+  height: 480px;
 }
 
 .card:hover,

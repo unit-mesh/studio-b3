@@ -10,126 +10,136 @@ import {
   StrikethroughIcon, TextIcon
 } from '@radix-ui/react-icons'
 import React from 'react'
+import * as ToggleGroup from '@radix-ui/react-toggle-group'
 
 export const MenuBar = () => {
   const { editor } = useCurrentEditor()
 
-  if (!editor) {
-    return null
-  }
+  if (!editor) return null
 
   return (
-    <>
-      <button
+    <ToggleGroup.Root
+      className={"ToggleGroup"}
+      type="single"
+      defaultValue="center"
+      aria-label="Text alignment"
+    >
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={editor.isActive('bold') ? 'is-active' : ''}
+        className={editor.isActive('bold') ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="left" aria-label="Left aligned"
       >
         <FontBoldIcon/>
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={editor.isActive('italic') ? 'is-active' : ''}
+        className={editor.isActive('italic') ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         <FontItalicIcon/>
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={!editor.can().chain().focus().toggleStrike().run()}
-        className={editor.isActive('strike') ? 'is-active' : ''}
+        className={editor.isActive('strike') ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         <StrikethroughIcon/>
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleCode().run()}
         disabled={!editor.can().chain().focus().toggleCode().run()}
-        className={editor.isActive('code') ? 'is-active' : ''}
+        className={editor.isActive('code') ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         <CodeIcon/>
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().setParagraph().run()}
-        className={editor.isActive('paragraph') ? 'is-active' : ''}
+        className={editor.isActive('paragraph') ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         <TextIcon/>
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+        className={editor.isActive('heading', { level: 1 }) ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         H1
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+        className={editor.isActive('heading', { level: 2 }) ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         H2
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}
+        className={editor.isActive('heading', { level: 3 }) ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         H3
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-        className={editor.isActive('heading', { level: 4 }) ? 'is-active' : ''}
+        className={editor.isActive('heading', { level: 4 }) ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         H4
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-        className={editor.isActive('heading', { level: 5 }) ? 'is-active' : ''}
+        className={editor.isActive('heading', { level: 5 }) ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         H5
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-        className={editor.isActive('heading', { level: 6 }) ? 'is-active' : ''}
+        className={editor.isActive('heading', { level: 6 }) ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         H6
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={editor.isActive('bulletList') ? 'is-active' : ''}
+        className={editor.isActive('bulletList') ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         <ListBulletIcon/>
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={editor.isActive('orderedList') ? 'is-active' : ''}
+        className={editor.isActive('orderedList') ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         <ActivityLogIcon/>
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={editor.isActive('codeBlock') ? 'is-active' : ''}
+        className={editor.isActive('codeBlock') ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         <CodeIcon/>
-      </button>
-      <button
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={editor.isActive('blockquote') ? 'is-active' : ''}
+        className={editor.isActive('blockquote') ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
       >
         <QuoteIcon/>
-      </button>
-      <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
+        onClick={() => editor.chain().focus().setHorizontalRule().run()}
+        className={'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
+      >
         <DividerHorizontalIcon/>
-      </button>
-      <button
-        onClick={() => editor.chain().focus().undo().run()}
-        disabled={!editor.can().chain().focus().undo().run()}
-      >
-        undo
-      </button>
-      <button
-        onClick={() => editor.chain().focus().redo().run()}
-        disabled={!editor.can().chain().focus().redo().run()}
-      >
-        redo
-      </button>
-
-    </>
+      </ToggleGroup.Item>
+    </ToggleGroup.Root>
   )
 }
