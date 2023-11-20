@@ -47,3 +47,6 @@
     margin: 2rem 0;
 }
 
+.is-active {
+    background: #fff;
+}
