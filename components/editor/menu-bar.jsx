@@ -131,9 +131,12 @@ export const MenuBar = () => {
           // spike: https://ai-demo.tiptap.dev/kmLmpqbFJW
           // todo: call AI with updated text
         }}
-        className={'ToggleGroupItem'}
+        className={'ToggleGroupItem flex items-center justify-center relative'}
         value="center" aria-label="Center aligned"
       >
+        <div className={"absolute top-0 right-0 transform -translate-x-1 -translate-y-0.5"}>
+          <div className={"absolute px-1 text-[0.75rem] bg-pink-500 text-white rounded-md font-semibold"}>AI</div>
+        </div>
         <CookieIcon/>
       </ToggleGroup.Item>
     </ToggleGroup.Root>
