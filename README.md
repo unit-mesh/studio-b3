@@ -6,7 +6,11 @@ Todos
 
 - [ ] Spike editor for edit user requirements/feature.
     - [ ] ProseMirror
-    - [ ] Diff Viewer for content rewrite, like: [https://codesandbox.io/s/prosemirror-diff-nuhiiq](https://codesandbox.io/s/prosemirror-diff-nuhiiq)
+    - [ ] Diff
+        - Viewer for content rewrite,
+          like: [https://codesandbox.io/s/prosemirror-diff-nuhiiq](https://codesandbox.io/s/prosemirror-diff-nuhiiq)
+        - Change
+          Diff [https://github.com/chenyuncai/tiptap-track-change-extension](https://github.com/chenyuncai/tiptap-track-change-extension)
 - [ ] Component code search
     - Similar chunk in browser.
 - [ ] DSL for units
