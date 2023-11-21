@@ -54,10 +54,12 @@
     "@tiptap/pm": "2.1.12",
     "@tiptap/react": "^2.1.12",
     "@tiptap/starter-kit": "^2.1.12",
+    "@tiptap/suggestion": "^2.1.12",
     "markdown-it": "^13.0.2",
     "next": "latest",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "tippy.js": "^6.3.7"
   },
   "engines": {
     "node": ">=18"

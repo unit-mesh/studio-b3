@@ -15,11 +15,7 @@ import React from 'react'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
-export const MenuBar = () => {
-  const { editor } = useCurrentEditor()
-
-  if (!editor) return null
-
+export const MenuBar = ({ editor }) => {
   return (
     <ToggleGroup.Root
       className={'ToggleGroup'}

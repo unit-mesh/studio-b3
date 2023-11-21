@@ -1,36 +1,34 @@
 import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
-import { EditorProvider, Extension, FloatingMenu, useEditor } from '@tiptap/react'
+import { BubbleMenu, EditorContent, Extension, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 import { MenuBar } from './menu-bar'
 
 import MarkdownIt from 'markdown-it'
+import { AiBubbleMenu } from './ai-bubble-menu'
 
 const md = new MarkdownIt()
-
-const AiPlugin = Extension.create({
-  // @ts-ignore
-  addKeyboardShortcuts () {
+const CustomCommands = Extension.create({
+  addCommands: () => {
     return {
-      '/': (props) => {
-        const editor = props.editor
-        //
-        if (editor.isActive('paragraph')) {
-          console.log('paragraph')
+      getSelectedText: () => ({ editor }) => {
+        const { from, to, empty } = editor.state.selection
+
+        if (empty) {
+          return null
         }
-        // editor.isActive('heading', {level: 3})
-        if (editor.isActive('heading')) {
-          console.log('heading')
-        }
-      }
+
+        return editor.state.doc.textBetween(from, to, ' ')
+      },
     }
-  }
+  },
 })
 
 const extensions = [
-  AiPlugin,
+  CustomCommands,
+  // or try SlashCommands: https://github.com/ueberdosis/tiptap/issues/1508
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   // @ts-ignore
   TextStyle.configure({ types: [ListItem.name] }),
@@ -58,20 +56,21 @@ Hi there, BB is editor for Unit Mesh architecture paradigms, the next-gen softwa
 `
 
 const LiveEditor = () => {
+  const editor = useEditor({
+    extensions,
+    content: md.render(content),
+    editorProps: {
+      attributes: {
+        class: 'prose dark:prose-invert prose-sm sm:prose-base bb-editor-inner',
+      },
+    },
+  })
+
   return (
     <>
-      <EditorProvider
-        extensions={extensions}
-        content={md.render(content)}
-        editorProps={{
-          attributes: {
-            class: 'prose dark:prose-invert prose-sm sm:prose-base bb-editor-inner',
-          },
-        }}
-        slotBefore={<MenuBar/>}
-      >
-
-      </EditorProvider>
+      { editor && <MenuBar editor={editor}/> }
+      <EditorContent editor={editor}/>
+      { editor && <AiBubbleMenu editor={editor}/> }
     </>
   )
 }
