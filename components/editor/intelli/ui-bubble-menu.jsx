@@ -1,8 +1,8 @@
 import { BubbleMenu } from '@tiptap/react'
 import React from 'react'
 
-export const AiBubbleMenu = ({ editor }) => {
-  const selection = editor.commands.getSelectedText()
+export const UiBubbleMenu = ({ editor }) => {
+  const selection = editor.commands?.getSelectedText()
   let selectLength = selection?.length ? selection.length : 0
 
   // 根据长度优化

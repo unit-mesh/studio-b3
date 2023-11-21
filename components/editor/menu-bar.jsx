@@ -11,7 +11,7 @@ import {
 } from '@radix-ui/react-icons'
 import React from 'react'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
-import { AiMenubar } from './intelli/ai-menu-bar'
+import { UiMenubar } from './intelli/ui-menubar'
 
 export const MenuBar = ({ editor }) => {
   return (
@@ -124,7 +124,7 @@ export const MenuBar = ({ editor }) => {
         <DividerHorizontalIcon/>
       </ToggleGroup.Item>
 
-      <AiMenubar editor={editor} />
+      <UiMenubar editor={editor} />
     </ToggleGroup.Root>
   )
 }

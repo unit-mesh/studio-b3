@@ -2,7 +2,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { CookieIcon } from '@radix-ui/react-icons'
 import React from 'react'
 // spike: https://ai-demo.tiptap.dev/kmLmpqbFJW
-export const AiMenubar = ({ editor }) => {
+export const UiMenubar = ({ editor }) => {
   return <DropdownMenu.Root aria-label="Center aligned">
     <DropdownMenu.Trigger asChild>
       <button className={'ToggleGroupItem flex items-center justify-center relative'} value="center"
