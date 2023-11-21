@@ -15,6 +15,10 @@ const md = new MarkdownIt()
 const CustomCommands = Extension.create({
   addCommands: () => {
     return {
+      // for examples: $selection, $beforeCursor
+      variable: (variableName, variableValue) => ({ tr, commands }) => {
+        console.log('variable', variableName, variableValue)
+      },
       getSelectedText: () => ({ editor }) => {
         const { from, to, empty } = editor.state.selection
 

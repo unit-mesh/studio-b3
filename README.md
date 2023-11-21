@@ -11,6 +11,8 @@ Todos
           like: [https://codesandbox.io/s/prosemirror-diff-nuhiiq](https://codesandbox.io/s/prosemirror-diff-nuhiiq)
         - Change
           Diff [https://github.com/chenyuncai/tiptap-track-change-extension](https://github.com/chenyuncai/tiptap-track-change-extension)
+- [ ] Customize prompt
+    - [ ] Variable: `$beforeCursor`, `$afterCursor`, `$selection`, `$similarChunk`, `$relatedChunk`
 - [ ] Component code search
     - Similar chunk in browser.
 - [ ] DSL for units
