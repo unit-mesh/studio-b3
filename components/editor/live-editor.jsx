@@ -8,7 +8,7 @@ import { MenuBar } from './menu-bar'
 
 import MarkdownIt from 'markdown-it'
 import { AiBubbleMenu } from './ai-bubble-menu'
-import { SlashCommands } from './slash-commands'
+import { createSlash, SlashCommands } from './slash-commands'
 import { SlashMenuContainer } from './slash-menu-view'
 
 const md = new MarkdownIt()
@@ -40,10 +40,17 @@ const extensions = [
       keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
     },
   }),
-  SlashCommands.configure({
-    items: [{
-      title: "continue"
-    }]
+  createSlash('ai-slash', {
+    items: [
+      {
+        title: '续写',
+        command: 'continue',
+      },
+      {
+        "title": '总结',
+        "command": 'summarize',
+      }
+    ]
   }),
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   // @ts-ignore
@@ -74,9 +81,9 @@ const LiveEditor = () => {
 
   return (
     <div>
-      { editor && <MenuBar editor={editor}/> }
+      {editor && <MenuBar editor={editor}/>}
       <EditorContent editor={editor}/>
-      { editor && <AiBubbleMenu editor={editor}/> }
+      {editor && <AiBubbleMenu editor={editor}/>}
     </div>
   )
 }

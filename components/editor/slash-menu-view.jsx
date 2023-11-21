@@ -8,88 +8,103 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import scrollIntoView from 'scroll-into-view-if-needed'
 
-export const SlashMenuContainer = forwardRef((props, ref) => {
-  const $container = useRef<HTMLDivElement>(null)
-  const [selectedIndex, setSelectedIndex] = useState(0)
 
-  const selectItem = index => {
-    const command = props.items[index]
+class SlashMenuContainer extends React.Component {
+  constructor(props) {
+    super(props);
 
-    if (command) {
-      props.command(command)
+    console.log(this.props);
+
+    this.$container = React.createRef();
+    this.state = {
+      selectedIndex: 0,
+    };
+  }
+
+  selectItem = (index) => {
+    const { items, command } = this.props;
+    const selectedCommand = items[index];
+
+    console.log("selectedCommand", selectedCommand)
+
+    if (selectedCommand) {
+      command(selectedCommand);
+    }
+  };
+
+  upHandler = () => {
+    const { items } = this.props;
+    this.setState((prevState) => ({
+      selectedIndex: (prevState.selectedIndex + items.length - 1) % items.length,
+    }));
+  };
+
+  downHandler = () => {
+    const { items } = this.props;
+    this.setState((prevState) => ({
+      selectedIndex: (prevState.selectedIndex + 1) % items.length,
+    }));
+  };
+
+  enterHandler = () => {
+    this.selectItem(this.state.selectedIndex);
+  };
+
+  componentDidMount() {
+    this.setState({ selectedIndex: 0 });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.items !== this.props.items) {
+      this.setState({ selectedIndex: 0 });
+    }
+
+    const { selectedIndex } = this.state;
+    if (!Number.isNaN(selectedIndex + 1)) {
+      const el = this.$container.current?.querySelector(
+        `.slash-menu-item:nth-of-type(${selectedIndex + 1})`
+      );
+      el && el.scrollIntoView({ behavior: 'smooth', scrollMode: 'if-needed' });
     }
   }
 
-  const upHandler = () => {
-    setSelectedIndex(
-      (selectedIndex + props.items.length - 1) % props.items.length
-    )
-  }
-
-  const downHandler = () => {
-    setSelectedIndex((selectedIndex + 1) % props.items.length)
-  }
-
-  const enterHandler = () => {
-    selectItem(selectedIndex)
-  }
-
-  useEffect(() => setSelectedIndex(0), [props.items])
-
-  useEffect(() => {
-    if (Number.isNaN(selectedIndex + 1)) return
-    const el = $container?.current?.querySelector(
-      `.slash-menu-item:nth-of-type(${selectedIndex + 1})`
-    )
-    el && scrollIntoView(el, { behavior: 'smooth', scrollMode: 'if-needed' })
-  }, [selectedIndex])
-
-  useImperativeHandle(ref, () => ({
-    onKeyDown: ({ event }) => {
-      if (event.key === 'ArrowUp') {
-        upHandler()
-        return true
-      }
-
-      if (event.key === 'ArrowDown') {
-        downHandler()
-        return true
-      }
-
-      if (event.key === 'Enter') {
-        enterHandler()
-        return true
-      }
-
-      return false
+  onKeyDown = ({ event }) => {
+    if (event.key === 'ArrowUp') {
+      this.upHandler();
+      return true;
     }
-  }))
 
-  return (
-    <div ref={$container}>
-      {props.items.length ? (
-        props.items.map((item, index) => {
-          return 'divider' in item ? (
-            <div className="slash-menu-item">{item.title}</div>
-          ) : (
-            <div
-              className="slash-menu-item"
-              active={selectedIndex === index}
-              onClick={() => selectItem(index)}>
-              <div>
-                {item.icon}
-                <p>{item.text}</p>
-              </div>
-              <div>
-                <p>{item.slash}</p>
-              </div>
-            </div>
-          )
-        })
-      ) : (
-        <p>Not Found</p>
-      )}
-    </div>
-  )
-})
-SlashMenuContainer.displayName = "SlashMenuContainer"
+    if (event.key === 'ArrowDown') {
+      this.downHandler();
+      return true;
+    }
+
+    if (event.key === 'Enter') {
+      this.enterHandler();
+      return true;
+    }
+
+    return false;
+  };
+
+  render() {
+    const { items } = this.props;
+    const { selectedIndex } = this.state;
+
+    return (
+      <ul>
+        {items.map(({ title }, idx) => (
+          <li
+            key={idx}
+            onClick={() => this.selectItem(idx)}
+            className={selectedIndex === idx ? "is-active" : ""}
+          >
+            {title}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+}
+
+export default SlashMenuContainer;

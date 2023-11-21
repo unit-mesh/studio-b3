@@ -214,3 +214,6 @@ input {
     }
 }
 
+.is-active {
+    background-color: var(--violet-3);
+}

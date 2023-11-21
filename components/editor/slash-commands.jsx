@@ -1,104 +1,106 @@
-import { Extension, ReactRenderer } from '@tiptap/react'
+import { ReactRenderer } from '@tiptap/react'
+import { Node } from '@tiptap/core'
 import { Suggestion } from '@tiptap/suggestion'
 import tippy from 'tippy.js'
-import { SlashMenuContainer } from './slash-menu-view'
-import { useRef } from 'react'
+import SlashMenuContainer from './slash-menu-view'
 
 // or try SlashCommands: https://github.com/ueberdosis/tiptap/issues/1508
 const extensionName = `ai-insert`
 
-export const SlashCommands = Extension.create({
-  name: 'slash-command',
-  addOptions () {
-    return {
-      char: '/',
-      pluginKey: 'slash-/',
-    }
-  },
-  addProseMirrorPlugins () {
-    return [
-      Suggestion({
-        editor: this.editor,
-        char: this.options.char,
+export const createSlash = (name, options) => {
+  return Node.create({
+    name: 'slash-command',
+    addOptions () {
+      return {
+        char: '/',
+        pluginKey: 'slash-/',
+      }
+    },
+    addProseMirrorPlugins () {
+      return [
+        Suggestion({
+          editor: this.editor,
+          char: this.options.char,
 
-        command: ({ editor, props }) => {
-          const { state, dispatch } = editor.view
-          const { $head, $from } = state.selection
 
-          const end = $from.pos
-          const from = $head?.nodeBefore?.text
-            ? end -
-            $head.nodeBefore.text.substring(
-              $head.nodeBefore.text.indexOf('/')
-            ).length
-            : $from.start()
+          command: ({ editor, props }) => {
+            const { state, dispatch } = editor.view
+            const { $head, $from } = state.selection
 
-          const tr = state.tr.deleteRange(from, end)
-          dispatch(tr)
-          props?.action?.(editor, props.user)
-          editor?.view?.focus()
-        },
-        items: ({ query }) => {
-          // todo: match fo query
-          return this.options.items
-        },
-        render: () => {
-          let component
-          let popup
-          let isEditable
+            const end = $from.pos
+            const from = $head?.nodeBefore?.text
+              ? end -
+              $head.nodeBefore.text.substring(
+                $head.nodeBefore.text.indexOf('/')
+              ).length
+              : $from.start()
 
-          return {
-            onStart: (props) => {
-              isEditable = props.editor.isEditable
-              if (!isEditable) return
+            const tr = state.tr.deleteRange(from, end)
+            dispatch(tr)
+            props?.action?.(editor, props.user)
+            editor?.view?.focus()
+          },
+          items: ({ query }) => {
+            // todo: match fo query
+            return options.items
+          },
+          render: () => {
+            let component
+            let popup
+            let isEditable
 
-              component = new ReactRenderer(SlashMenuContainer, {
-                props,
-                editor: props.editor,
-              })
+            return {
+              onStart: (props) => {
+                isEditable = props.editor.isEditable
+                if (!isEditable) return
 
-              console.log(component.element)
+                component = new ReactRenderer(SlashMenuContainer, {
+                  props,
+                  editor: props.editor,
+                })
 
-              popup = tippy('body', {
-                getReferenceClientRect: props.clientRect || (() => props.editor.storage[extensionName].rect),
-                appendTo: () => document.body,
-                content: component.element,
-                showOnCreate: true,
-                interactive: true,
-                trigger: 'manual',
-                placement: 'bottom-start',
-              })
-            },
+                console.log(component.element)
 
-            onUpdate (props) {
-              if (!isEditable) return
+                popup = tippy('body', {
+                  getReferenceClientRect: props.clientRect || (() => props.editor.storage[extensionName].rect),
+                  appendTo: () => document.body,
+                  content: component.element,
+                  showOnCreate: true,
+                  interactive: true,
+                  trigger: 'manual',
+                  placement: 'bottom-start',
+                })
+              },
 
-              component.updateProps(props)
-              props.editor.storage[extensionName].rect = props.clientRect()
-              popup[0].setProps({
-                getReferenceClientRect: props.clientRect,
-              })
-            },
+              onUpdate (props) {
+                if (!isEditable) return
 
-            onKeyDown (props) {
-              if (!isEditable) return
+                component.updateProps(props)
+                props.editor.storage[extensionName].rect = props.clientRect()
+                popup[0].setProps({
+                  getReferenceClientRect: props.clientRect,
+                })
+              },
 
-              if (props.event.key === 'Escape') {
-                popup[0].hide()
-                return true
-              }
-              return component.ref?.onKeyDown(props)
-            },
+              onKeyDown (props) {
+                if (!isEditable) return
 
-            onExit () {
-              if (!isEditable) return
-              popup && popup[0].destroy()
-              component.destroy()
-            },
-          }
-        },
-      }),
-    ]
-  },
-})
+                if (props.event.key === 'Escape') {
+                  popup[0].hide()
+                  return true
+                }
+                return component.ref?.onKeyDown(props)
+              },
 
+              onExit () {
+                if (!isEditable) return
+                popup && popup[0].destroy()
+                component.destroy()
+              },
+            }
+          },
+        }),
+      ]
+    },
+  })
+}
