@@ -1,23 +1,16 @@
 import { Extension, ReactRenderer } from '@tiptap/react'
 import { Suggestion } from '@tiptap/suggestion'
 import tippy from 'tippy.js'
-import { UiQuickCommand } from './ui-quick-command'
+import { QuickView } from './quick-view'
 
 const extensionName = 'quick-command'
 
-export const AiQuickCommand = Extension.create({
+export const QuickExtension = Extension.create({
   name: 'quick-command',
   addOptions () {
     return {
       char: 'Mod-/',
       pluginKey: 'quick-command',
-    }
-  },
-  addKeyboardShortcuts () {
-    return {
-      'Mod-/': () => {
-        console.log('Mod-/ pressed')
-      },
     }
   },
   addProseMirrorPlugins () {
@@ -37,7 +30,7 @@ export const AiQuickCommand = Extension.create({
               isEditable = props.editor.isEditable
               if (!isEditable) return
 
-              component = new ReactRenderer(UiQuickCommand, {
+              component = new ReactRenderer(QuickView, {
                 props,
                 editor: props.editor,
               })

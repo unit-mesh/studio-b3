@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/react'
 
-export const CustomCommands = Extension.create({
+export const CommandFunctions = Extension.create({
   addCommands: () => {
     return {
       // for examples: $selection, $beforeCursor

@@ -6,7 +6,7 @@
  */
 import React from 'react'
 
-class UiSlashMenu extends React.Component {
+class SlashView extends React.Component {
   constructor (props) {
     super(props)
     this.$container = React.createRef()
@@ -99,4 +99,4 @@ class UiSlashMenu extends React.Component {
   }
 }
 
-export default UiSlashMenu
+export default SlashView

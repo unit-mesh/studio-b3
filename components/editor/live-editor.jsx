@@ -7,15 +7,15 @@ import React from 'react'
 import { MenuBar } from './menu-bar'
 
 import MarkdownIt from 'markdown-it'
-import { UiBubbleMenu } from './intelli/ui-bubble-menu'
-import { createSlashCommand } from './intelli/ai-slash-commands'
-import { CustomCommands } from './action/custom-commands'
-import { AiQuickCommand } from './intelli/ai-quick-command'
+import { MenuBubble } from './intelli/menu/menu-bubble'
+import { createSlashCommand } from './intelli/slash-extension'
+import { CommandFunctions } from './action/command-functions'
+import { QuickExtension } from './intelli/quick-extension'
 
 const md = new MarkdownIt()
 
 const extensions = [
-  CustomCommands,
+  CommandFunctions,
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
@@ -38,7 +38,7 @@ const extensions = [
       }
     ]
   }),
-  AiQuickCommand,
+  QuickExtension,
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   // @ts-ignore
   TextStyle.configure({ types: [ListItem.name] }),
@@ -69,7 +69,7 @@ const LiveEditor = () => {
     <div>
       {editor && <MenuBar editor={editor}/>}
       <EditorContent editor={editor}/>
-      {editor && <UiBubbleMenu editor={editor}/>}
+      {editor && <MenuBubble editor={editor}/>}
     </div>
   )
 }
