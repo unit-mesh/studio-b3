@@ -1,16 +1,18 @@
 import { useCurrentEditor } from '@tiptap/react'
 import {
   ActivityLogIcon,
-  CodeIcon, CookieIcon,
+  CodeIcon, CookieIcon, Cross2Icon,
   DividerHorizontalIcon,
   FontBoldIcon,
   FontItalicIcon,
   ListBulletIcon,
+  MixerHorizontalIcon,
   QuoteIcon,
   StrikethroughIcon, TextIcon
 } from '@radix-ui/react-icons'
 import React from 'react'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
+import * as Popover from '@radix-ui/react-popover'
 
 export const MenuBar = () => {
   const { editor } = useCurrentEditor()
@@ -126,19 +128,30 @@ export const MenuBar = () => {
       >
         <DividerHorizontalIcon/>
       </ToggleGroup.Item>
-      <ToggleGroup.Item
-        onClick={() => {
-          // spike: https://ai-demo.tiptap.dev/kmLmpqbFJW
-          // todo: call AI with updated text
-        }}
-        className={'ToggleGroupItem flex items-center justify-center relative'}
-        value="center" aria-label="Center aligned"
-      >
-        <div className={"absolute top-0 right-0 transform -translate-x-1 -translate-y-0.5"}>
-          <div className={"absolute px-1 text-[0.75rem] bg-pink-500 text-white rounded-md font-semibold"}>AI</div>
-        </div>
-        <CookieIcon/>
-      </ToggleGroup.Item>
+
+      {/*// spike: https://ai-demo.tiptap.dev/kmLmpqbFJW*/}
+      <Popover.Root>
+        <Popover.Trigger asChild>
+          <button className={'ToggleGroupItem flex items-center justify-center relative'} value="center"
+                  aria-label="Center aligned" aria-label="Update dimensions">
+            <div className={'absolute top-0 right-0 transform -translate-x-1 -translate-y-0.5'}>
+              <div className={'absolute px-1 text-[0.75rem] bg-pink-500 text-white rounded-md font-semibold'}>AI</div>
+            </div>
+            <CookieIcon/>
+          </button>
+        </Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Content className="PopoverContent" sideOffset={5}>
+            <button>
+              <div className={"text-gray-500"}>Spelling & Grammar</div>
+            </button>
+            {/*<Popover.Close className="PopoverClose" aria-label="Close">*/}
+            {/*  <Cross2Icon/>*/}
+            {/*</Popover.Close>*/}
+            {/*<Popover.Arrow className="PopoverArrow"/>*/}
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
     </ToggleGroup.Root>
   )
 }
