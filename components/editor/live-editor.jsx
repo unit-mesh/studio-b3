@@ -1,7 +1,7 @@
 import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
-import { EditorContent, Extension, useEditor } from '@tiptap/react'
+import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 import { MenuBar } from './menu-bar'
@@ -9,27 +9,9 @@ import { MenuBar } from './menu-bar'
 import MarkdownIt from 'markdown-it'
 import { AiBubbleMenu } from './intelli/ai-bubble-menu'
 import { createSlash } from './slash-commands'
+import { CustomCommands } from './action/custom-commands'
 
 const md = new MarkdownIt()
-const CustomCommands = Extension.create({
-  addCommands: () => {
-    return {
-      // for examples: $selection, $beforeCursor
-      variable: (variableName, variableValue) => ({ tr, commands }) => {
-        console.log('variable', variableName, variableValue)
-      },
-      getSelectedText: () => ({ editor }) => {
-        const { from, to, empty } = editor.state.selection
-
-        if (empty) {
-          return null
-        }
-
-        return editor.state.doc.textBetween(from, to, ' ')
-      },
-    }
-  },
-})
 
 const extensions = [
   CustomCommands,
