@@ -59,8 +59,8 @@
 
 .editor {
   margin: 1rem;
+  padding: 1rem;
   flex-basis: 45%;
-  padding: 1.5rem;
   border: 1px solid #0070f3;
   border-radius: 10px;
   width: 600px;

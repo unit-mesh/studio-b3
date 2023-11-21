@@ -6,14 +6,11 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>2b Editor - all you need is editor!</title>
+        <title>bb Editor - all you need is editor!</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <h1 className="text-3xl font-bold underline">
-          Hello world!
-        </h1>
         <div className={styles.editor}>
           <LiveEditor />
         </div>

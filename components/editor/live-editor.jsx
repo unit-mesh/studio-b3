@@ -47,9 +47,9 @@ const extensions = [
 ]
 
 const content = `
-## 2b editor
+## bb editor
 
-Hi there, 2B is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
+Hi there, BB is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
 
 1. use \`/\` to trigger AI commands.
 2. use \`Alt\` + \`Enter\` to trigger the code gen.
@@ -65,7 +65,7 @@ const LiveEditor = () => {
         content={md.render(content)}
         editorProps={{
           attributes: {
-            class: 'prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+            class: 'prose dark:prose-invert prose-sm sm:prose-base bb-editor-inner',
           },
         }}
         slotBefore={<MenuBar/>}

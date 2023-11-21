@@ -1,7 +1,7 @@
 import { useCurrentEditor } from '@tiptap/react'
 import {
   ActivityLogIcon,
-  CodeIcon,
+  CodeIcon, CookieIcon,
   DividerHorizontalIcon,
   FontBoldIcon,
   FontItalicIcon,
@@ -19,7 +19,7 @@ export const MenuBar = () => {
 
   return (
     <ToggleGroup.Root
-      className={"ToggleGroup"}
+      className={'ToggleGroup'}
       type="single"
       defaultValue="center"
       aria-label="Text alignment"
@@ -92,20 +92,6 @@ export const MenuBar = () => {
         H4
       </ToggleGroup.Item>
       <ToggleGroup.Item
-        onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-        className={editor.isActive('heading', { level: 5 }) ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
-        value="center" aria-label="Center aligned"
-      >
-        H5
-      </ToggleGroup.Item>
-      <ToggleGroup.Item
-        onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-        className={editor.isActive('heading', { level: 6 }) ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
-        value="center" aria-label="Center aligned"
-      >
-        H6
-      </ToggleGroup.Item>
-      <ToggleGroup.Item
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive('bulletList') ? 'is-active ToggleGroupItem' : 'ToggleGroupItem'}
         value="center" aria-label="Center aligned"
@@ -139,6 +125,16 @@ export const MenuBar = () => {
         value="center" aria-label="Center aligned"
       >
         <DividerHorizontalIcon/>
+      </ToggleGroup.Item>
+      <ToggleGroup.Item
+        onClick={() => {
+          // spike: https://ai-demo.tiptap.dev/kmLmpqbFJW
+          // todo: call AI with updated text
+        }}
+        className={'ToggleGroupItem'}
+        value="center" aria-label="Center aligned"
+      >
+        <CookieIcon/>
       </ToggleGroup.Item>
     </ToggleGroup.Root>
   )
