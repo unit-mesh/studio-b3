@@ -6,12 +6,9 @@
  */
 import React from 'react'
 
-class SlashMenuContainer extends React.Component {
+class AiSlashMenu extends React.Component {
   constructor (props) {
     super(props)
-
-    console.log(this.props)
-
     this.$container = React.createRef()
     this.state = {
       selectedIndex: 0,
@@ -21,8 +18,6 @@ class SlashMenuContainer extends React.Component {
   selectItem = (index) => {
     const { items, command } = this.props
     const selectedCommand = items[index]
-
-    console.log('selectedCommand', selectedCommand)
 
     if (selectedCommand) {
       command(selectedCommand)
@@ -104,4 +99,4 @@ class SlashMenuContainer extends React.Component {
   }
 }
 
-export default SlashMenuContainer
+export default AiSlashMenu

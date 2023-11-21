@@ -8,13 +8,15 @@ import { MenuBar } from './menu-bar'
 
 import MarkdownIt from 'markdown-it'
 import { AiBubbleMenu } from './intelli/ai-bubble-menu'
-import { createSlash } from './slash-commands'
+import { createSlashCommand } from './intelli/ai-slash-commands'
 import { CustomCommands } from './action/custom-commands'
+import { AiQuickCommand } from './intelli/ai-quick-command'
 
 const md = new MarkdownIt()
 
 const extensions = [
   CustomCommands,
+  AiQuickCommand,
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
@@ -25,7 +27,7 @@ const extensions = [
       keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
     },
   }),
-  createSlash('ai-slash', {
+  createSlashCommand('ai-slash', {
     items: [
       {
         title: '续写',
@@ -48,7 +50,7 @@ const content = `
 Hi there, BB is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
 
 1. use \`/\` to trigger AI commands.
-2. use \`Alt\` + \`/\` or \`Option\` + \`/\` to trigger slash commands.
+2. use \`Alt\` + \`/\` or \`Option\` + \`/\` to show custom input box.
 3. select text and right click to see the context menu.
 
 `

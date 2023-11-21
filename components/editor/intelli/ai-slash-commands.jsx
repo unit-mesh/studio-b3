@@ -2,12 +2,12 @@ import { ReactRenderer } from '@tiptap/react'
 import { Node } from '@tiptap/core'
 import { Suggestion } from '@tiptap/suggestion'
 import tippy from 'tippy.js'
-import SlashMenuContainer from './intelli/slash-menu-view'
+import AiSlashMenu from './ai-slash-menu'
 
 // or try SlashCommands: https://github.com/ueberdosis/tiptap/issues/1508
 const extensionName = `ai-insert`
 
-export const createSlash = (name, options) => {
+export const createSlashCommand = (name, options) => {
   return Node.create({
     name: 'slash-command',
     addOptions () {
@@ -53,7 +53,7 @@ export const createSlash = (name, options) => {
                 isEditable = props.editor.isEditable
                 if (!isEditable) return
 
-                component = new ReactRenderer(SlashMenuContainer, {
+                component = new ReactRenderer(AiSlashMenu, {
                   props,
                   editor: props.editor,
                 })
