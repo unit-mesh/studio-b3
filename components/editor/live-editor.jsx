@@ -8,8 +8,7 @@ import { MenuBar } from './menu-bar'
 
 import MarkdownIt from 'markdown-it'
 import { AiBubbleMenu } from './intelli/ai-bubble-menu'
-import { createSlash, SlashCommands } from './slash-commands'
-import { SlashMenuContainer } from './intelli/slash-menu-view'
+import { createSlash } from './slash-commands'
 
 const md = new MarkdownIt()
 const CustomCommands = Extension.create({
@@ -51,8 +50,8 @@ const extensions = [
         command: 'continue',
       },
       {
-        "title": '总结',
-        "command": 'summarize',
+        title: '总结',
+        command: 'summarize',
       }
     ]
   }),
@@ -67,11 +66,10 @@ const content = `
 Hi there, BB is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
 
 1. use \`/\` to trigger AI commands.
-2. use \`Alt\` + \`Enter\` to trigger the code gen.
+2. use \`Alt\` + \`/\` or \`Option\` + \`/\` to trigger slash commands.
 3. select text and right click to see the context menu.
 
 `
-
 const LiveEditor = () => {
   const editor = useEditor({
     extensions,

@@ -1,6 +1,6 @@
 # 2b
 
-2b is a editor for code generation.
+> 2b is an editor for content generation, like blog, article, user story etc.
 
 Todos
 
@@ -13,8 +13,9 @@ Todos
           Diff [https://github.com/chenyuncai/tiptap-track-change-extension](https://github.com/chenyuncai/tiptap-track-change-extension)
 - [ ] Customize prompt
     - [ ] Variable: `$beforeCursor`, `$afterCursor`, `$selection`, `$similarChunk`, `$relatedChunk`
-- [ ] Component code search
-    - Similar chunk in browser.
+- [ ] Content search
+    - [ ] Similar chunk in browser.
+    - [ ] Code search
 - [ ] DSL for units
     - [ ] Backend
     - [ ] Frontend
@@ -27,8 +28,8 @@ Todos
 
 ### Tiptap Editor extensions
 
-[https://github.com/fantasticit/magic-editor](https://github.com/fantasticit/magic-editor)
-[Think Editor'S Tiptap Plugins](https://github.com/fantasticit/think/tree/main/packages/client/src/tiptap/core/extensions)
+- [https://github.com/fantasticit/magic-editor](https://github.com/fantasticit/magic-editor)
+- [Think Editor's Tiptap extensions](https://github.com/fantasticit/think/tree/main/packages/client/src/tiptap/core/extensions)
 
 ## License
 

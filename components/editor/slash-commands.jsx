@@ -22,7 +22,6 @@ export const createSlash = (name, options) => {
           editor: this.editor,
           char: this.options.char,
 
-
           command: ({ editor, props }) => {
             const { state, dispatch } = editor.view
             const { $head, $from } = state.selection
