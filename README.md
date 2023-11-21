@@ -21,6 +21,13 @@ Todos
 - [ ] Online Runtime
     - [ ] Unit Runtime
 
+## Refs:
+
+### Tiptap Editor extensions
+
+[https://github.com/fantasticit/magic-editor](https://github.com/fantasticit/magic-editor)
+[Think Editor'S Tiptap Plugins](https://github.com/fantasticit/think/tree/main/packages/client/src/tiptap/core/extensions)
+
 ## License
 
 This code is distributed under the MIT license. See `LICENSE` in this directory.

@@ -1,13 +1,14 @@
 import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
-import { BubbleMenu, EditorContent, Extension, useEditor } from '@tiptap/react'
+import { EditorContent, Extension, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 import { MenuBar } from './menu-bar'
 
 import MarkdownIt from 'markdown-it'
 import { AiBubbleMenu } from './ai-bubble-menu'
+import { CommandsList, SlashCommands } from './slash-commands'
 
 const md = new MarkdownIt()
 const CustomCommands = Extension.create({
@@ -28,10 +29,6 @@ const CustomCommands = Extension.create({
 
 const extensions = [
   CustomCommands,
-  // or try SlashCommands: https://github.com/ueberdosis/tiptap/issues/1508
-  Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  // @ts-ignore
-  TextStyle.configure({ types: [ListItem.name] }),
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
@@ -42,6 +39,15 @@ const extensions = [
       keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
     },
   }),
+  SlashCommands.configure({
+    commands: [
+      { title: "续写内容", options: { command: "continue-writing" } }
+    ],
+    component: CommandsList
+  }),
+  Color.configure({ types: [TextStyle.name, ListItem.name] }),
+  // @ts-ignore
+  TextStyle.configure({ types: [ListItem.name] }),
 ]
 
 const content = `
