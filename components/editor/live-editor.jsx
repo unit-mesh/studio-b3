@@ -7,9 +7,9 @@ import React from 'react'
 import { MenuBar } from './menu-bar'
 
 import MarkdownIt from 'markdown-it'
-import { AiBubbleMenu } from './ai-bubble-menu'
+import { AiBubbleMenu } from './intelli/ai-bubble-menu'
 import { createSlash, SlashCommands } from './slash-commands'
-import { SlashMenuContainer } from './slash-menu-view'
+import { SlashMenuContainer } from './intelli/slash-menu-view'
 
 const md = new MarkdownIt()
 const CustomCommands = Extension.create({

@@ -4,92 +4,89 @@
  * MIT License https://github.com/fantasticit/think/blob/main/packages/client/src/tiptap/core/extensions/slash.ts#L11
  * https://github.com/fantasticit/magic-editor/blob/main/src/extensions/slash/slash-menu-view.tsx#L68
  */
-
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
-import scrollIntoView from 'scroll-into-view-if-needed'
-
+import React from 'react'
 
 class SlashMenuContainer extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
-    console.log(this.props);
+    console.log(this.props)
 
-    this.$container = React.createRef();
+    this.$container = React.createRef()
     this.state = {
       selectedIndex: 0,
-    };
+    }
   }
 
   selectItem = (index) => {
-    const { items, command } = this.props;
-    const selectedCommand = items[index];
+    const { items, command } = this.props
+    const selectedCommand = items[index]
 
-    console.log("selectedCommand", selectedCommand)
+    console.log('selectedCommand', selectedCommand)
 
     if (selectedCommand) {
-      command(selectedCommand);
+      command(selectedCommand)
     }
-  };
-
-  upHandler = () => {
-    const { items } = this.props;
-    this.setState((prevState) => ({
-      selectedIndex: (prevState.selectedIndex + items.length - 1) % items.length,
-    }));
-  };
-
-  downHandler = () => {
-    const { items } = this.props;
-    this.setState((prevState) => ({
-      selectedIndex: (prevState.selectedIndex + 1) % items.length,
-    }));
-  };
-
-  enterHandler = () => {
-    this.selectItem(this.state.selectedIndex);
-  };
-
-  componentDidMount() {
-    this.setState({ selectedIndex: 0 });
   }
 
-  componentDidUpdate(prevProps) {
+  upHandler = () => {
+    const { items } = this.props
+    this.setState((prevState) => ({
+      selectedIndex: (prevState.selectedIndex + items.length - 1) % items.length,
+    }))
+  }
+
+  downHandler = () => {
+    const { items } = this.props
+    this.setState((prevState) => ({
+      selectedIndex: (prevState.selectedIndex + 1) % items.length,
+    }))
+  }
+
+  enterHandler = () => {
+    this.selectItem(this.state.selectedIndex)
+  }
+
+  componentDidMount () {
+    this.setState({ selectedIndex: 0 })
+  }
+
+  componentDidUpdate (prevProps) {
     if (prevProps.items !== this.props.items) {
-      this.setState({ selectedIndex: 0 });
+      this.setState({ selectedIndex: 0 })
     }
 
-    const { selectedIndex } = this.state;
+    const { selectedIndex } = this.state
     if (!Number.isNaN(selectedIndex + 1)) {
       const el = this.$container.current?.querySelector(
         `.slash-menu-item:nth-of-type(${selectedIndex + 1})`
-      );
-      el && el.scrollIntoView({ behavior: 'smooth', scrollMode: 'if-needed' });
+      )
+      el && el.scrollIntoView({ behavior: 'smooth', scrollMode: 'if-needed' })
     }
   }
 
   onKeyDown = ({ event }) => {
     if (event.key === 'ArrowUp') {
-      this.upHandler();
-      return true;
+      this.upHandler()
+      return true
     }
 
     if (event.key === 'ArrowDown') {
-      this.downHandler();
-      return true;
+      this.downHandler()
+      return true
     }
 
     if (event.key === 'Enter') {
-      this.enterHandler();
-      return true;
+      this.enterHandler()
+      return true
     }
 
-    return false;
-  };
+    return false
+  }
 
-  render() {
-    const { items } = this.props;
-    const { selectedIndex } = this.state;
+  render () {
+    const { items } = this.props
+    const { selectedIndex } = this.state
 
     return (
       <ul>
@@ -97,14 +94,14 @@ class SlashMenuContainer extends React.Component {
           <li
             key={idx}
             onClick={() => this.selectItem(idx)}
-            className={selectedIndex === idx ? "is-active" : ""}
+            className={selectedIndex === idx ? 'is-active' : ''}
           >
             {title}
           </li>
         ))}
       </ul>
-    );
+    )
   }
 }
 
-export default SlashMenuContainer;
+export default SlashMenuContainer

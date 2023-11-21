@@ -2,7 +2,7 @@ import { ReactRenderer } from '@tiptap/react'
 import { Node } from '@tiptap/core'
 import { Suggestion } from '@tiptap/suggestion'
 import tippy from 'tippy.js'
-import SlashMenuContainer from './slash-menu-view'
+import SlashMenuContainer from './intelli/slash-menu-view'
 
 // or try SlashCommands: https://github.com/ueberdosis/tiptap/issues/1508
 const extensionName = `ai-insert`
