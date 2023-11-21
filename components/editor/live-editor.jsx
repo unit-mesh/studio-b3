@@ -8,7 +8,8 @@ import { MenuBar } from './menu-bar'
 
 import MarkdownIt from 'markdown-it'
 import { AiBubbleMenu } from './ai-bubble-menu'
-import { CommandsList, SlashCommands } from './slash-commands'
+import { SlashCommands } from './slash-commands'
+import { SlashMenuContainer } from './slash-menu-view'
 
 const md = new MarkdownIt()
 const CustomCommands = Extension.create({
@@ -40,10 +41,9 @@ const extensions = [
     },
   }),
   SlashCommands.configure({
-    commands: [
-      { title: "续写内容", options: { command: "continue-writing" } }
-    ],
-    component: CommandsList
+    items: [{
+      title: "continue"
+    }]
   }),
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   // @ts-ignore
@@ -73,11 +73,11 @@ const LiveEditor = () => {
   })
 
   return (
-    <>
+    <div>
       { editor && <MenuBar editor={editor}/> }
       <EditorContent editor={editor}/>
       { editor && <AiBubbleMenu editor={editor}/> }
-    </>
+    </div>
   )
 }
 

@@ -1,9 +1,12 @@
 import { Extension, ReactRenderer } from '@tiptap/react'
-import React from 'react'
 import { Suggestion } from '@tiptap/suggestion'
 import tippy from 'tippy.js'
+import { SlashMenuContainer } from './slash-menu-view'
+import { useRef } from 'react'
 
 // or try SlashCommands: https://github.com/ueberdosis/tiptap/issues/1508
+const extensionName = `ai-insert`
+
 export const SlashCommands = Extension.create({
   name: 'slash-command',
   addOptions () {
@@ -17,8 +20,8 @@ export const SlashCommands = Extension.create({
       Suggestion({
         editor: this.editor,
         char: this.options.char,
+
         command: ({ editor, props }) => {
-          console.log('ss')
           const { state, dispatch } = editor.view
           const { $head, $from } = state.selection
 
@@ -36,33 +39,28 @@ export const SlashCommands = Extension.create({
           editor?.view?.focus()
         },
         items: ({ query }) => {
-          return [
-            {
-              title: 'H1',
-              command: ({ editor, range }) => {
-                editor
-                  .chain()
-                  .focus()
-                  .deleteRange(range)
-                  .setNode('heading', { level: 1 })
-                  .run()
-              },
-            },
-          ].filter(item => item.title)
+          // todo: match fo query
+          return this.options.items
         },
         render: () => {
           let component
           let popup
+          let isEditable
 
           return {
-            onStart: props => {
-              component = new ReactRenderer(CommandsList, {
+            onStart: (props) => {
+              isEditable = props.editor.isEditable
+              if (!isEditable) return
+
+              component = new ReactRenderer(SlashMenuContainer, {
                 props,
                 editor: props.editor,
               })
 
+              console.log(component.element)
+
               popup = tippy('body', {
-                getReferenceClientRect: props.clientRect,
+                getReferenceClientRect: props.clientRect || (() => props.editor.storage[extensionName].rect),
                 appendTo: () => document.body,
                 content: component.element,
                 showOnCreate: true,
@@ -73,29 +71,28 @@ export const SlashCommands = Extension.create({
             },
 
             onUpdate (props) {
+              if (!isEditable) return
+
               component.updateProps(props)
-
-              if (!props.clientRect) {
-                return
-              }
-
+              props.editor.storage[extensionName].rect = props.clientRect()
               popup[0].setProps({
                 getReferenceClientRect: props.clientRect,
               })
             },
 
             onKeyDown (props) {
+              if (!isEditable) return
+
               if (props.event.key === 'Escape') {
                 popup[0].hide()
-
                 return true
               }
-
               return component.ref?.onKeyDown(props)
             },
 
             onExit () {
-              popup[0].destroy()
+              if (!isEditable) return
+              popup && popup[0].destroy()
               component.destroy()
             },
           }
@@ -105,16 +102,3 @@ export const SlashCommands = Extension.create({
   },
 })
 
-export function CommandsList (props) {
-  const { items, selectedIndex, selectItem } = props
-
-  return (
-    <ul>
-      {items.map(({ title }, idx) => (
-        <li key={idx} onClick={() => selectItem(idx)}>
-          {title}
-        </li>
-      ))}
-    </ul>
-  )
-}
