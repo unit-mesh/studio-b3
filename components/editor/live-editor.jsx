@@ -7,6 +7,7 @@ import React from 'react'
 import { MenuBar } from './menu-bar'
 
 import MarkdownIt from 'markdown-it'
+
 const md = new MarkdownIt()
 
 const AiPlugin = Extension.create({
@@ -62,6 +63,11 @@ const LiveEditor = () => {
       <EditorProvider
         extensions={extensions}
         content={md.render(content)}
+        editorProps={{
+          attributes: {
+            class: 'prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+          },
+        }}
         slotBefore={<MenuBar/>}
       >
 
