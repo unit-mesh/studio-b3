@@ -3,6 +3,7 @@ import { Node } from '@tiptap/core'
 import { Suggestion } from '@tiptap/suggestion'
 import tippy from 'tippy.js'
 import SlashView from './slash-view'
+import { PluginKey } from '@tiptap/pm/state'
 
 export const createSlashExtension = (name, options) => {
   const extensionName = `ai-insert`
@@ -12,7 +13,7 @@ export const createSlashExtension = (name, options) => {
     addOptions () {
       return {
         char: '/',
-        pluginKey: 'slash-/',
+        pluginKey: 'slash',
       }
     },
     addProseMirrorPlugins () {
@@ -20,6 +21,7 @@ export const createSlashExtension = (name, options) => {
         Suggestion({
           editor: this.editor,
           char: this.options.char,
+          pluginKey: new PluginKey(this.options.pluginKey),
 
           command: ({ editor, props }) => {
             const { state, dispatch } = editor.view

@@ -1,24 +1,58 @@
-import { Extension, ReactRenderer } from '@tiptap/react'
+import { Node, ReactRenderer } from '@tiptap/react'
 import tippy from 'tippy.js'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 import { QuickView } from './quick-view'
+import { Suggestion } from '@tiptap/suggestion'
 
-const extensionName = 'ai-quick-command'
+const extensionName = 'quick-command'
+
 export const createQuickExtension = () => {
-  return Extension.create({
+  return Node.create({
     name: extensionName,
     addOptions () {
       return {
         char: 'Mod-/',
-        pluginKey: extensionName,
+        pluginKey: 'quick-extension',
       }
     },
+    // addKeyboardShortcuts () {
+    //   return {
+    //     'Mod-/': () => {
+    //       this.editor.commands.command(({ tr, state, dispatch }) => {
+    //         dispatch(tr.setMeta(pluginKey, false))
+    //         return true
+    //       })
+    //     },
+    //   }
+    // },
     addProseMirrorPlugins () {
-      let plugin = new Plugin({
+      let plugin = Suggestion({
         editor: this.editor,
-        char: 'Mod-/',
-        ...this.options,
+        char: this.options.char,
+        pluginKey: new PluginKey(extensionName),
+
+        command: ({ editor, props }) => {
+          const { state, dispatch } = editor.view
+          const { $head, $from } = state.selection
+
+          const end = $from.pos
+          const from = $head?.nodeBefore?.text
+            ? end -
+            $head.nodeBefore.text.substring(
+              $head.nodeBefore.text.indexOf('/')
+            ).length
+            : $from.start()
+
+          const tr = state.tr.deleteRange(from, end)
+          dispatch(tr)
+          props?.action?.(editor, props.user)
+          editor?.view?.focus()
+        },
+        items: ({ query }) => {
+          // todo: match fo query
+          return [{}]
+        },
 
         render: () => {
           let component
@@ -27,6 +61,7 @@ export const createQuickExtension = () => {
 
           return {
             onStart: (props) => {
+              console.log(props)
               isEditable = props.editor.isEditable
               if (!isEditable) return
 

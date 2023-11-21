@@ -84,17 +84,17 @@ class SlashView extends React.Component {
     const { selectedIndex } = this.state
 
     return (
-      <ul>
+      <div className="DropdownMenuContent">
         {items.map(({ title }, idx) => (
           <li
             key={idx}
             onClick={() => this.selectItem(idx)}
-            className={selectedIndex === idx ? 'is-active' : ''}
+            className={selectedIndex === idx ? 'is-active DropdownMenuItem' : 'DropdownMenuItem'}
           >
             {title}
           </li>
         ))}
-      </ul>
+      </div>
     )
   }
 }
