@@ -4,10 +4,9 @@ import { Suggestion } from '@tiptap/suggestion'
 import tippy from 'tippy.js'
 import SlashView from './slash-view'
 
-// or try SlashCommands: https://github.com/ueberdosis/tiptap/issues/1508
-const extensionName = `ai-insert`
-
 export const createSlashExtension = (name, options) => {
+  const extensionName = `ai-insert`
+
   return Node.create({
     name: 'slash-command',
     addOptions () {
