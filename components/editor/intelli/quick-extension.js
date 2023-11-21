@@ -8,14 +8,10 @@ import { Suggestion } from '@tiptap/suggestion'
 const extensionName = 'quick-command'
 
 export const createQuickExtension = () => {
+  const pluginKey = new PluginKey(extensionName)
+
   return Node.create({
     name: extensionName,
-    addOptions () {
-      return {
-        char: 'Mod-/',
-        pluginKey: 'quick-extension',
-      }
-    },
     // addKeyboardShortcuts () {
     //   return {
     //     'Mod-/': () => {
@@ -29,8 +25,7 @@ export const createQuickExtension = () => {
     addProseMirrorPlugins () {
       let plugin = Suggestion({
         editor: this.editor,
-        char: this.options.char,
-        pluginKey: new PluginKey(extensionName),
+        pluginKey: pluginKey,
 
         command: ({ editor, props }) => {
           const { state, dispatch } = editor.view
