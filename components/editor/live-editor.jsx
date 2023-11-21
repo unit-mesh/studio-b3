@@ -8,9 +8,9 @@ import { MenuBar } from './menu-bar'
 
 import MarkdownIt from 'markdown-it'
 import { MenuBubble } from './intelli/menu/menu-bubble'
-import { createSlashCommand } from './intelli/slash-extension'
+import { createSlashExtension } from './intelli/slash-extension'
 import { CommandFunctions } from './action/command-functions'
-import { QuickExtension } from './intelli/quick-extension'
+import { createQuickExtension, QuickExtension } from './intelli/quick-extension'
 
 const md = new MarkdownIt()
 
@@ -26,7 +26,7 @@ const extensions = [
       keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
     },
   }),
-  createSlashCommand('ai-slash', {
+  createSlashExtension('ai-slash', {
     items: [
       {
         title: '续写',
@@ -38,7 +38,7 @@ const extensions = [
       }
     ]
   }),
-  QuickExtension,
+  createQuickExtension('quick-extension'),
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   // @ts-ignore
   TextStyle.configure({ types: [ListItem.name] }),

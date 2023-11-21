@@ -7,7 +7,7 @@ import SlashView from './slash-view'
 // or try SlashCommands: https://github.com/ueberdosis/tiptap/issues/1508
 const extensionName = `ai-insert`
 
-export const createSlashCommand = (name, options) => {
+export const createSlashExtension = (name, options) => {
   return Node.create({
     name: 'slash-command',
     addOptions () {

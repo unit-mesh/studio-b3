@@ -2,7 +2,7 @@ import { BubbleMenu } from '@tiptap/react'
 import React from 'react'
 
 export const MenuBubble = ({ editor }) => {
-  const selection = editor.commands?.getSelectedText()
+  const selection = editor.commands.getSelectedText()
   let selectLength = selection?.length ? selection.length : 0
 
   // 根据长度优化
