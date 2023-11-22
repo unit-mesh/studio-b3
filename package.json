@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "pencil-3b",
   "scripts": {
     "build": "next build",
     "dev": "next dev",

@@ -1,6 +1,12 @@
-# 2b
+# 3b
 
-> 2b is an editor for content generation, like blog, article, user story etc.
+[![Deploy Next.js site to Pages](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg)](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml)
+
+> 3b is a sophisticated editor designed for content creation, catering to various formats such as blogs, articles, user
+> stories, and more.
+
+In the documentary "10 Years with Hayao Miyazaki"  the esteemed artist (宫崎骏, 宮﨑駿／みやざきはやお) chooses a 3B pencil, 
+deeming conventional ones too inflexible for his creative process. Let us pay homage to his lofty ideals.
 
 Todos
 
@@ -11,7 +17,7 @@ Todos
         - [x] Menu Bar
         - [x] Quick Insert
     - [ ] Diff
-        - [ ] JSON Schema, like lines, $from, $to 
+        - [ ] JSON Schema, like lines, $from, $to
         - Viewer for content rewrite,
           like: [https://codesandbox.io/s/prosemirror-diff-nuhiiq](https://codesandbox.io/s/prosemirror-diff-nuhiiq)
         - Change

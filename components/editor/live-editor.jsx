@@ -49,13 +49,15 @@ const extensions = [
 ]
 
 const content = `
-## bb editor
+## 3B editor
 
-Hi there, BB is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
+Hi there, 3B is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
 
 1. use \`/\` to trigger AI commands.
 2. use \`Alt\` + \`/\` or \`Command\` + \`/\` to show custom input box.
 3. select text and right click to see the context menu.
+
+Chinese text for testing grammar and spellings, select long text to see the menu.
 
 永和九年，岁在癸丑，暮春之初，会于会稽山阴之兰亭，修禊事也。群贤毕至，少长咸集。此地有崇山峻岭，茂林修竹；又有清流激湍，映带左右，引以为流觞曲水，
 列坐其次。虽无丝竹管弦之盛，一觞一咏，亦足以畅叙幽情。
