@@ -46,4 +46,6 @@ Editor:
 
 ## License
 
+TrackChange based on: [TrackChangeExtension](https://github.com/chenyuncai/tiptap-track-change-extension)
+
 This code is distributed under the MIT license. See `LICENSE` in this directory.
