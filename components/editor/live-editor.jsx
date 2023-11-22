@@ -7,7 +7,7 @@ import React from 'react'
 import { MenuBar } from './menu-bar'
 
 import MarkdownIt from 'markdown-it'
-import { MenuBubble } from './intelli/menu/menu-bubble'
+import { DeletionMark, InsertionMark, MenuBubble } from './intelli/menu/menu-bubble'
 import { createSlashExtension } from './intelli/slash-extension'
 import { CommandFunctions } from './action/command-functions'
 import { createAiBlock } from './intelli/ai-block-extension'
@@ -16,6 +16,10 @@ const md = new MarkdownIt()
 
 const extensions = [
   CommandFunctions,
+  // addExtensions () {
+  //   return [InsertionMark, DeletionMark]
+  // },
+  InsertionMark, DeletionMark,
   StarterKit.configure({
     bulletList: {
       keepMarks: true,

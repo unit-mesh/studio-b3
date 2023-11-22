@@ -9,11 +9,19 @@ export const MenuBubble = ({ editor }) => {
   // 根据长度优化
   return <BubbleMenu className={'ToggleGroup'} editor={editor} tippyOptions={{ duration: 100 }}>
     {selectLength > 20 && <button
-      onClick={() => editor.chain().focus().toggleBold().run()}
+      onClick={() => {
+        editor.chain().focus().toggleBold().run()
+        const selection = editor.state.selection
+
+        editor.chain().focus().insertContentAt({
+          from: selection.from,
+          to: selection.to
+        }, 'TODO, calling API').run()
+      }}
       value="left" aria-label="Left aligned"
       className={editor.isActive('bold') ? 'is-active BubbleMenuItem' : 'BubbleMenuItem'}
     >
-      <MagicWandIcon /> 优化表达
+      <MagicWandIcon/> 优化表达
     </button>
     }
   </BubbleMenu>
