@@ -1,7 +1,7 @@
 import React from 'react'
 import { NodeViewWrapper } from '@tiptap/react'
 
-export class QuickView extends React.Component {
+export class AiBlockView extends React.Component {
   constructor (props) {
     super(props)
     this.$container = React.createRef()

@@ -10,7 +10,7 @@ import MarkdownIt from 'markdown-it'
 import { MenuBubble } from './intelli/menu/menu-bubble'
 import { createSlashExtension } from './intelli/slash-extension'
 import { CommandFunctions } from './action/command-functions'
-import { createAiBlock } from './intelli/ai-block'
+import { createAiBlock } from './intelli/ai-block-extension'
 
 const md = new MarkdownIt()
 
