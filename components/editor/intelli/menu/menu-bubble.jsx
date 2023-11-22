@@ -1,5 +1,6 @@
 import { BubbleMenu } from '@tiptap/react'
 import React from 'react'
+import { MagicWandIcon } from '@radix-ui/react-icons'
 
 export const MenuBubble = ({ editor }) => {
   const selection = editor.commands.getSelectedText()
@@ -12,7 +13,7 @@ export const MenuBubble = ({ editor }) => {
       value="left" aria-label="Left aligned"
       className={editor.isActive('bold') ? 'is-active BubbleMenuItem' : 'BubbleMenuItem'}
     >
-      优化表达
+      <MagicWandIcon /> 优化表达
     </button>
     }
   </BubbleMenu>

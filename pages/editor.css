@@ -56,13 +56,13 @@ button {
 }
 
 .ToggleGroup {
-    display: inline-flex;
-    background-color: var(--mauve-6);
+    display: flex;
     border-radius: 4px;
-    box-shadow: 0 2px 2px var(--black-a7);
+    justify-content: center;
 }
 
 .ToggleGroupItem {
+    cursor: pointer;
     background-color: white;
     color: var(--mauve-11);
     height: 35px;
@@ -73,6 +73,7 @@ button {
     align-items: center;
     justify-content: center;
     margin-left: 1px;
+    box-shadow: 0 2px 2px var(--black-a7);
 }
 
 .ToggleGroupItem:first-child {
@@ -102,7 +103,17 @@ button {
 
 .BubbleMenuItem {
     padding: 0.5em;
-    color: var(--mauve-11);
+    background: #fff;
+    border-radius: 4px;
+    color: #000;
+    box-shadow: 0 2px 2px var(--black-a7);
+    cursor: pointer;
+}
+
+.BubbleMenuItem svg {
+    color: var(--violet-11);
+    font-weight: bold;
+    display: inline;
 }
 
 :root {
