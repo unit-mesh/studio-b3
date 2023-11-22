@@ -228,3 +228,39 @@ input {
 .is-active {
     background-color: var(--violet-3);
 }
+
+.editor-section {
+    margin: 1rem;
+    padding: 1rem;
+    flex-basis: 45%;
+    border: 1px solid #0070f3;
+    border-radius: 10px;
+    width: 600px;
+    height: 480px;
+}
+
+.domain-buttons {
+    width: 600px;
+    margin: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.domain-button {
+    background-color: var(--violet-3);
+    color: var(--violet-11);
+    border-radius: 6px;
+    padding: 0.2rem 2rem;
+    margin-right: 0.2rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.domain-button:disabled {
+    background-color: var(--violet-4);
+    color: var(--violet-11);
+    cursor: not-allowed;
+}

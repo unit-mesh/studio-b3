@@ -11,7 +11,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <div className={styles.editor}>
+        <div>
           <LiveEditor />
         </div>
       </main>

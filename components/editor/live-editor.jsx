@@ -38,7 +38,7 @@ const extensions = [
       }
     ]
   }),
-  createQuickExtension(),
+  // createQuickExtension(),
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   // @ts-ignore
   TextStyle.configure({ types: [ListItem.name] }),
@@ -67,9 +67,17 @@ const LiveEditor = () => {
 
   return (
     <div>
-      {editor && <MenuBar editor={editor}/>}
-      <EditorContent editor={editor}/>
-      {editor && <MenuBubble editor={editor}/>}
+      <div className={'domain-buttons'}>
+        <button disabled={true} className={'domain-button'}>Blog</button>
+        <button disabled={true} className={'domain-button'}>Weekly Report</button>
+        <button disabled={true} className={'domain-button'}>Meeting Notes</button>
+        <button disabled={true} className={'domain-button'}>User Story</button>
+      </div>
+      <div className={'editor-section'}>
+        {editor && <MenuBar editor={editor}/>}
+        <EditorContent editor={editor}/>
+        {editor && <MenuBubble editor={editor}/>}
+      </div>
     </div>
   )
 }
