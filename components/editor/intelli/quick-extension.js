@@ -1,9 +1,9 @@
-import { Node, ReactRenderer } from '@tiptap/react'
+import { Extension, Node, ReactRenderer } from '@tiptap/react'
 import tippy from 'tippy.js'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 import { QuickView } from './quick-view'
-import { Suggestion } from '@tiptap/suggestion'
+import { keymap } from 'prosemirror-keymap'
 
 const extensionName = 'quick-command'
 
@@ -12,42 +12,18 @@ export const createQuickExtension = () => {
 
   return Node.create({
     name: extensionName,
-    // addKeyboardShortcuts () {
-    //   return {
-    //     'Mod-/': () => {
-    //       this.editor.commands.command(({ tr, state, dispatch }) => {
-    //         dispatch(tr.setMeta(pluginKey, false))
-    //         return true
-    //       })
-    //     },
-    //   }
-    // },
+    addKeyboardShortcuts () {
+      return {
+        'Mod-/': () => {
+          let plugin = this.editor.state.plugins.find (plugin => plugin.key === pluginKey)
+          console.log(plugin)
+        },
+      }
+    },
     addProseMirrorPlugins () {
-      let plugin = Suggestion({
+      let plugin = new Plugin({
+        key: pluginKey,
         editor: this.editor,
-        pluginKey: pluginKey,
-
-        command: ({ editor, props }) => {
-          const { state, dispatch } = editor.view
-          const { $head, $from } = state.selection
-
-          const end = $from.pos
-          const from = $head?.nodeBefore?.text
-            ? end -
-            $head.nodeBefore.text.substring(
-              $head.nodeBefore.text.indexOf('/')
-            ).length
-            : $from.start()
-
-          const tr = state.tr.deleteRange(from, end)
-          dispatch(tr)
-          props?.action?.(editor, props.user)
-          editor?.view?.focus()
-        },
-        items: ({ query }) => {
-          // todo: match fo query
-          return [{}]
-        },
 
         render: () => {
           let component

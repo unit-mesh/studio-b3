@@ -6,6 +6,7 @@ Todos
 
 - [ ] Spike editor for edit user requirements/feature.
     - [ ] ProseMirror
+    - [ ] More plugins for Intelli: [https://github.com/ueberdosis/tiptap/issues/819](https://github.com/ueberdosis/tiptap/issues/819)
     - [ ] Diff
         - Viewer for content rewrite,
           like: [https://codesandbox.io/s/prosemirror-diff-nuhiiq](https://codesandbox.io/s/prosemirror-diff-nuhiiq)
@@ -27,6 +28,12 @@ Todos
 ## Refs:
 
 ### Tiptap Editor extensions
+
+App:
+
+- [Gitlab](https://gitlab.com/gitlab-org/gitlab/-/tree/master/app/assets/javascripts/content_editor/extensions)
+
+Editor:
 
 - [https://github.com/fantasticit/magic-editor](https://github.com/fantasticit/magic-editor)
 - [Think Editor's Tiptap extensions](https://github.com/fantasticit/think/tree/main/packages/client/src/tiptap/core/extensions)
