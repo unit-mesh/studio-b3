@@ -122,13 +122,51 @@ button {
 }
 
 .shadow {
-    display: flex;
     position: relative;
     padding: 0 10px;
     border-radius: 4px;
     margin: 0 20px 20px;
     min-height: 64px;
     background: linear-gradient(0deg, #fff, #fff);
+}
+
+.ai-block-editor-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.ai-block-editor {
+    width: 100%;
+}
+
+.ai-block-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1em;
+}
+
+.ai-block-actions button {
+    border-radius: 4px;
+    padding: 0 1em;
+    background: var(--mauve-4);
+    border: 2px solid var(--mauve-5);
+    margin-right: 4px;
+}
+
+.ai-block-actions button svg {
+    margin-left: 8px ;
+}
+
+.ai-block-actions button span {
+    padding: 0.2em;
+    font-size: 10px;
+    line-height: 10px;
+    border-radius: 4px;
+    background: var(--mauve-2);
+}
+
+.ai-block-actions svg {
+    display: inline-block;
 }
 
 .shadow:before,
