@@ -33,11 +33,11 @@ const extensions = [
   createSlashExtension('ai-slash', {
     items: [
       {
-        title: '续写',
+        title: 'AI 续写',
         command: 'continue',
       },
       {
-        title: '总结',
+        title: 'AI 总结',
         command: 'summarize',
       }
     ]

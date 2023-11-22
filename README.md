@@ -1,6 +1,6 @@
 # 3b
 
-[![Deploy Next.js site to Pages](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg)](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml)
+[![Deploy](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg)](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml)
 
 > 3b is a sophisticated editor designed for content creation, catering to various formats such as blogs, articles, user
 > stories, and more.

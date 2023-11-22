@@ -101,13 +101,17 @@ button {
     box-shadow: 0 0 0 2px var(--violet-11);
 }
 
+.BubbleMenuGroup {
+    border-radius: 4px;
+    box-shadow: 0 2px 2px var(--black-a7);
+}
+
 .BubbleMenuItem {
     padding: 0.5em;
     background: #fff;
-    border-radius: 4px;
     color: #000;
-    box-shadow: 0 2px 2px var(--black-a7);
     cursor: pointer;
+    border: 1px solid var(--violet-6);
 }
 
 .BubbleMenuItem svg {
