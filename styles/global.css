@@ -235,13 +235,13 @@ input {
     flex-basis: 45%;
     border: 1px solid #0070f3;
     border-radius: 10px;
-    width: 600px;
+    width: 800px;
     height: 100%;
     min-height: 80vh;
 }
 
 .domain-buttons {
-    width: 600px;
+    width: 800px;
     margin: 1rem;
     display: flex;
     flex-wrap: wrap;

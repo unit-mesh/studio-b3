@@ -6,11 +6,12 @@ Todos
 
 - [ ] Spike editor for edit user requirements/feature.
     - [x] ProseMirror
-        - [ ] Slash Command
-        - [ ] Bubble Menu
-        - [ ] Menu Bar
-        - [ ] Quick Insert
+        - [x] Slash Command
+        - [x] Bubble Menu
+        - [x] Menu Bar
+        - [x] Quick Insert
     - [ ] Diff
+        - [ ] JSON Schema, like lines, $from, $to 
         - Viewer for content rewrite,
           like: [https://codesandbox.io/s/prosemirror-diff-nuhiiq](https://codesandbox.io/s/prosemirror-diff-nuhiiq)
         - Change
