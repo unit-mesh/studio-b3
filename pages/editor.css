@@ -124,7 +124,9 @@ button {
 .shadow {
     display: flex;
     position: relative;
+    padding: 0 10px;
     border-radius: 4px;
+    margin: 0 20px 20px;
     min-height: 64px;
     background: linear-gradient(0deg, #fff, #fff);
 }

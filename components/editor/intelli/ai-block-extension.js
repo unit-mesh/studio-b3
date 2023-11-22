@@ -6,7 +6,7 @@
 import { Node, ReactNodeViewRenderer } from '@tiptap/react'
 import { PluginKey } from '@tiptap/pm/state'
 
-import { AiBlockView } from './ai-block-view'
+import AiBlockView from './ai-block-view'
 
 const extensionName = 'quick-command'
 
@@ -48,6 +48,7 @@ export const createAiBlock = () => {
           }
 
           if (isAtStart || !$anchor.parent.textContent.length) {
+            console.log($anchor.parent.textContent)
             return this.editor.commands.clearNodes()
           }
 

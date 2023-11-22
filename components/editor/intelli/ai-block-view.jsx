@@ -1,17 +1,15 @@
-import React from 'react'
-import { NodeViewWrapper } from '@tiptap/react'
+import React, { useRef } from 'react'
+import { NodeViewContent, NodeViewWrapper } from '@tiptap/react'
+import { AiBlockEditor } from './ai-block-editor'
 
-export class AiBlockView extends React.Component {
-  constructor (props) {
-    super(props)
-    this.$container = React.createRef()
-  }
+const AiBlockView = ({ node: { attrs: { language: defaultLanguage } }, updateAttributes, extension }) => {
+const $container = useRef();
 
-  render () {
-    return (
-      <NodeViewWrapper className={'shadow'}>
-        <textarea>Hello, world</textarea>
-      </NodeViewWrapper>
-    )
-  }
-}
+  return (
+    <NodeViewWrapper className={'shadow'} ref={$container}>
+      <AiBlockEditor content={"Hello, world"} />
+    </NodeViewWrapper>
+  );
+};
+
+export default AiBlockView;

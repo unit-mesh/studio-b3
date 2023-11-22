@@ -53,6 +53,7 @@ Hi there, BB is editor for Unit Mesh architecture paradigms, the next-gen softwa
 2. use \`Alt\` + \`/\` or \`Command\` + \`/\` to show custom input box.
 3. select text and right click to see the context menu.
 
+/continue
 `
 const LiveEditor = () => {
   const editor = useEditor({
