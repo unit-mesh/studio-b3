@@ -11,7 +11,7 @@ import AiBlockView from './ai-block-view'
 const extensionName = 'quick-command'
 
 export const createAiBlock = () => {
-  const pluginKey = new PluginKey(extensionName)
+  let isEditInChild = false
 
   return Node.create({
     name: extensionName,
@@ -29,13 +29,12 @@ export const createAiBlock = () => {
           attributes => ({ commands }) => {
             return commands.toggleNode(this.name, 'paragraph', attributes)
           },
-      }
-    },
-    addAttributes() {
-      return {
-        textContent: {
-          default: "",
-        }
+        enableEnter:
+          () => ({ commands }) => {
+            isEditInChild = false
+            commands.focus()
+            this.editor.setEditable(true)
+          },
       }
     },
     addNodeView () {
@@ -44,6 +43,8 @@ export const createAiBlock = () => {
     addKeyboardShortcuts () {
       return {
         'Mod-/': (state, dispatch, view) => {
+          isEditInChild = true
+          this.editor.setEditable(false)
           this.editor.commands.toggleAiBlock()
         },
         Backspace: () => {
@@ -60,10 +61,17 @@ export const createAiBlock = () => {
 
           return false
         },
+        Escape: () => {
+          console.log("Escape")
+          if (isEditInChild === true) {
+            this.editor.setEditable(true)
+            this.editor.commands.focus()
+          }
+        },
 
         // exit node on triple enter
         Enter: ({ editor }) => {
-          // if (this.attributes.isTypingInChild) return false;
+          if (isEditInChild) return true
 
           if (!this.options.exitOnTripleEnter) {
             return false

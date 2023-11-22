@@ -7,7 +7,6 @@ export const AiBlockEditor = ({ content, cancel }) => {
   const ActionBar = Extension.create({
     addCommands: () => ({
       callAi: () => ({ commands }) => {
-        console.log('call ai')
         commands.insertContent('Hello World!')
       },
       cancelAi: () => ({ commands }) => {
@@ -20,7 +19,11 @@ export const AiBlockEditor = ({ content, cancel }) => {
           this.editor.commands.callAi()
           this.editor.view?.focus()
         },
-        Escape: () => this.editor.commands.cancelAi(),
+        'Escape': () => {
+          console.log("Escape KEYBOARD??")
+          this.editor.commands.cancelAi()
+          // this.editor.view?.focus()
+        },
       }
     },
   })
@@ -34,14 +37,40 @@ export const AiBlockEditor = ({ content, cancel }) => {
     content: content,
     editorProps: {
       attributes: {
-        class: 'prose',
+        class: 'prose ai-block-editor-inner',
       },
     },
   })
 
   useEffect(() => {
-    if (editor) editor.view.focus()
+    if (editor) {
+      setTimeout(() => {
+        if (editor) {
+          editor.view.focus()
+        }
+      }, 100)
+    }
   }, [editor])
+
+  useEffect(() => {
+    const keyDownHandler = event => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        editor?.commands?.newlineInCode()
+        editor?.view?.focus()
+      }
+      if (event.key === 'Escape') {
+        console.log("sfdsfsf")
+        event.preventDefault();
+        editor?.commands?.cancelAi()
+      }
+    };
+
+    document.addEventListener('keydown', keyDownHandler);
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler);
+    };
+  }, [editor]);
 
   return (
     <div className={'ai-block-editor-block'}>

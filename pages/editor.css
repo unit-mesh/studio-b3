@@ -139,6 +139,10 @@ button {
     width: 100%;
 }
 
+.ai-block-editor-inner {
+    min-height: 64px;
+}
+
 .ai-block-actions {
     display: flex;
     justify-content: flex-end;

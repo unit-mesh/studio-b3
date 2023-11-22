@@ -4,12 +4,12 @@ import { AiBlockEditor } from './ai-block-editor'
 
 const AiBlockView = ( props ) => {
   const $container = useRef()
-  console.log(props)
 
   return (
     <NodeViewWrapper className={'shadow'} ref={$container}>
       <AiBlockEditor content={''} cancel={() => {
-        props?.deleteNode()
+        props?.editor?.commands.toggleAiBlock()
+        props?.editor?.commands.enableEnter()
       }}/>
     </NodeViewWrapper>
   )
