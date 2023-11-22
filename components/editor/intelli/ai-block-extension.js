@@ -31,6 +31,13 @@ export const createAiBlock = () => {
           },
       }
     },
+    addAttributes() {
+      return {
+        textContent: {
+          default: "",
+        }
+      }
+    },
     addNodeView () {
       return ReactNodeViewRenderer(AiBlockView)
     },
@@ -48,7 +55,6 @@ export const createAiBlock = () => {
           }
 
           if (isAtStart || !$anchor.parent.textContent.length) {
-            console.log($anchor.parent.textContent)
             return this.editor.commands.clearNodes()
           }
 
@@ -57,6 +63,8 @@ export const createAiBlock = () => {
 
         // exit node on triple enter
         Enter: ({ editor }) => {
+          // if (this.attributes.isTypingInChild) return false;
+
           if (!this.options.exitOnTripleEnter) {
             return false
           }

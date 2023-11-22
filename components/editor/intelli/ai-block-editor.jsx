@@ -3,27 +3,28 @@ import React, { useEffect } from 'react'
 import StarterKit from '@tiptap/starter-kit'
 import { EnterIcon } from '@radix-ui/react-icons'
 
-const ActionBar = Extension.create({
-  addCommands: () => ({
-    callAi: () => ({ commands }) => {
-      console.log('call ai')
-      commands.insertContent({
-        type: 'paragraph',
-        content: [
-          {
-            type: 'text',
-            text: 'Hello World!',
-          },
-        ],
-      })
+export const AiBlockEditor = ({ content, cancel }) => {
+  const ActionBar = Extension.create({
+    addCommands: () => ({
+      callAi: () => ({ commands }) => {
+        console.log('call ai')
+        commands.insertContent('Hello World!')
+      },
+      cancelAi: () => ({ commands }) => {
+        cancel()
+      },
+    }),
+    addKeyboardShortcuts() {
+      return {
+        'Mod-Enter': () => {
+          this.editor.commands.callAi()
+          this.editor.view?.focus()
+        },
+        Escape: () => this.editor.commands.cancelAi(),
+      }
     },
-    cancelAi: () => ({ commands }) => {
-      console.log('cancel ai')
-    },
-  }),
-})
+  })
 
-export const AiBlockEditor = ({ content }) => {
   const extensions = [
     StarterKit,
     ActionBar,
@@ -39,7 +40,7 @@ export const AiBlockEditor = ({ content }) => {
   })
 
   useEffect(() => {
-    if (editor) editor.view.focus();
+    if (editor) editor.view.focus()
   }, [editor])
 
   return (
