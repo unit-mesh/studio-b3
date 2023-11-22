@@ -90,7 +90,7 @@ button {
     background-color: var(--violet-3);
 }
 
-.ToggleGroupItem.is-active  {
+.ToggleGroupItem.is-active {
     background-color: var(--violet-5);
     color: var(--violet-11);
 }
@@ -103,4 +103,58 @@ button {
 .BubbleMenuItem {
     padding: 0.5em;
     color: var(--mauve-11);
+}
+
+:root {
+    --gradient-shadow: linear-gradient(
+            15deg,
+            #fb0094,
+            #0000ff,
+            #00ff00,
+            #ffff00,
+            #ff0000,
+            #fb0094,
+            #0000ff,
+            #00ff00,
+            #ffff00,
+            #ff0000
+    );
+}
+
+.shadow {
+    display: flex;
+    position: relative;
+    border-radius: 4px;
+    min-height: 64px;
+    background: linear-gradient(0deg, #fff, #fff);
+}
+
+.shadow:before,
+.shadow:after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    background: var(--gradient-shadow);
+    background-size: 400%;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    z-index: -1;
+    animation: animate 20s linear infinite;
+}
+
+.shadow:after {
+    filter: blur(10px);
+}
+
+@keyframes animate {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 300% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
 }

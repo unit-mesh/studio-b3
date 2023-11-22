@@ -3,10 +3,8 @@
  * author: Tiptap
  * origin: https://github.com/ueberdosis/tiptap/blob/develop/packages/extension-code-block/src/code-block.ts
  */
-import tippy from 'tippy.js'
-import { Node, mergeAttributes, ReactRenderer, ReactNodeViewRenderer } from '@tiptap/react'
-import { Plugin, PluginKey } from '@tiptap/pm/state'
-import { Decoration, DecorationSet } from 'prosemirror-view'
+import { Node, ReactNodeViewRenderer } from '@tiptap/react'
+import { PluginKey } from '@tiptap/pm/state'
 
 import { QuickView } from './quick-view'
 

@@ -9,8 +9,8 @@ export class QuickView extends React.Component {
 
   render () {
     return (
-      <NodeViewWrapper>
-        <div>Hello, world</div>
+      <NodeViewWrapper className={'shadow'}>
+        <textarea>Hello, world</textarea>
       </NodeViewWrapper>
     )
   }
