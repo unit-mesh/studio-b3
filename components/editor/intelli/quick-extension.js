@@ -1,12 +1,13 @@
-import { Extension, Node, ReactRenderer } from '@tiptap/react'
+import { Node, ReactRenderer } from '@tiptap/react'
 import tippy from 'tippy.js'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 
 import { QuickView } from './quick-view'
-import { keymap } from 'prosemirror-keymap'
+import { Decoration, DecorationSet } from 'prosemirror-view'
 
 const extensionName = 'quick-command'
 
+// the better way is simliar to : https://github.com/ueberdosis/tiptap/blob/develop/packages/suggestion/src/suggestion.ts
 export const createQuickExtension = () => {
   const pluginKey = new PluginKey(extensionName)
 
@@ -14,8 +15,9 @@ export const createQuickExtension = () => {
     name: extensionName,
     addKeyboardShortcuts () {
       return {
-        'Mod-/': () => {
-          let plugin = this.editor.state.plugins.find (plugin => plugin.key === pluginKey)
+        'Mod-/': (state, dispatch, view) => {
+          let plugin = this.editor.state.plugins.find(plugin => plugin.key === pluginKey.key)
+          // debugger
           console.log(plugin)
         },
       }
@@ -24,15 +26,13 @@ export const createQuickExtension = () => {
       let plugin = new Plugin({
         key: pluginKey,
         editor: this.editor,
-
-        render: () => {
+        renderer: () => {
           let component
           let popup
           let isEditable
 
           return {
             onStart: (props) => {
-              console.log(props)
               isEditable = props.editor.isEditable
               if (!isEditable) return
 
@@ -77,6 +77,16 @@ export const createQuickExtension = () => {
               popup && popup[0].destroy()
               component.destroy()
             },
+          }
+        },
+        props: {
+          // TODO
+        },
+        view () {
+          return {
+            update: async (view, prevState) => {
+              // TODO
+            }
           }
         }
       })
