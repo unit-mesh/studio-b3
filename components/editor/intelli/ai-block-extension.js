@@ -44,6 +44,12 @@ export const createAiBlock = () => {
       return {
         'Mod-/': (state, dispatch, view) => {
           isEditInChild = true
+          this.editor.commands.insertContent([
+            {
+              type: 'paragraph',
+              content: [],
+            }
+          ])
           this.editor.setEditable(false)
           this.editor.commands.toggleAiBlock()
         },
@@ -62,7 +68,7 @@ export const createAiBlock = () => {
           return false
         },
         Escape: () => {
-          console.log("Escape")
+          console.log('Escape')
           if (isEditInChild === true) {
             this.editor.setEditable(true)
             this.editor.commands.focus()
