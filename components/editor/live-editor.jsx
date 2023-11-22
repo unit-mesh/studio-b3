@@ -10,7 +10,7 @@ import MarkdownIt from 'markdown-it'
 import { MenuBubble } from './intelli/menu/menu-bubble'
 import { createSlashExtension } from './intelli/slash-extension'
 import { CommandFunctions } from './action/command-functions'
-import { createQuickExtension } from './intelli/quick-extension'
+import { createAiBlock } from './intelli/ai-block'
 
 const md = new MarkdownIt()
 
@@ -38,7 +38,7 @@ const extensions = [
       }
     ]
   }),
-  // createQuickExtension(),
+  createAiBlock(),
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   // @ts-ignore
   TextStyle.configure({ types: [ListItem.name] }),

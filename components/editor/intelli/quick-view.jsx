@@ -1,4 +1,5 @@
 import React from 'react'
+import { NodeViewWrapper } from '@tiptap/react'
 
 export class QuickView extends React.Component {
   constructor (props) {
@@ -8,7 +9,9 @@ export class QuickView extends React.Component {
 
   render () {
     return (
-      <div>Hello, world</div>
+      <NodeViewWrapper>
+        <div>Hello, world</div>
+      </NodeViewWrapper>
     )
   }
 }
