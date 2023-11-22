@@ -5,13 +5,18 @@
 Todos
 
 - [ ] Spike editor for edit user requirements/feature.
-    - [ ] ProseMirror
-    - [ ] More plugins for Intelli: [https://github.com/ueberdosis/tiptap/issues/819](https://github.com/ueberdosis/tiptap/issues/819)
+    - [x] ProseMirror
+        - [ ] Slash Command
+        - [ ] Bubble Menu
+        - [ ] Menu Bar
+        - [ ] Quick Insert
     - [ ] Diff
         - Viewer for content rewrite,
           like: [https://codesandbox.io/s/prosemirror-diff-nuhiiq](https://codesandbox.io/s/prosemirror-diff-nuhiiq)
         - Change
           Diff [https://github.com/chenyuncai/tiptap-track-change-extension](https://github.com/chenyuncai/tiptap-track-change-extension)
+    - [ ] More plugins for
+      Intelli: [https://github.com/ueberdosis/tiptap/issues/819](https://github.com/ueberdosis/tiptap/issues/819)
 - [ ] Customize prompt
     - [ ] Variable: `$beforeCursor`, `$afterCursor`, `$selection`, `$similarChunk`, `$relatedChunk`
 - [ ] Content search
