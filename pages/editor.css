@@ -213,3 +213,22 @@ button {
         background-position: 0 0;
     }
 }
+
+.ProseMirror-focused {
+    border: 1px solid rgb(128, 128, 128);
+    outline: none;
+}
+
+.ProseMirror p {
+    margin: 0;
+}
+
+.ProseMirror insert {
+    color: green;
+    text-decoration: underline;
+}
+
+.ProseMirror delete {
+    color: red;
+    text-decoration: line-through;
+}
