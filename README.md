@@ -12,15 +12,15 @@ Todos
 
 - [ ] Spike editor for edit user requirements/feature.
     - [x] ProseMirror
-        - [x] Slash Command
-        - [x] Bubble Menu
-        - [x] Menu Bar
-        - [x] Quick Insert
+        - [x] Menu Bar. Click in menu bar, show menu.
+        - [x] Slash Command. Type `/` to show menu.
+        - [x] Bubble Menu. Select text, show menu by condition.
+        - [x] Quick Insert. Type `Command` + `/` or `Ctrl` + `/` to show menu.
+        - [ ] Context Menu. Right click to show menu.
     - [ ] Diff
         - [ ] JSON Schema, like lines, $from, $to
-        - Viewer for content rewrite,
-          like: [https://codesandbox.io/s/prosemirror-diff-nuhiiq](https://codesandbox.io/s/prosemirror-diff-nuhiiq)
-        - Change
+        - [ ] Diff algorithm
+        - [x] Diff Viewer Change
           Diff [https://github.com/chenyuncai/tiptap-track-change-extension](https://github.com/chenyuncai/tiptap-track-change-extension)
     - [ ] More plugins for
       Intelli: [https://github.com/ueberdosis/tiptap/issues/819](https://github.com/ueberdosis/tiptap/issues/819)
