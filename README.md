@@ -12,6 +12,9 @@ deeming conventional ones too inflexible for his creative process. Let us pay ho
 Todos
 
 - [ ] Migrate javascript to typescript
+- [ ] Monorepo for 3b
+    - [ ] Editor package wrapper
+    - [ ] Storybook
 - [ ] Spike editor for edit user requirements/feature.
     - [x] ProseMirror
         - [x] Menu Bar. Click in menu bar, show menu.
@@ -40,6 +43,8 @@ Todos
         - [uer/gpt2-distil-chinese-cluecorpussmall](https://huggingface.co/uer/gpt2-distil-chinese-cluecorpussmall)
     - [ ] Similarity / Sentence Transformer
         -  [ ] [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
+- [ ] Localstorage, refs: [vector-storage](https://github.com/nitaiaharoni1/vector-storage)
+    - [ ] [Dexie.js](https://github.com/dexie/Dexie.js) IndexedDB ?
 - [ ] LLM Connection
     - [ ] OpenAI
     - [ ] Others ?

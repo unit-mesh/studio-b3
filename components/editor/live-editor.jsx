@@ -104,7 +104,7 @@ const LiveEditor = () => {
         </div>
       </div>
 
-      {editor && <div className={'lg:visible md:invisible sm:invisible'}><Sidebar eidtor={editor} /></div> }
+      {editor && <div className={'lg:visible md:invisible sm:invisible'}><Sidebar eidtor={editor}/></div>}
     </div>
   )
 }
