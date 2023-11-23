@@ -13,9 +13,16 @@ Todos: see [Roadmap](https://github.com/unit-mesh/3b/issues/1)
 
 Online Demo: [https://editor.unitmesh.cc/](https://editor.unitmesh.cc/)
 
+## Features
+
+- Immersive generation. Provides an immersive content generation experience, supporting various formats to allow users to create content comprehensively.
+- Local AI capability. Integration of local AI capabilities, such as semantic search, to enhance the editor's intelligent search and recommendation functions.
+- Custom action. Allowing users to define variables and other elements for more flexible and tailored content generation.
+- Full lifecycle AI. Including interactive tools like the Bubble Menu, Slash Command, Quick Insert, to enhance user experience in editing, searching, and navigation.
+
 ## Design Principle
 
-- [Facets as Composable Extension Points](https://marijnhaverbeke.nl/blog/facets.html)
+[Facets as Composable Extension Points](https://marijnhaverbeke.nl/blog/facets.html)
 
 * Composition: Multiple extensions attaching to a given extension point must have their effects combined in a
   predictable way.
