@@ -5,7 +5,8 @@
 > 3b is a sophisticated editor designed for content creation, catering to various formats such as blogs, articles, user
 > stories, and more.
 
-In the documentary "10 Years with Hayao Miyazaki"  the esteemed artist (宫崎骏, 宮﨑駿／みやざきはやお) chooses a 3B pencil, 
+In the documentary "10 Years with Hayao Miyazaki"  the esteemed artist (宫崎骏, 宮﨑駿／みやざきはやお) chooses a 3B
+pencil,
 deeming conventional ones too inflexible for his creative process. Let us pay homage to his lofty ideals.
 
 Todos
@@ -18,10 +19,11 @@ Todos
         - [x] Quick Insert. Type `Command` + `/` or `Ctrl` + `/` to show menu.
         - [ ] Context Menu. Right click to show menu.
     - [ ] Diff
-        - [ ] JSON Schema, like lines, $from, $to
+        - [ ] GPT JSON Schema: like lines, $from, $to
         - [ ] Diff algorithm
-        - [x] Diff Viewer Change
-          Diff [https://github.com/chenyuncai/tiptap-track-change-extension](https://github.com/chenyuncai/tiptap-track-change-extension)
+        - [ ] Change accept/reject
+        - [x] Tiptap: [track-change-extension](https://github.com/chenyuncai/tiptap-track-change-extension)
+        - [ ] ProseMirror Change: [Changeset](https://github.com/ProseMirror/prosemirror-changeset)
     - [ ] More plugins for
       Intelli: [https://github.com/ueberdosis/tiptap/issues/819](https://github.com/ueberdosis/tiptap/issues/819)
 - [ ] Customize prompt
@@ -36,6 +38,19 @@ Todos
     - [ ] Test cases
 - [ ] Online Runtime
     - [ ] Unit Runtime
+
+## Design Principle
+
+- [Facets as Composable Extension Points](https://marijnhaverbeke.nl/blog/facets.html)
+
+* Composition: Multiple extensions attaching to a given extension point must have their effects combined in a
+  predictable way.
+* Precedence: In cases where combining effects is order-sensitive, it must be easy to reason about and control the order
+  of the extensions.
+* Grouping: Many extensions will need to attach to a number of extension points, or even pull in other extensions that
+  they depend on.
+* Change: The effect produced by extensions may depend on other aspects of the system state, or be explicitly
+  reconfigured.
 
 ## Refs:
 
