@@ -22,10 +22,15 @@ Todos
         - [ ] GPT JSON Schema: like lines, $from, $to
         - [ ] Diff algorithm
         - [ ] Change accept/reject
-        - [x] Tiptap: [track-change-extension](https://github.com/chenyuncai/tiptap-track-change-extension)
-        - [ ] ProseMirror Change: [Changeset](https://github.com/ProseMirror/prosemirror-changeset)
+        - [ ] Libs
+            - [x] Tiptap: [track-change-extension](https://github.com/chenyuncai/tiptap-track-change-extension)
+            - [ ] ProseMirror Change: [Changeset](https://github.com/ProseMirror/prosemirror-changeset)
+            - [ ] [@remirror/extension-diff](https://github.com/remirror/remirror/tree/main/packages/remirror__extension-diff)
     - [ ] More plugins for
       Intelli: [https://github.com/ueberdosis/tiptap/issues/819](https://github.com/ueberdosis/tiptap/issues/819)
+- [ ] LLM Connection
+    - [ ] OpenAI
+    - [ ] Others ?
 - [ ] Customize prompt
     - [ ] Variable: `$beforeCursor`, `$afterCursor`, `$selection`, `$similarChunk`, `$relatedChunk`
 - [ ] Content search
