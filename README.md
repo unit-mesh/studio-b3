@@ -17,6 +17,8 @@ Todos
         - [x] Menu Bar. Click in menu bar, show menu.
         - [x] Slash Command. Type `/` to show menu.
         - [x] Bubble Menu. Select text, show menu by condition.
+            - [ ] BubbleMenu by BlockType,
+              like: [Code Block Bubble Menu](https://gitlab.com/gitlab-org/gitlab/-/blob/master/app/assets/javascripts/content_editor/components/bubble_menus/code_block_bubble_menu.vue)
         - [x] Quick Insert. Type `Command` + `/` or `Ctrl` + `/` to show menu.
         - [ ] Context Menu. Right click to show menu.
     - [ ] Diff
