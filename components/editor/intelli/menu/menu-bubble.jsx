@@ -12,7 +12,11 @@ export const MenuBubble = ({ editor }) => {
 
   // 根据长度优化
   return <BubbleMenu className={'ToggleGroup'} editor={editor} tippyOptions={{ duration: 100 }}>
-    {selectLength > 20 && <div className={'BubbleMenuGroup'}>
+    {selectLength < 64 && <div className={'BubbleMenuGroup'}>
+      <button>扩写</button>
+    </div>
+    }
+    {selectLength > 64 && <div className={'BubbleMenuGroup'}>
       <button
         onClick={() => {
           editor.commands.setTrackChangeStatus(true)
