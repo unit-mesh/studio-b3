@@ -81,8 +81,10 @@ export const AiBlockEditor = ({ content, cancel }) => {
       {editor && <div className={'ai-block-action-block'}>
         <div className={'llm-type-select'}>
           <BeSelect defaultValue="1">
-            <BeSelectItem value="1">Text</BeSelectItem>
-            <BeSelectItem value="2">Image</BeSelectItem>
+            <div>
+              <BeSelectItem value="1">Text</BeSelectItem>
+              <BeSelectItem value="2">Image</BeSelectItem>
+            </div>
           </BeSelect>
         </div>
         <div className={'ai-block-actions'}>

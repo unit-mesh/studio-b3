@@ -59,7 +59,7 @@ const content = `
 Hi there, 3B is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
 
 1. use \`/\` to trigger AI commands.
-2. use \`Alt\` + \`/\` or \`Command\` + \`/\` to show custom input box.
+2. use \`Alt\` + \`/\` or \`Command\` + \`/\` to show custom AI input box.
 3. select text and right click to see the context menu.
 
 ## Inline AI
