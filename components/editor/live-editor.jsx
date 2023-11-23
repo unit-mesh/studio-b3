@@ -88,7 +88,7 @@ const LiveEditor = () => {
     },
   })
 
-  return (<div className={'container'}>
+  return (<div className={'w-full'}>
       <div className={'editor-block'}>
         <div className={'domain-buttons'}>
           <span className={'scene-text'}>Scene: (Todo)</span>
@@ -104,7 +104,7 @@ const LiveEditor = () => {
         </div>
       </div>
 
-      {editor && <Sidebar eidtor={editor}/>}
+      {editor && <div className={'lg:visible md:invisible sm:invisible'}><Sidebar eidtor={editor} /></div> }
     </div>
   )
 }
