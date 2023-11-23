@@ -85,6 +85,7 @@ const LiveEditor = () => {
   return (
     <div>
       <div className={'domain-buttons'}>
+        <span className={"scene-text"}>Scene: (Todo)</span>
         <button disabled={true} className={'domain-button'}>Blog</button>
         <button disabled={true} className={'domain-button'}>Weekly Report</button>
         <button disabled={true} className={'domain-button'}>Meeting Notes</button>
