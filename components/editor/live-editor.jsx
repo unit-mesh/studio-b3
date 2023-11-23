@@ -1,17 +1,22 @@
+import React from 'react'
+
+import { EditorContent, useEditor } from '@tiptap/react'
 import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
-import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React from 'react'
-import { MenuBar } from './menu-bar'
+
+import * as Accordion from '@radix-ui/react-accordion'
 
 import MarkdownIt from 'markdown-it'
+
+import { MenuBar } from './menu-bar'
 import { MenuBubble } from './intelli/menu/menu-bubble'
 import { createSlashExtension } from './intelli/slash-extension'
 import { CommandFunctions } from './action/command-functions'
 import { createAiBlock } from './intelli/ai-block-extension'
 import TrackChangeExtension from './diff/track-change-extension'
+import { ChevronDownIcon } from '@radix-ui/react-icons'
 
 const md = new MarkdownIt()
 
@@ -73,6 +78,7 @@ Chinese text for testing grammar and spellings, select long text to see the menu
 虽世殊事异，所以兴怀，其致一也。后之览者，亦将有感于斯文。
 
 `
+
 const LiveEditor = () => {
   const editor = useEditor({
     extensions,
@@ -84,22 +90,80 @@ const LiveEditor = () => {
     },
   })
 
-  return (
-    <div>
-      <div className={'domain-buttons'}>
-        <span className={"scene-text"}>Scene: (Todo)</span>
-        <button disabled={true} className={'domain-button'}>Blog</button>
-        <button disabled={true} className={'domain-button'}>Weekly Report</button>
-        <button disabled={true} className={'domain-button'}>Meeting Notes</button>
-        <button disabled={true} className={'domain-button'}>User Story</button>
+  return (<div className={'container'}>
+      <div className={'editor-block'}>
+        <div className={'domain-buttons'}>
+          <span className={'scene-text'}>Scene: (Todo)</span>
+          <button disabled={true} className={'domain-button'}>Blog</button>
+          <button disabled={true} className={'domain-button'}>Weekly Report</button>
+          <button disabled={true} className={'domain-button'}>Meeting Notes</button>
+          <button disabled={true} className={'domain-button'}>User Story</button>
+        </div>
+        <div className={'editor-section'}>
+          {editor && <MenuBar editor={editor}/>}
+          <EditorContent editor={editor}/>
+          {editor && <MenuBubble editor={editor}/>}
+        </div>
       </div>
-      <div className={'editor-section'}>
-        {editor && <MenuBar editor={editor}/>}
-        <EditorContent editor={editor}/>
-        {editor && <MenuBubble editor={editor}/>}
-      </div>
+
+      {editor && <Sidebar eidtor={editor}/>}
     </div>
   )
 }
+
+const Sidebar = () => {
+  return <aside className={'fixed top-0 right-0 z-40 w-128 h-screen'}
+                aria-label="Sidebar">
+    <div className={'h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800'}>
+      <Accordion.Root className={'AccordionRoot'} type="multiple" defaultValue={['item-1', 'item-2', 'item-3']}>
+        <Accordion.Item className={'AccordionItem'} value="item-1">
+          <AccordionTrigger>Grammarly</AccordionTrigger>
+          <AccordionContent>
+            TODO: use some model to check grammar
+          </AccordionContent>
+        </Accordion.Item>
+
+        <Accordion.Item className={'AccordionItem'} value="item-2">
+          <AccordionTrigger>Text Prediction</AccordionTrigger>
+          <AccordionContent>
+            TODO: use <a href="https://github.com/unit-mesh/edge-infer">EdgeInference</a> to predict text
+          </AccordionContent>
+        </Accordion.Item>
+
+        <Accordion.Item className={'AccordionItem'} value="item-3">
+          <AccordionTrigger>Similarity</AccordionTrigger>
+          <Accordion.Content className={'AccordionContent'}>
+            <div className={'AccordionContentText'}>
+              TODO: use <a href="https://github.com/unit-mesh/edge-infer">EdgeInference</a> to calculate similarity
+            </div>
+          </Accordion.Content>
+        </Accordion.Item>
+      </Accordion.Root>
+    </div>
+  </aside>
+}
+
+const AccordionTrigger = React.forwardRef(({ children, className, ...props }, forwardedRef) => (
+  <Accordion.Header className="AccordionHeader">
+    <Accordion.Trigger
+      className={'AccordionTrigger'}
+      {...props}
+      ref={forwardedRef}
+    >
+      {children}
+      <ChevronDownIcon className="AccordionChevron" aria-hidden/>
+    </Accordion.Trigger>
+  </Accordion.Header>
+))
+
+const AccordionContent = React.forwardRef(({ children, className, ...props }, forwardedRef) => (
+  <Accordion.Content
+    className={'AccordionContent'}
+    {...props}
+    ref={forwardedRef}
+  >
+    <div className="AccordionContentText">{children}</div>
+  </Accordion.Content>
+))
 
 export default LiveEditor

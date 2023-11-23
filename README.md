@@ -29,8 +29,12 @@ Todos
             - [x] Tiptap: [track-change-extension](https://github.com/chenyuncai/tiptap-track-change-extension)
             - [ ] ProseMirror Change: [Changeset](https://github.com/ProseMirror/prosemirror-changeset)
             - [ ] [@remirror/extension-diff](https://github.com/remirror/remirror/tree/main/packages/remirror__extension-diff)
-    - [ ] More plugins for
-      Intelli: [https://github.com/ueberdosis/tiptap/issues/819](https://github.com/ueberdosis/tiptap/issues/819)
+- [ ] More plugins for Intelli: [https://github.com/ueberdosis/tiptap/issues/819](https://github.com/ueberdosis/tiptap/issues/819)
+    - [ ] Sidebar Intellij [Microsoft 365](https://techcommunity.microsoft.com/t5/microsoft-365-blog/introducing-new-ai-enhancements-in-microsoft-365-new-features/ba-p/3643499)
+    - [ ] Correction text
+    - [ ] Grammarly
+    - [ ] Text Prediction
+    - [ ] Similarity
 - [ ] LLM Connection
     - [ ] OpenAI
     - [ ] Others ?
