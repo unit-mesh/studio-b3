@@ -31,10 +31,15 @@ Todos
             - [ ] [@remirror/extension-diff](https://github.com/remirror/remirror/tree/main/packages/remirror__extension-diff)
 - [ ] More plugins for Intelli: [https://github.com/ueberdosis/tiptap/issues/819](https://github.com/ueberdosis/tiptap/issues/819)
     - [ ] Sidebar Intellij [Microsoft 365](https://techcommunity.microsoft.com/t5/microsoft-365-blog/introducing-new-ai-enhancements-in-microsoft-365-new-features/ba-p/3643499)
-    - [ ] Correction text
+- [ ] Local LLM Spike
+    - [ ] Correction text, [MacBERT](https://github.com/ymcui/MacBERT) 
+        - [ ] [shibing624/macbert4csc-base-chinese](https://huggingface.co/shibing624/macbert4csc-base-chinese) 
     - [ ] Grammarly
     - [ ] Text Prediction
-    - [ ] Similarity
+        - [GPT2-Chinese](https://github.com/Morizeyao/GPT2-Chinese)
+        - [uer/gpt2-distil-chinese-cluecorpussmall](https://huggingface.co/uer/gpt2-distil-chinese-cluecorpussmall)
+    - [ ] Similarity / Sentence Transformer
+        -  [ ] [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 - [ ] LLM Connection
     - [ ] OpenAI
     - [ ] Others ?
