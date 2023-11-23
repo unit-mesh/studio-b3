@@ -19,8 +19,7 @@ export const MenuBubble = ({ editor }) => {
       }
       {selectLength < 64 && <button
         value="left" aria-label="Left aligned"
-        className={editor.isActive('bold') ? 'is-active BubbleMenuItem' : 'BubbleMenuItem'}
-      >扩写</button>
+        className={editor.isActive('bold') ? 'is-active BubbleMenuItem' : 'BubbleMenuItem'}>扩写</button>
       }
       {selectLength > 64 && <>
         <button
@@ -54,6 +53,12 @@ export const MenuBubble = ({ editor }) => {
         </button>
       </>
       }
+      <button
+        value="right" aria-label="Left aligned"
+        className={editor.isActive('bold') ? 'is-active BubbleMenuItem' : 'BubbleMenuItem'}
+      >
+        相似内容
+      </button>
     </div>
   </BubbleMenu>
 }
