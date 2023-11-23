@@ -15,6 +15,8 @@ import { CommandFunctions } from './action/command-functions'
 import { createAiBlock } from './intelli/ai-block-extension'
 import TrackChangeExtension from './diff/track-change-extension'
 import { Sidebar } from './sidebar'
+import { CharacterCount } from "@tiptap/extension-character-count";
+import { abs } from "lib0/math";
 
 const md = new MarkdownIt()
 
@@ -46,6 +48,7 @@ const extensions = [
 		]
 	}),
 	createAiBlock(),
+	CharacterCount.configure({}),
 	Color.configure({ types: [TextStyle.name, ListItem.name] }),
 	// @ts-ignore
 	TextStyle.configure({ types: [ListItem.name] }),
@@ -62,7 +65,7 @@ Hi there, 3B is editor for Unit Mesh architecture paradigms, the next-gen softwa
 
 ## Inline AI
 
-Chinese text for testing grammar and spellings, select long text to see the menu.
+Testing grammar and spellings, select long text to see the menu.
 
 永和九年，岁在癸丑，暮春之初，会于会稽山阴之兰亭，修禊事也。群贤毕至，少长咸集。此地有崇山峻岭，茂林修竹；又有清流激湍，映带左右，引以为流觞曲水，
 列坐其次。虽无丝竹管弦之盛，一觞一咏，亦足以畅叙幽情。
@@ -101,6 +104,14 @@ const LiveEditor = () => {
 					{editor && <MenuBar editor={editor}/>}
 					<EditorContent editor={editor}/>
 					{editor && <MenuBubble editor={editor}/>}
+
+					{editor && <div className="character-count">
+            <span>{abs(editor.state.selection.$from.pos - editor.state.selection.$to.pos)} selected</span>
+            &nbsp;&nbsp;
+            <span>{editor.storage.characterCount.characters()} characters</span>
+            &nbsp;&nbsp;
+            <span>{editor.storage.characterCount.words()} words</span>
+          </div>}
 				</div>
 			</div>
 

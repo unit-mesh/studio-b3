@@ -463,8 +463,8 @@ input {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90vw;
-    max-width: 450px;
-    max-height: 85vh;
+    max-width: 650px;
+    max-height: 125vh;
     padding: 25px;
     animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -649,7 +649,6 @@ input {
 
 .TabsTrigger:focus {
     position: relative;
-    box-shadow: 0 0 0 2px black;
 }
 
 .TabsContent {
@@ -659,10 +658,6 @@ input {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     outline: none;
-}
-
-.TabsContent:focus {
-    box-shadow: 0 0 0 2px black;
 }
 
 .Text {
@@ -730,14 +725,32 @@ input {
 }
 
 .editor-section {
-    margin: 1rem auto;
+    margin: 0.5rem auto;
     padding: 1rem;
     flex-basis: 45%;
     border: 1px solid #0070f3;
-    border-radius: 10px;
     width: 800px;
     height: 100%;
     min-height: 80vh;
+}
+
+.character-count {
+/*    shoulde display in right with flex*/
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--mauve-11);
+}
+
+.character-count div {
+    display: inline-block;
+}
+
+.empty-separator {
+    width: 3rem;
 }
 
 .scene-text {

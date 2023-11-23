@@ -63,6 +63,9 @@
     display: flex;
     border-radius: 4px;
     justify-content: center;
+    width: fit-content;
+    margin: 0 auto;
+    box-shadow: 0 2px 2px var(--black-a7);
 }
 
 .ToggleGroupItem {
@@ -77,7 +80,6 @@
     align-items: center;
     justify-content: center;
     margin-left: 1px;
-    box-shadow: 0 2px 2px var(--black-a7);
 }
 
 .ToggleGroupItem:first-child {

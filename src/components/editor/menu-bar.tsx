@@ -125,7 +125,7 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
       >
         <DividerHorizontalIcon/>
       </ToggleGroup.Item>
-
+      <div className="empty-separator" />
       <MenuAiDropdown editor={editor} />
     </ToggleGroup.Root>
   )
