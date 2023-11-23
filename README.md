@@ -45,6 +45,10 @@ Todos
         -  [ ] [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
 - [ ] Localstorage, refs: [vector-storage](https://github.com/nitaiaharoni1/vector-storage)
     - [ ] [Dexie.js](https://github.com/dexie/Dexie.js) IndexedDB ?
+- [ ] Desktop Version
+    - [ ] [Tauri](https://github.com/tauri-apps/tauri) wrapper
+- [ ] Wrapper for [EdgeInfer](https://github.com/unit-mesh/edge-infer)
+    - WASM version 
 - [ ] LLM Connection
     - [ ] OpenAI
     - [ ] Others ?
