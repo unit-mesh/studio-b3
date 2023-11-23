@@ -162,6 +162,24 @@
     min-height: 64px;
 }
 
+.ai-block-action-block {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.ai-block-action-block div {
+    flex: 1;
+}
+
+.llm-type-select button span {
+    display: inline-block;
+}
+
+.llm-type-select {
+    justify-content: flex-start;
+}
+
 .ai-block-actions {
     display: flex;
     justify-content: flex-end;
