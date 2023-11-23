@@ -11,6 +11,7 @@ deeming conventional ones too inflexible for his creative process. Let us pay ho
 
 Todos
 
+- [ ] Migrate javascript to typescript
 - [ ] Spike editor for edit user requirements/feature.
     - [x] ProseMirror
         - [x] Menu Bar. Click in menu bar, show menu.
