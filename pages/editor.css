@@ -51,7 +51,7 @@
     margin: 2rem 0;
 }
 
-button {
+.tiptap button {
     all: unset;
 }
 
@@ -219,8 +219,7 @@ button {
 }
 
 .ProseMirror-focused {
-    border: 1px solid rgb(128, 128, 128);
-    outline: none;
+    outline: #0d0d0d;
 }
 
 .ProseMirror p {

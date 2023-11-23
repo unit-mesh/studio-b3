@@ -13,7 +13,10 @@ export const MenuBubble = ({ editor }) => {
   // 根据长度优化
   return <BubbleMenu className={'ToggleGroup'} editor={editor} tippyOptions={{ duration: 100 }}>
     {selectLength < 64 && <div className={'BubbleMenuGroup'}>
-      <button>扩写</button>
+      <button
+        value="left" aria-label="Left aligned"
+        className={editor.isActive('bold') ? 'is-active BubbleMenuItem' : 'BubbleMenuItem'}
+      >扩写</button>
     </div>
     }
     {selectLength > 64 && <div className={'BubbleMenuGroup'}>
