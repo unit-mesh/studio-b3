@@ -60,6 +60,7 @@
     "@tiptap/react": "^2.1.12",
     "@tiptap/starter-kit": "^2.1.12",
     "@tiptap/suggestion": "^2.1.12",
+    "handlebars": "^4.7.8",
     "markdown-it": "^13.0.2",
     "next": "latest",
     "prosemirror-changeset": "^2.2.1",

@@ -1,4 +1,4 @@
-enum FacetType {
+export enum FacetType {
 	TOOLBAR_MENU = 0,
 	BUBBLE_MENU = 1,
 	CONTEXT_MENU = 2,
@@ -6,7 +6,7 @@ enum FacetType {
 	QUICK_INSERT = 4,
 }
 
-enum OutputForm {
+export enum OutputForm {
 	STREAMING = 0,
 	NORMAL = 1,
 	CHAT = 2,
@@ -14,7 +14,7 @@ enum OutputForm {
 	NOTIFICATION = 4,
 }
 
-enum VariableType {
+export enum VariableType {
 	BEFORE_CURSOR,
 	AFTER_CURSOR,
 	SELECTION,
@@ -23,9 +23,10 @@ enum VariableType {
 	RELATED_CHUNKS,
 }
 
-interface CustomAction {
+export interface PromptAction {
+	name: string;
+	template: string;
 	facetType: FacetType;
 	outputForm: OutputForm;
-	content?: any;
 }
 
