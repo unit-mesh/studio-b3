@@ -19,36 +19,36 @@ import { Sidebar } from './sidebar'
 const md = new MarkdownIt()
 
 const extensions = [
-  CommandFunctions,
-  TrackChangeExtension.configure({
-    enabled: false,
-  }),
-  StarterKit.configure({
-    bulletList: {
-      keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-    },
-    orderedList: {
-      keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-    },
-  }),
-  createSlashExtension('ai-slash', {
-    items: [
-      {
-        title: 'AI 续写',
-        command: 'continue',
-      },
-      {
-        title: 'AI 总结',
-        command: 'summarize',
-      }
-    ]
-  }),
-  createAiBlock(),
-  Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  // @ts-ignore
-  TextStyle.configure({ types: [ListItem.name] }),
+	CommandFunctions,
+	TrackChangeExtension.configure({
+		enabled: false,
+	}),
+	StarterKit.configure({
+		bulletList: {
+			keepMarks: true,
+			keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+		},
+		orderedList: {
+			keepMarks: true,
+			keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+		},
+	}),
+	createSlashExtension('ai-slash', {
+		items: [
+			{
+				title: 'AI 续写',
+				command: 'continue',
+			},
+			{
+				title: 'AI 总结',
+				command: 'summarize',
+			}
+		]
+	}),
+	createAiBlock(),
+	Color.configure({ types: [TextStyle.name, ListItem.name] }),
+	// @ts-ignore
+	TextStyle.configure({ types: [ListItem.name] }),
 ]
 
 const content = `
@@ -78,35 +78,35 @@ Chinese text for testing grammar and spellings, select long text to see the menu
 `
 
 const LiveEditor = () => {
-  const editor = useEditor({
-    extensions,
-    content: md.render(content),
-    editorProps: {
-      attributes: {
-        class: 'prose lg:prose-xl bb-editor-inner',
-      },
-    },
-  })
+	const editor = useEditor({
+		extensions,
+		content: md.render(content),
+		editorProps: {
+			attributes: {
+				class: 'prose lg:prose-xl bb-editor-inner',
+			},
+		},
+	})
 
-  return (<div className={'w-full'}>
-      <div className={'editor-block'}>
-        <div className={'domain-buttons'}>
-          <span className={'scene-text'}>Scene: (Todo)</span>
-          <button disabled={true} className={'domain-button'}>Blog</button>
-          <button disabled={true} className={'domain-button'}>Weekly Report</button>
-          <button disabled={true} className={'domain-button'}>Meeting Notes</button>
-          <button disabled={true} className={'domain-button'}>User Story</button>
-        </div>
-        <div className={'editor-section'}>
-          {editor && <MenuBar editor={editor}/>}
-          <EditorContent editor={editor}/>
-          {editor && <MenuBubble editor={editor}/>}
-        </div>
-      </div>
+	return (<div className={'w-full'}>
+			<div className={'editor-block'}>
+				<div className={'domain-buttons'}>
+					<span className={'scene-text'}>Scene: (Todo)</span>
+					<button disabled={true} className={'domain-button'}>Blog</button>
+					<button disabled={true} className={'domain-button'}>Weekly Report</button>
+					<button disabled={true} className={'domain-button'}>Meeting Notes</button>
+					<button disabled={true} className={'domain-button'}>User Story</button>
+				</div>
+				<div className={'editor-section'}>
+					{editor && <MenuBar editor={editor}/>}
+					<EditorContent editor={editor}/>
+					{editor && <MenuBubble editor={editor}/>}
+				</div>
+			</div>
 
-      {editor && <div className={'lg:visible md:invisible sm:invisible'}><Sidebar eidtor={editor}/></div>}
-    </div>
-  )
+			{editor && <div className={'lg:visible md:invisible sm:invisible'}><Sidebar eidtor={editor}/></div>}
+		</div>
+	)
 }
 
 export default LiveEditor
