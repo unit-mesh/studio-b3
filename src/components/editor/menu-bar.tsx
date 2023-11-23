@@ -11,9 +11,11 @@ import {
 } from '@radix-ui/react-icons'
 import React from 'react'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
+import { Editor } from "@tiptap/core";
+
 import { MenuAiDropdown } from './intelli/menu/menu-ai-dropdown'
 
-export const MenuBar = ({ editor }) => {
+export const MenuBar = ({ editor }: { editor: Editor }) => {
   return (
     <ToggleGroup.Root
       className={'ToggleGroup'}
