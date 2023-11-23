@@ -1,6 +1,6 @@
-@import '@radix-ui/colors/black-alpha.css';
-@import '@radix-ui/colors/mauve.css';
-@import '@radix-ui/colors/violet.css';
+@import '../../node_modules/@radix-ui/colors/black-alpha.css';
+@import '../../node_modules/@radix-ui/colors/mauve.css';
+@import '../../node_modules/@radix-ui/colors/violet.css';
 
 .tiptap {
     font-size: 1.1em;

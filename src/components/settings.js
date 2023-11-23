@@ -2,7 +2,7 @@ import { Cross2Icon, GearIcon } from '@radix-ui/react-icons'
 import * as Dialog from '@radix-ui/react-dialog'
 import * as Tabs from '@radix-ui/react-tabs'
 
-import styles from '../styles/Home.module.css'
+import styles from '../../styles/Home.module.css'
 
 export const Settings = () => {
   return <Dialog.Root>

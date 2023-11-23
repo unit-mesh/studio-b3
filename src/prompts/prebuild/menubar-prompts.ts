@@ -1,4 +1,4 @@
-import {FacetType, OutputForm, PromptAction} from "../../types/custom-action.type";
+import {FacetType, OutputForm, PromptAction} from "@/types/custom-action.type";
 
 const MenubarPrompts: PromptAction[] = [
   {
