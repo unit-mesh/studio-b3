@@ -4,8 +4,6 @@ import { Transaction } from "prosemirror-state";
 import { FacetType, PromptAction } from "@/types/custom-action.type";
 import { PromptsManager } from "@/prompts/prompts-manager";
 
-const promptManager = new PromptsManager();
-
 export const CommandFunctions = Extension.create({
 	name: 'commandFunctions',
 	// @ts-ignore
@@ -30,7 +28,7 @@ export const CommandFunctions = Extension.create({
 				// do execute action
 			},
 			getAiActions: (facet: FacetType) => ({ editor }: { editor: Editor }) => {
-				return promptManager.get(facet)
+				return PromptsManager.getInstance().get(facet)
 			},
 			runAiAction: (action: PromptAction) => ({ editor }: { editor: Editor }) => {
 				console.log('executeAction', action)

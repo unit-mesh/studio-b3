@@ -21,13 +21,14 @@ export enum ChangeForm {
 }
 
 export enum DefinedVariable {
-	TEMP_CONTEXT = "{{TEMP_CONTEXT}}",
-	BEFORE_CURSOR = "{{BEFORE_CURSOR}}",
-	AFTER_CURSOR = "{{AFTER_CURSOR}}",
-	SELECTION = "{{SELECTION}}",
-	ALL = "{{ALL}}",
-	SIMILAR_CHUNKS = "{{SIMILAR_CHUNKS}}",
-	RELATED_CHUNKS = "{{RELATED_CHUNKS}}",
+	BASE_CONTEXT = "base_context",
+	TEMP_CONTEXT = "temp_context",
+	BEFORE_CURSOR = "before_cursor",
+	AFTER_CURSOR = "after_cursor",
+	SELECTION = "selection",
+	ALL = "all",
+	SIMILAR_CHUNKS = "similar_chunks",
+	RELATED_CHUNKS = "related_chunks",
 }
 
 export interface PromptAction {
