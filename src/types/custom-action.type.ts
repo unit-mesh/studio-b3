@@ -7,9 +7,9 @@ export enum FacetType {
 }
 
 export enum OutputForm {
-	STREAMING = 0,
-	NORMAL = 1,
-	CHAT = 2,
+	NORMAL = 0,
+	STREAMING = 1,
+	DIFF = 2,
 	INSIDE_BOX = 3,
 	NOTIFICATION = 4,
 }
@@ -27,8 +27,18 @@ export enum DefinedVariable {
 export interface PromptAction {
 	/**
 	 * Name of the action, will be displayed in the menu.
+	 * If i18Name is true, then it will be translated by i18n, so we suggest use `{{` and `}}` inside the name.
+	 * For example:
+	 * ```ts
+	 * name: '{{Continue writing}}'
+	 * i18Name: true
+	 * ```
 	 */
 	name: string;
+	/**
+	 * Use i18n to translate the prompt name
+	 */
+	i18Name?: boolean;
 	/**
 	 * Template is a handlebars template, for example:
 	 *
@@ -60,7 +70,7 @@ export interface PromptAction {
 	/**
 	 * Used LLM model, like openai, gpt3, gpt2, etc.
 	 */
-	useMode?: string;
+	useModel?: string;
 	/**
 	 * Condition to show the prompt
 	 */
