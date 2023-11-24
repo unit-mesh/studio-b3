@@ -21,6 +21,7 @@ import { CharacterCount } from "@tiptap/extension-character-count";
 const md = new MarkdownIt()
 
 const extensions = [
+	// we define all commands here
 	CommandFunctions,
 	TrackChangeExtension.configure({
 		enabled: false,
