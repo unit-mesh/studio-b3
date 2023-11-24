@@ -1,8 +1,11 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { CookieIcon } from '@radix-ui/react-icons'
 import React from 'react'
+import { FacetType } from '@/types/custom-action.type'
 // spike: https://ai-demo.tiptap.dev/kmLmpqbFJW
 export const MenuAiDropdown = ({ editor }) => {
+  const menus = editor?.commands?.getAiActions(FacetType.TOOLBAR_MENU)
+
   return <DropdownMenu.Root aria-label="Center aligned">
     <DropdownMenu.Trigger asChild>
       <button className={'ToggleGroupItem flex items-center justify-center relative'} value="center"
@@ -15,18 +18,17 @@ export const MenuAiDropdown = ({ editor }) => {
     </DropdownMenu.Trigger>
     <DropdownMenu.Portal>
       <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5}>
-        <DropdownMenu.Item className="DropdownMenuItem">
-          智能补全
-        </DropdownMenu.Item>
-        <DropdownMenu.Item className="DropdownMenuItem">
-          精炼内容
-        </DropdownMenu.Item>
-        <DropdownMenu.Item className="DropdownMenuItem">
-          总结
-        </DropdownMenu.Item>
-        <DropdownMenu.Item className="DropdownMenuItem">
-          拼写和语法检查
-        </DropdownMenu.Item>
+        {menus?.map((menu, index) => {
+          return <DropdownMenu.Item
+            key={index}
+            className="DropdownMenuItem"
+            onClick={() => {
+              editor?.commands?.runAiAction(menu)
+            }}
+          >
+            {menu.name}
+          </DropdownMenu.Item>
+        })}
       </DropdownMenu.Content>
     </DropdownMenu.Portal>
   </DropdownMenu.Root>

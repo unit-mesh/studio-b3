@@ -1,11 +1,14 @@
 import { Commands, Extension } from '@tiptap/react'
 import { Editor } from "@tiptap/core";
 import { Transaction } from "prosemirror-state";
-import { PromptAction } from "@/types/custom-action.type";
+import { FacetType, PromptAction } from "@/types/custom-action.type";
+import { PromptsManager } from "@/prompts/prompts-manager";
+
+const promptManager = new PromptsManager();
 
 export const CommandFunctions = Extension.create({
 	name: 'commandFunctions',
-  // @ts-ignore
+	// @ts-ignore
 	addCommands: () => {
 		return {
 			// for examples: $selection, $beforeCursor
@@ -25,6 +28,12 @@ export const CommandFunctions = Extension.create({
 				// TODO: @phodal convert action to request
 				// TODO: @genffy add LLM request type
 				// do execute action
+			},
+			getAiActions: (facet: FacetType) => ({ editor }: { editor: Editor }) => {
+				return promptManager.get(facet)
+			},
+			runAiAction: (action: PromptAction) => ({ editor }: { editor: Editor }) => {
+				// console.log('executeAction', action)
 			}
 		}
 	},
