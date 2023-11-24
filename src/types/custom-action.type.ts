@@ -14,13 +14,14 @@ export enum OutputForm {
 	NOTIFICATION = 4,
 }
 
-export enum VariableType {
-	BEFORE_CURSOR,
-	AFTER_CURSOR,
-	SELECTION,
-	ALL,
-	SIMILAR_CHUNKS,
-	RELATED_CHUNKS,
+export enum DefinedVariable {
+	TEMP_CONTEXT = "${{TEMP_CONTEXT}}",
+	BEFORE_CURSOR = "${{BEFORE_CURSOR}}",
+	AFTER_CURSOR = "${{AFTER_CURSOR}}",
+	SELECTION = "${{SELECTION}}",
+	ALL = "${{ALL}}",
+	SIMILAR_CHUNKS = "${{SIMILAR_CHUNKS}}",
+	RELATED_CHUNKS = "${{RELATED_CHUNKS}}",
 }
 
 export interface PromptAction {
