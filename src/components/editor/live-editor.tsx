@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { EditorContent, useEditor } from '@tiptap/react'
 import { Color } from '@tiptap/extension-color'
@@ -7,6 +7,7 @@ import TextStyle from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
 
 import MarkdownIt from 'markdown-it'
+import { useDebounce } from 'use-debounce';
 
 import { MenuBar } from './menu-bar'
 import { MenuBubble } from './intelli/menu/menu-bubble'
@@ -16,7 +17,6 @@ import { createAiBlock } from './intelli/ai-block-extension'
 import TrackChangeExtension from './diff/track-change-extension'
 import { Sidebar } from './sidebar'
 import { CharacterCount } from "@tiptap/extension-character-count";
-import { abs } from "lib0/math";
 
 const md = new MarkdownIt()
 
@@ -54,7 +54,7 @@ const extensions = [
 	TextStyle.configure({ types: [ListItem.name] }),
 ]
 
-const content = `
+const placeHolder = `
 # 3B editor
 
 Hi there, 3B is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
@@ -83,13 +83,21 @@ Testing grammar and spellings, select long text to see the menu.
 const LiveEditor = () => {
 	const editor = useEditor({
 		extensions,
-		content: md.render(content),
+		content: md.render(placeHolder),
 		editorProps: {
 			attributes: {
 				class: 'prose lg:prose-xl bb-editor-inner',
 			},
-		},
+		}
 	})
+
+	const [debouncedEditor] = useDebounce(editor?.state.doc.content, 2000);
+	useEffect(() => {
+		if (debouncedEditor) {
+			// save
+			console.info('save', debouncedEditor)
+		}
+	}, [debouncedEditor]);
 
 	return (<div className={'w-full'}>
 			<div className={'editor-block'}>
@@ -106,7 +114,7 @@ const LiveEditor = () => {
 					{editor && <MenuBubble editor={editor}/>}
 
 					{editor && <div className="character-count">
-            <span>{abs(editor.state.selection.$from.pos - editor.state.selection.$to.pos)} selected</span>
+            <span>{Math.abs(editor.state.selection.$from.pos - editor.state.selection.$to.pos)} selected</span>
             &nbsp;&nbsp;
             <span>{editor.storage.characterCount.characters()} characters</span>
             &nbsp;&nbsp;
