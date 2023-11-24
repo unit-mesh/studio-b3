@@ -14,6 +14,12 @@ export enum OutputForm {
 	NOTIFICATION = 4,
 }
 
+export enum ChangeForm {
+	INSERT = 0,
+	REPLACE = 1,
+	DIFF = 2,
+}
+
 export enum DefinedVariable {
 	TEMP_CONTEXT = "{{TEMP_CONTEXT}}",
 	BEFORE_CURSOR = "{{BEFORE_CURSOR}}",
@@ -55,6 +61,10 @@ export interface PromptAction {
 	 * the output form of the prompt, like streaming, normal, chat, inside box, notification
 	 */
 	outputForm: OutputForm;
+	/**
+	 * The change form of the prompt, like insert, replace, diff
+	 */
+	changeForm?: ChangeForm;
 	/**
 	 * The higher the number, the higher the priority, will be placed higher in the menu
 	 */
