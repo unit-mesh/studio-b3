@@ -2,6 +2,8 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { CookieIcon } from '@radix-ui/react-icons'
 import React from 'react'
 import { FacetType } from '@/types/custom-action.type'
+import { ActionExecutor } from '@/components/editor/action/ActionExecutor'
+
 // spike: https://ai-demo.tiptap.dev/kmLmpqbFJW
 export const MenuAiDropdown = ({ editor }) => {
   const menus = editor?.commands?.getAiActions(FacetType.TOOLBAR_MENU)
@@ -23,7 +25,10 @@ export const MenuAiDropdown = ({ editor }) => {
             key={index}
             className="DropdownMenuItem"
             onClick={() => {
-              editor?.commands?.runAiAction(menu)
+              const selection = editor.state.selection
+              let posInfo = new ActionExecutor(menu, editor).position(selection);
+
+              editor.chain().focus().insertContentAt(posInfo, "TODO").run()
             }}
           >
             {menu.name}

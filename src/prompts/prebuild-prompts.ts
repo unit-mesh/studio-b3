@@ -32,7 +32,6 @@ const BubbleMenu: PromptAction[] = [
 		facetType: FacetType.BUBBLE_MENU,
 		outputForm: OutputForm.STREAMING,
 	},
-	// TODO: change system function
 	{
 		name: 'Similar Chunk',
 		i18Name: true,

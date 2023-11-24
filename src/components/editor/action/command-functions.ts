@@ -1,8 +1,10 @@
 import { Commands, Extension } from '@tiptap/react'
 import { Editor } from "@tiptap/core";
 import { Transaction } from "prosemirror-state";
-import { FacetType, PromptAction } from "@/types/custom-action.type";
+import { ChangeForm, FacetType, PromptAction } from "@/types/custom-action.type";
 import { PromptsManager } from "@/prompts/prompts-manager";
+import { Range } from "@tiptap/core";
+import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
 
 export const CommandFunctions = Extension.create({
 	name: 'commandFunctions',
@@ -31,8 +33,8 @@ export const CommandFunctions = Extension.create({
 				return PromptsManager.getInstance().get(facet)
 			},
 			runAiAction: (action: PromptAction) => ({ editor }: { editor: Editor }) => {
+				// call LLM
 				console.log('executeAction', action)
-				// todo: seperate system function, like simliar chunk, or others
 			}
 		}
 	},

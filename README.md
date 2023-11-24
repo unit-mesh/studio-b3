@@ -1,9 +1,8 @@
-# 3b
+# 3b Editor
 
 [![Deploy](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg)](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml)
 
-> 3b is a sophisticated editor designed for content creation, catering to various formats such as blogs, articles, user
-> stories, and more.
+> 3b Editor is a sophisticated editor designed for content creation, catering to various formats such as blogs, articles, user stories, and more.
 
 In the documentary "10 Years with Hayao Miyazaki"  the esteemed artist (宫崎骏, 宮﨑駿／みやざきはやお) chooses a 3B
 pencil,

@@ -5,6 +5,7 @@ import { Span, Change, ChangeSet } from 'prosemirror-changeset'
 import { useTranslation } from 'react-i18next'
 import { FacetType, PromptAction } from '@/types/custom-action.type'
 import { Editor } from "@tiptap/core";
+import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
 
 // @ts-ignore
 const { computeDiff } = ChangeSet
@@ -61,8 +62,12 @@ export const MenuBubble = ({ editor }: { editor: Editor }) => {
 					key={index}
 					className="BubbleMenuItem"
 					onClick={() => {
+
 						// @ts-ignore
-						editor?.commands?.runAiAction(menu)
+						const selection = editor.state.selection
+						let posInfo = new ActionExecutor(menu, editor).position(selection);
+
+						editor.chain().focus().insertContentAt(posInfo, "TODO").run()
 					}}
 				>
 					{menu.i18Name ? t(menu.name) : menu.name}
