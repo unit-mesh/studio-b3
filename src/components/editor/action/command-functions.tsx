@@ -33,7 +33,7 @@ export const CommandFunctions = Extension.create({
 				return promptManager.get(facet)
 			},
 			runAiAction: (action: PromptAction) => ({ editor }: { editor: Editor }) => {
-				// console.log('executeAction', action)
+				console.log('executeAction', action)
 			}
 		}
 	},

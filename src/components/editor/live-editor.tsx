@@ -36,18 +36,7 @@ const extensions = [
 			keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
 		},
 	}),
-	createSlashExtension('ai-slash', {
-		items: [
-			{
-				title: 'AI 续写',
-				command: 'continue',
-			},
-			{
-				title: 'AI 总结',
-				command: 'summarize',
-			}
-		]
-	}),
+	createSlashExtension('ai-slash'),
 	createAiBlock(),
 	CharacterCount.configure({}),
 	Color.configure({ types: [TextStyle.name, ListItem.name] }),

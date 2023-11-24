@@ -5,6 +5,8 @@
  * https://github.com/fantasticit/magic-editor/blob/main/src/extensions/slash/slash-menu-view.tsx#L68
  */
 import React from 'react'
+import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 
 class SlashView extends React.Component {
   constructor (props) {
@@ -85,13 +87,13 @@ class SlashView extends React.Component {
 
     return (
       <div className="DropdownMenuContent">
-        {items.map(({ title }, idx) => (
+        {items.map(({ name, i18Name }, idx) => (
           <li
             key={idx}
             onClick={() => this.selectItem(idx)}
             className={selectedIndex === idx ? 'is-active DropdownMenuItem' : 'DropdownMenuItem'}
           >
-            {title}
+            {i18Name ? i18next.t(name) : name}
           </li>
         ))}
       </div>

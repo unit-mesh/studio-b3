@@ -4,8 +4,9 @@ import { Suggestion } from '@tiptap/suggestion'
 import tippy from 'tippy.js'
 import SlashView from './slash-view'
 import { PluginKey } from '@tiptap/pm/state'
+import { FacetType } from '@/types/custom-action.type'
 
-export const createSlashExtension = (name, options) => {
+export const createSlashExtension = (name) => {
   const extensionName = `ai-insert`
 
   return Node.create({
@@ -37,12 +38,11 @@ export const createSlashExtension = (name, options) => {
 
             const tr = state.tr.deleteRange(from, end)
             dispatch(tr)
-            props?.action?.(editor, props.user)
+            editor.commands.runAiAction(props)
             editor?.view?.focus()
           },
           items: ({ query }) => {
-            // todo: match fo query
-            return options.items
+            return this.editor?.commands?.getAiActions(FacetType.SLASH_COMMAND)
           },
           render: () => {
             let component
