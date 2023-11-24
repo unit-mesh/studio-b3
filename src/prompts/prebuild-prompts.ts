@@ -1,6 +1,6 @@
 import { DefinedVariable, FacetType, OutputForm, PromptAction } from "@/types/custom-action.type";
 
-const MenubarPrompts: PromptAction[] = [
+const ToolbarMenu: PromptAction[] = [
 	{
 		name: '{{Continue writing}}',
 		i18Name: true,
@@ -16,3 +16,24 @@ const MenubarPrompts: PromptAction[] = [
 		outputForm: OutputForm.STREAMING,
 	}
 ];
+
+const BubbleMenu: PromptAction[] = [
+	{
+		name: '{{Polish Content}}',
+		i18Name: true,
+		template: `You are an assistant helping to polish sentence. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
+		facetType: FacetType.BUBBLE_MENU,
+		outputForm: OutputForm.STREAMING,
+	}
+];
+
+const SlashCommands: PromptAction[] = []
+
+
+const PrebuildPrompts: PromptAction[] = [
+	ToolbarMenu,
+	BubbleMenu,
+	SlashCommands
+].flat();
+
+export default PrebuildPrompts;
