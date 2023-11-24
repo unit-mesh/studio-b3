@@ -21,6 +21,7 @@ const resources = {
       'Summarize': 'Summarize',
       'Polish': 'Polish',
       'Similar Chunk': 'Similar Content Chunk',
+      'Simplify Content': 'Simplify Content',
     }
   },
   zh: {
@@ -38,6 +39,7 @@ const resources = {
       'Summarize': '生成摘要',
       'Polish': '润色',
       'Similar Chunk': '相似内容块',
+      'Simplify Content': '精简内容',
     }
   }
 }

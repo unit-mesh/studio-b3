@@ -1,4 +1,4 @@
-import { DefinedVariable, FacetType, OutputForm, PromptAction } from "@/types/custom-action.type";
+import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from "@/types/custom-action.type";
 
 const ToolbarMenu: PromptAction[] = [
 	{
@@ -38,6 +38,14 @@ const BubbleMenu: PromptAction[] = [
 		template: `You are an assistant helping to find similar content. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
 		facetType: FacetType.BUBBLE_MENU,
 		outputForm: OutputForm.STREAMING,
+	},
+	{
+		name: 'Simplify Content',
+		i18Name: true,
+		template: `You are an assistant helping to simplify content. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
+		facetType: FacetType.BUBBLE_MENU,
+		outputForm: OutputForm.STREAMING,
+		changeForm: ChangeForm.DIFF,
 	},
 ];
 

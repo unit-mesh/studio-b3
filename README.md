@@ -32,6 +32,37 @@ Online Demo: [https://editor.unitmesh.cc/](https://editor.unitmesh.cc/)
 * Change: The effect produced by extensions may depend on other aspects of the system state, or be explicitly
   reconfigured.
 
+## Usage
+
+### Custom Menu examples
+
+```typescript
+const BubbleMenu: PromptAction[] = [
+  {
+    name: 'Polish',
+    i18Name: true,
+    template: `You are an assistant helping to polish sentence. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
+    facetType: FacetType.BUBBLE_MENU,
+    outputForm: OutputForm.STREAMING,
+  },
+  {
+    name: 'Similar Chunk',
+    i18Name: true,
+    template: `You are an assistant helping to find similar content. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
+    facetType: FacetType.BUBBLE_MENU,
+    outputForm: OutputForm.STREAMING,
+  },
+  {
+    name: 'Simplify Content',
+    i18Name: true,
+    template: `You are an assistant helping to simplify content. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
+    facetType: FacetType.BUBBLE_MENU,
+    outputForm: OutputForm.STREAMING,
+    changeForm: ChangeForm.DIFF,
+  },
+];
+```
+
 ## Refs:
 
 ### Tiptap Editor extensions
