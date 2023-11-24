@@ -27,7 +27,15 @@ const BubbleMenu: PromptAction[] = [
 	}
 ];
 
-const SlashCommands: PromptAction[] = []
+const SlashCommands: PromptAction[] = [
+	{
+		name: 'Summarize',
+		i18Name: true,
+		template: `You are an assistant helping to summarize a document. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
+		facetType: FacetType.SLASH_COMMAND,
+		outputForm: OutputForm.STREAMING
+	}
+]
 
 
 const PrebuildPrompts: PromptAction[] = [
