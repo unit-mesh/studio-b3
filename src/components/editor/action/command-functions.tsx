@@ -34,6 +34,7 @@ export const CommandFunctions = Extension.create({
 			},
 			runAiAction: (action: PromptAction) => ({ editor }: { editor: Editor }) => {
 				console.log('executeAction', action)
+				// todo: seperate system function, like simliar chunk, or others
 			}
 		}
 	},

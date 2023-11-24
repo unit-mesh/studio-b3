@@ -19,6 +19,8 @@ const resources = {
       'Help Me Write': 'Help Me Write',
       'Spelling and Grammar': 'Spelling and Grammar',
       'Summarize': 'Summarize',
+      'Polish': 'Polish',
+      'Similar Chunk': 'Similar Content Chunk',
     }
   },
   zh: {
@@ -34,6 +36,8 @@ const resources = {
       'Help Me Write': '帮助我写作',
       'Spelling and Grammar': '拼写和语法检查',
       'Summarize': '生成摘要',
+      'Polish': '润色',
+      'Similar Chunk': '相似内容块',
     }
   }
 }

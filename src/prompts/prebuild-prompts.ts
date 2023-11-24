@@ -31,7 +31,15 @@ const BubbleMenu: PromptAction[] = [
 		template: `You are an assistant helping to polish sentence. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
 		facetType: FacetType.BUBBLE_MENU,
 		outputForm: OutputForm.STREAMING,
-	}
+	},
+	// TODO: change system function
+	{
+		name: 'Similar Chunk',
+		i18Name: true,
+		template: `You are an assistant helping to find similar content. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
+		facetType: FacetType.BUBBLE_MENU,
+		outputForm: OutputForm.STREAMING,
+	},
 ];
 
 const SlashCommands: PromptAction[] = [
