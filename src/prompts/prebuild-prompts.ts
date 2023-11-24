@@ -44,7 +44,6 @@ const SlashCommands: PromptAction[] = [
 	}
 ]
 
-
 const PrebuildPrompts: PromptAction[] = [
 	ToolbarMenu,
 	BubbleMenu,

@@ -18,6 +18,7 @@ const resources = {
       'Continue writing': 'Continue writing',
       'Help Me Write': 'Help Me Write',
       'Spelling and Grammar': 'Spelling and Grammar',
+      'Summarize': 'Summarize',
     }
   },
   zh: {
@@ -32,6 +33,7 @@ const resources = {
       'Continue writing': '续写',
       'Help Me Write': '帮助我写作',
       'Spelling and Grammar': '拼写和语法检查',
+      'Summarize': '生成摘要',
     }
   }
 }
