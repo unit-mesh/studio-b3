@@ -1,5 +1,15 @@
 import { Node } from "@tiptap/react";
 
+declare module '@tiptap/core' {
+	interface Commands<ReturnType> {
+		commands: {
+			triggerInlineCompletion: () => ReturnType,
+			completeInlineCompletion: () => ReturnType,
+			cancelInlineCompletion: () => ReturnType,
+		}
+	}
+}
+
 export const createInlineCompletion = () => {
 	const extensionName = "inline-completion";
 
@@ -18,7 +28,6 @@ export const createInlineCompletion = () => {
 		addKeyboardShortcuts() {
 			return {
 				"Mod-\\": (): boolean => {
-					// @ts-ignore
 					this.editor.commands.triggerInlineCompletion()
 					return true
 				},
@@ -29,7 +38,11 @@ export const createInlineCompletion = () => {
 				"`": (): boolean => {
 					// complete inline completion
 					return false
-				}
+				},
+				"Escape": (): boolean => {
+					this.editor.commands.cancelInlineCompletion();
+					return true
+				},
 			}
 		},
 		// @ts-ignore
@@ -45,6 +58,9 @@ export const createInlineCompletion = () => {
 				// complete inline completion
 				completeInlineCompletion: () => () => {
 					console.log("completeInlineCompletion")
+				},
+				cancelInlineCompletion: () => () => {
+					console.log("cancelInlineCompletion")
 				}
 			}
 		},
