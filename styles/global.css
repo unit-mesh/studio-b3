@@ -735,7 +735,7 @@ input {
 }
 
 .character-count {
-/*    shoulde display in right with flex*/
+    /*    shoulde display in right with flex*/
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -783,4 +783,17 @@ input {
     background-color: #eee;
     color: #fff;
     cursor: not-allowed;
+}
+
+.inline-completion {
+    background-color: #9ca3af;
+}
+
+.inline-completion-tip {
+    margin-left: 1em;
+    background: #ccc;
+    font-weight: 500;
+    border-radius: 0.2em;
+    line-height: 0.6em;
+    padding: 0 0.4em 0 0.3em;
 }
