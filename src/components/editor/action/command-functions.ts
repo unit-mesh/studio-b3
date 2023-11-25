@@ -27,6 +27,7 @@ declare module "@tiptap/core" {
     runAiAction: {
       runAiAction: (action: PromptAction) => ReturnType;
     };
+    setBackgroundContext: () => ReturnType,
   }
 }
 

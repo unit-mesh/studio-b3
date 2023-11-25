@@ -17,7 +17,7 @@ import { createAiBlock } from './intelli/ai-block-extension'
 import TrackChangeExtension from './diff/track-change-extension'
 import { Sidebar } from './sidebar'
 import { CharacterCount } from "@tiptap/extension-character-count";
-import { createInlineCompletion } from "@/components/editor/inline/InlineCompleteExtension";
+import { createInlineCompletion } from "@/components/editor/inline/inline-completion";
 
 const md = new MarkdownIt()
 
