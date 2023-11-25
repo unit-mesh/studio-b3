@@ -48,15 +48,6 @@ img {
     max-width: 100vw;
 }
 
-.bb-editor-inner {
-    margin-top: 1rem;
-    max-width: fit-content;
-}
-
-@import '@radix-ui/colors/black-alpha.css';
-@import '@radix-ui/colors/mauve.css';
-@import '@radix-ui/colors/violet.css';
-
 /* reset */
 button,
 fieldset,
@@ -441,13 +432,6 @@ input {
     background-color: var(--violet-3);
 }
 
-/* reset */
-button,
-fieldset,
-input {
-    all: unset;
-}
-
 .DialogOverlay {
     background-color: var(--black-a9);
     position: fixed;
@@ -723,6 +707,11 @@ input {
 
 .Button.green:focus {
     box-shadow: 0 0 0 2px var(--green-7);
+}
+
+.bb-editor-inner {
+    margin-top: 1rem;
+    max-width: fit-content;
 }
 
 .editor-section {
