@@ -95,7 +95,7 @@ const LiveEditor = () => {
 
 	return (<div className={'w-full'}>
 			<div className={'editor-block'}>
-				<div className={'domain-buttons'}>
+				<div className={'domain-buttons lg:flex md:flex sm:hidden hidden'}>
 					<span className={'scene-text'}>Scene: (Todo)</span>
 					<button disabled={true} className={'domain-button'}>Blog</button>
 					<button disabled={true} className={'domain-button'}>Weekly Report</button>
@@ -117,7 +117,7 @@ const LiveEditor = () => {
 				</div>
 			</div>
 
-			{editor && <div className={'lg:visible md:invisible sm:invisible invisible'}><Sidebar eidtor={editor}/></div>}
+			{editor && <div className={'lg:flex md:hidden sm:hidden hidden'}><Sidebar eidtor={editor}/></div>}
 		</div>
 	)
 }
