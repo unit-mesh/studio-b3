@@ -2,12 +2,67 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
+const mainPlaceholder = `# 3B editor
+
+Hi there, 3B is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
+
+1. Click toolbar's AI button to trigger AI commands.
+2. Press \`/\` to trigger AI commands.
+3. Press \`Control\` + \`/\` (Windows/Linux) or \`Command\` + \`/\` (macOS) to show custom AI input box.
+4. Select text and see the select-relative bubble menu.
+5. Press  \`Control\` + \`\\\` (Windows/Linux) or \`Command\` + \`\\\` to trigger inline completion.
+
+## Inline AI
+
+> Testing grammar and spellings, select long text to see the menu.
+
+永和九年，岁在癸丑，暮春之初，会于会稽山阴之兰亭，修禊事也。群贤毕至，少长咸集。此地有崇山峻岭，茂林修竹；又有清流激湍，映带左右，引以为流觞曲水，
+列坐其次。虽无丝竹管弦之盛，一觞一咏，亦足以畅叙幽情。
+
+是日也，天朗气清，惠风和畅。仰观宇宙之大，俯察品类之盛，所以游目骋怀，足以极视听之娱，信可乐也。
+
+夫人之相与，俯仰一世，或取诸怀抱，悟言一室之内；或因寄所托，放浪形骸之外。虽趣舍万殊，静躁不同，当其欣于所遇，暂得于己，快然自足，不知老之将至。
+及其所之既倦，情随事迁，感慨系之矣。向之所欣，俯仰之间，已为陈迹，犹不能不以之兴怀。况修短随化，终期于尽。古人云：“死生亦大矣。”岂不痛哉！
+
+每览昔人兴感之由，若合一契，未尝不临文嗟悼，不能喻之于怀。固知一死生为虚诞，齐彭殇为妄作。后之视今，亦犹今之视昔。悲夫！故列叙时人，录其所述，
+虽世殊事异，所以兴怀，其致一也。后之览者，亦将有感于斯文。
+
+`
+
+const zhPlaceholder = `# 3B 编辑器
+
+3B 是用于 Unit Mesh 架构范式的编辑器，以探索下一代软件架构。
+
+1. 点击工具栏上的 AI 按钮以触发 AI 指令。
+2. 按 \`/\` 键以触发 AI 指令。
+3. 按 \`Control\` + \`/\`（Windows/Linux）或 \`Command\` + \`/\`（macOS）以显示自定义 AI 输入框。
+4. 选择文本并查看选择相对泡泡菜单。
+5. 按 \`Control\` + \`\\\`（Windows / Linux）或 \`Command\` + \`\\\` 以触发行内补全。
+
+## 内联 AI 支持
+
+> 测试语法和拼写，选择长文本以查看菜单。
+
+永和九年，岁在癸丑，暮春之初，会于会稽山阴之兰亭，修禊事也。群贤毕至，少长咸集。此地有崇山峻岭，茂林修竹；又有清流激湍，映带左右，引以为流觞曲水，
+列坐其次。虽无丝竹管弦之盛，一觞一咏，亦足以畅叙幽情。
+
+是日也，天朗气清，惠风和畅。仰观宇宙之大，俯察品类之盛，所以游目骋怀，足以极视听之娱，信可乐也。
+
+夫人之相与，俯仰一世，或取诸怀抱，悟言一室之内；或因寄所托，放浪形骸之外。虽趣舍万殊，静躁不同，当其欣于所遇，暂得于己，快然自足，不知老之将至。
+及其所之既倦，情随事迁，感慨系之矣。向之所欣，俯仰之间，已为陈迹，犹不能不以之兴怀。况修短随化，终期于尽。古人云：“死生亦大矣。”岂不痛哉！
+
+每览昔人兴感之由，若合一契，未尝不临文嗟悼，不能喻之于怀。固知一死生为虚诞，齐彭殇为妄作。后之视今，亦犹今之视昔。悲夫！故列叙时人，录其所述，
+虽世殊事异，所以兴怀，其致一也。后之览者，亦将有感于斯文。
+
+`
+
 // the translations
 // (tip move them in a JSON file and import them,
 // or even better, manage them separated from your code: https://react.i18next.com/guides/multiple-translation-files)
 const resources = {
   en: {
     translation: {
+      'Editor Placeholder': mainPlaceholder,
       'Custom Related Resource Link': 'Custom Related Resource Link',
       'Article Context': 'Article Context',
       'Grammarly': 'Grammarly',
@@ -27,6 +82,7 @@ const resources = {
   },
   zh: {
     translation: {
+      'Editor Placeholder': zhPlaceholder,
       'Custom Related Resource Link': '自定义相关资源链接',
       'Article Context': '文章背景',
       'Grammarly': '语法检查',

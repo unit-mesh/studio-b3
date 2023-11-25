@@ -714,6 +714,10 @@ input {
     max-width: fit-content;
 }
 
+.editor-block {
+    width: fit-content;
+}
+
 .editor-section {
     margin: 0.5rem auto;
     padding: 1rem;
