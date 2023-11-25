@@ -18,7 +18,7 @@ import { MenuAiDropdown } from './intelli/menu/menu-ai-dropdown'
 export const MenuBar = ({ editor }: { editor: Editor }) => {
   return (
     <ToggleGroup.Root
-      className={'ToggleGroup'}
+      className={'ToggleGroup lg:visible md:visible sm:invisible invisible'}
       type="single"
       defaultValue="center"
       aria-label="Text alignment"
