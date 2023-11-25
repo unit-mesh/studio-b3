@@ -1,4 +1,11 @@
-import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from "@/types/custom-action.type";
+import {
+	BuiltInFunc,
+	ChangeForm,
+	DefinedVariable,
+	FacetType,
+	OutputForm,
+	PromptAction
+} from "@/types/custom-action.type";
 
 const ToolbarMenu: PromptAction[] = [
 	{
@@ -33,19 +40,20 @@ const BubbleMenu: PromptAction[] = [
 		outputForm: OutputForm.STREAMING,
 	},
 	{
-		name: 'Similar Chunk',
-		i18Name: true,
-		template: `You are an assistant helping to find similar content. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
-		facetType: FacetType.BUBBLE_MENU,
-		outputForm: OutputForm.STREAMING,
-	},
-	{
 		name: 'Simplify Content',
 		i18Name: true,
 		template: `You are an assistant helping to simplify content. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
 		facetType: FacetType.BUBBLE_MENU,
 		outputForm: OutputForm.STREAMING,
 		changeForm: ChangeForm.DIFF,
+	},
+	{
+		name: 'Similar Chunk',
+		i18Name: true,
+		template: `${DefinedVariable.SELECTION}`,
+		builtinFunction: BuiltInFunc.SIMILAR_CHUNKS,
+		facetType: FacetType.BUBBLE_MENU,
+		outputForm: OutputForm.STREAMING,
 	},
 ];
 

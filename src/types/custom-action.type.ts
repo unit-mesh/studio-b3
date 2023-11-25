@@ -20,6 +20,14 @@ export enum ChangeForm {
 	DIFF = 2,
 }
 
+export enum BuiltInFunc {
+	SIMILAR_CHUNKS = 0,
+	RELATED_CHUNKS = 1,
+	GRAMMAR_CHECK = 2,
+	SPELLING_CHECK = 3,
+	WIKI_SUMMARY = 4,
+}
+
 export enum DefinedVariable {
 	BASE_CONTEXT = "base_context",
 	TEMP_CONTEXT = "temp_context",
@@ -54,6 +62,10 @@ export interface PromptAction {
 	 * ```
 	 */
 	template: string;
+	/**
+	 * Use builtin function to execute the prompt
+	 */
+	builtinFunction?: BuiltInFunc;
 	/**
 	 * The type of the facet, like toolbar menu, bubble menu, context menu, slash command, quick insert
 	 */
