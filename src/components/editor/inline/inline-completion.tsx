@@ -96,7 +96,7 @@ const InlineCompletionView = (props?: { editor: Editor }) => {
 
 	return (
 		<NodeViewWrapper ref={$container}>
-			<span>show text for completion <span className={'inline-completion-tip'}><KeyboardIcon />`</span></span>
+			<span>show inline completion <span className={'inline-completion-tip'}><KeyboardIcon />`</span></span>
 		</NodeViewWrapper>
 	);
 };
