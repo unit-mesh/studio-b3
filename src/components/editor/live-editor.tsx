@@ -51,10 +51,11 @@ const placeHolder = `
 
 Hi there, 3B is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
 
-1. use \`/\` to trigger AI commands.
-2. use \`Control\` + \`/\` (Windows/Linux) or \`Command\` + \`/\` (macOS) to show custom AI input box.
-3. select text and right click to see the context menu.
-4. use  \`Control\` + \`\\\` (Windows/Linux) or \`Command\` + \`\\\` to trigger inline completion.
+1. Click toolbar's AI button to trigger AI commands.
+2. Press \`/\` to trigger AI commands.
+3. Press \`Control\` + \`/\` (Windows/Linux) or \`Command\` + \`/\` (macOS) to show custom AI input box.
+4. Select text and see the select-relative bubble menu.
+5. Press  \`Control\` + \`\\\` (Windows/Linux) or \`Command\` + \`\\\` to trigger inline completion.
 
 ## Inline AI
 
