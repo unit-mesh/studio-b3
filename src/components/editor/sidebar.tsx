@@ -8,7 +8,7 @@ export const Sidebar: React.FC<any> = ({ editor }) => {
 
 	return <aside className={'fixed top-0 right-0 z-40 w-128 h-screen'} aria-label="Sidebar">
 		<div className={'h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800'}>
-			<Accordion.Root className={'AccordionRoot'} type="multiple" defaultValue={['item-1', 'item-2', 'item-3']}>
+			<Accordion.Root className={'AccordionRoot'} type="multiple" defaultValue={['similar', 'bg-context']}>
 				<Accordion.Item className={'AccordionItem'} value="item-6">
 					<AccordionTrigger>{t('Custom Related Resource Link')}</AccordionTrigger>
 					<AccordionContent>
@@ -16,12 +16,17 @@ export const Sidebar: React.FC<any> = ({ editor }) => {
 					</AccordionContent>
 				</Accordion.Item>
 
-				<Accordion.Item className={'AccordionItem'} value="item-5">
+				<Accordion.Item className={'AccordionItem'} value="bg-context">
 					<AccordionTrigger>{t('Article Context')}</AccordionTrigger>
 					<AccordionContent>
 						<textarea
-							className={'w-full'}
+							rows={4}
+							className={"block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border"}
 							placeholder={'context about this article'}
+							onInput={(e) => {
+								// @ts-ignore
+								editor.commands?.setContext(e.target.value)
+							}}
 						/>
 					</AccordionContent>
 				</Accordion.Item>
@@ -40,7 +45,7 @@ export const Sidebar: React.FC<any> = ({ editor }) => {
 					</AccordionContent>
 				</Accordion.Item>
 
-				<Accordion.Item className={'AccordionItem'} value="item-3">
+				<Accordion.Item className={'AccordionItem'} value="similar">
 					<AccordionTrigger>{t('Text Similarity')}</AccordionTrigger>
 					<Accordion.Content className={'AccordionContent'}>
 						<div className={'AccordionContentText'}>

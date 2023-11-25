@@ -35,6 +35,9 @@ export const CommandFunctions = Extension.create({
 			runAiAction: (action: PromptAction) => ({ editor }: { editor: Editor }) => {
 				// call LLM
 				console.log('executeAction', action)
+			},
+			setBackgroundContext: (context: string) => ({ editor }: { editor: Editor }) => {
+				PromptsManager.getInstance().saveBackgroundContext(context)
 			}
 		}
 	},

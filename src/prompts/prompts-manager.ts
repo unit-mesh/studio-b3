@@ -4,6 +4,7 @@ import { DefinedVariable, FacetType, PromptAction } from "@/types/custom-action.
 import PrebuildPrompts from "@/prompts/prebuild-prompts";
 
 export class PromptsManager {
+	private backgroundContext: string = "";
 	private constructor() { }
 
 	private static instance: PromptsManager;
@@ -42,5 +43,9 @@ export class PromptsManager {
 	compile(string: string, data: object) {
 		const template = Handlebars.compile(string)
 		return template(data)
+	}
+
+	saveBackgroundContext(context: string) {
+		this.backgroundContext = context
 	}
 }
