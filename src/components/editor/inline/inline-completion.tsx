@@ -3,6 +3,7 @@ import { Editor, mergeAttributes } from "@tiptap/core";
 import AiBlockView from "@/components/editor/intelli/ai-block-view";
 import React, { useEffect, useRef } from "react";
 import { AiBlockEditor } from "@/components/editor/intelli/ai-block-editor";
+import { KeyboardIcon } from "@radix-ui/react-icons";
 
 declare module '@tiptap/core' {
 	interface Commands<ReturnType> {
@@ -21,6 +22,7 @@ export const createInlineCompletion = () => {
 		name: extensionName,
 		group: "block",
 		defining: true,
+		isolating: true,
 		content: "text*",
 		addOptions() {
 			return {
@@ -94,7 +96,7 @@ const InlineCompletionView = (props?: { editor: Editor }) => {
 
 	return (
 		<NodeViewWrapper ref={$container}>
-			<p>show text for completion <span className={'inline-completion-tip'}>`</span></p>
+			<span>show text for completion <span className={'inline-completion-tip'}><KeyboardIcon />`</span></span>
 		</NodeViewWrapper>
 	);
 };

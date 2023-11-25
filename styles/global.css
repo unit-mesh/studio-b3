@@ -785,13 +785,24 @@ input {
     cursor: not-allowed;
 }
 
+.node-inline-completion {
+    display: inline-block;
+    background: var(--violet-3);
+    padding: 0 8px;
+    border-radius: 4px;
+}
+
+.node-inline-completion svg {
+    display: inline-block;
+}
+
 .inline-completion {
     background-color: #9ca3af;
 }
 
 .inline-completion-tip {
     margin-left: 1em;
-    background: #ccc;
+    background: #fff;
     font-weight: 500;
     border-radius: 0.2em;
     line-height: 0.6em;
