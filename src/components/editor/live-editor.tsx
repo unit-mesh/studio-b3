@@ -17,6 +17,7 @@ import { createAiBlock } from './intelli/ai-block-extension'
 import TrackChangeExtension from './diff/track-change-extension'
 import { Sidebar } from './sidebar'
 import { CharacterCount } from "@tiptap/extension-character-count";
+import { createInlineCompletion } from "@/components/editor/inline/InlineCompleteExtension";
 
 const md = new MarkdownIt()
 
@@ -26,6 +27,7 @@ const extensions = [
 	TrackChangeExtension.configure({
 		enabled: false,
 	}),
+	createInlineCompletion(),
 	StarterKit.configure({
 		bulletList: {
 			keepMarks: true,
@@ -50,8 +52,9 @@ const placeHolder = `
 Hi there, 3B is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
 
 1. use \`/\` to trigger AI commands.
-2. use \`Alt\` + \`/\` or \`Command\` + \`/\` to show custom AI input box.
+2. use \`Control\` + \`/\` (Windows/Linux) or \`Command\` + \`/\` (macOS) to show custom AI input box.
 3. select text and right click to see the context menu.
+4. use  \`Control\` + \`\\\` (Windows/Linux) or \`Command\` + \`\\\` to trigger inline completion.
 
 ## Inline AI
 
