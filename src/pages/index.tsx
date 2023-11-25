@@ -4,6 +4,7 @@ import styles from '../../styles/Home.module.css'
 import LiveEditor from '@/components/editor/live-editor'
 import { Settings } from '@/components/settings'
 import '@/i18n/i18n';
+import { useEditorContentChange } from "@/hooks/useEditorContentChange";
 
 export default function Home() {
   return (
