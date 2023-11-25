@@ -1,6 +1,7 @@
 .container {
     padding: 0 0.5rem;
     margin: 0 auto;
+    width: fit-content;
 }
 
 .title a {

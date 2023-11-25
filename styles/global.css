@@ -50,6 +50,7 @@ img {
 
 .bb-editor-inner {
     margin-top: 1rem;
+    max-width: fit-content;
 }
 
 @import '@radix-ui/colors/black-alpha.css';
