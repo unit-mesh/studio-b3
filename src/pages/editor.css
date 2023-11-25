@@ -108,6 +108,8 @@
 }
 
 .BubbleMenuGroup {
+    display: flex;
+    width: fit-content;
     border-radius: 4px;
     box-shadow: 0 2px 2px var(--black-a7);
 }

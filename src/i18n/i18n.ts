@@ -22,6 +22,7 @@ const resources = {
       'Polish': 'Polish',
       'Similar Chunk': 'Similar Content Chunk',
       'Simplify Content': 'Simplify Content',
+      'Translate': 'Translate',
     }
   },
   zh: {
@@ -40,6 +41,7 @@ const resources = {
       'Polish': '润色',
       'Similar Chunk': '相似内容块',
       'Simplify Content': '精简内容',
+      'Translate': '翻译',
     }
   }
 }

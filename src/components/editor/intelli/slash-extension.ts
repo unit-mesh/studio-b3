@@ -5,7 +5,6 @@ import tippy, { Instance, Props } from "tippy.js";
 import SlashView from "./slash-view";
 import { PluginKey } from "@tiptap/pm/state";
 import { FacetType } from "@/types/custom-action.type";
-import { Component } from "react";
 
 export const createSlashExtension = (name: string) => {
   const extensionName = `ai-insert`;
