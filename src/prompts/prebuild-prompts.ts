@@ -55,6 +55,13 @@ const BubbleMenu: PromptAction[] = [
 		facetType: FacetType.BUBBLE_MENU,
 		outputForm: OutputForm.STREAMING,
 	},
+	{
+		name: 'Translate',
+		i18Name: true,
+		template: `You are an assistant helping to translate a sentence. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
+		facetType: FacetType.BUBBLE_MENU,
+		outputForm: OutputForm.STREAMING,
+	}
 ];
 
 const SlashCommands: PromptAction[] = [
