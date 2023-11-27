@@ -124,12 +124,16 @@ mod tests {
 ## hello world
 
 ### hello world
+
+## Block 2
+
 "#;
 
         let sections = by_section(src);
 
-        assert_eq!(sections.len(), 2);
+        assert_eq!(sections.len(), 3);
         assert_eq!(sections[0].data, "# hello world\n");
-        assert_eq!(sections[1].data, "## hello world\n\n### hello world\n");
+        assert_eq!(sections[1].data, "## hello world\n\n### hello world\n\n");
+        assert_eq!(sections[2].data, "## Block 2\n\n");
     }
 }
