@@ -1,13 +1,15 @@
-pub mod scraper;
-mod create_app;
-
 use std::ops::Deref;
 use std::sync::Arc;
+
 use actix_web::{HttpServer, Responder};
 use sqlx::{Executor, Pool, Sqlite, SqlitePool};
 
+pub mod scraper;
+mod create_app;
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    // init_semantic_with_path("../model", "../model").unwrap();
     let sql = Arc::new(initialize().await);
     sql.deref().execute("CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY, name TEXT NOT NULL)").await.unwrap();
 

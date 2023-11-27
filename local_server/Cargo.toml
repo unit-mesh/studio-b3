@@ -13,6 +13,9 @@ anyhow = "1.0.75"
 # misc
 serde = { version = "1.0", features = ["derive"] }
 
+# embed
+enfer_core = "0.1.1"
+
 # code-nav
 tree-sitter = "0.20.10"
 tree-sitter-javascript = "0.20.1"
