@@ -12,6 +12,8 @@ Hi there, 3B is editor for Unit Mesh architecture paradigms, the next-gen softwa
 4. Select text and see the select-relative bubble menu.
 5. Press  \`Control\` + \`\\\` (Windows/Linux) or \`Command\` + \`\\\` to trigger inline completion.
 
+Scenarios: professional article, blog, user stories, daily reports, weekly reports, etc.
+
 ## Inline AI
 
 > Testing grammar and spellings, select long text to see the menu.
@@ -38,6 +40,8 @@ const zhPlaceholder = `# 3B 编辑器
 3. 按 \`Control\` + \`/\`（Windows/Linux）或 \`Command\` + \`/\`（macOS）以显示自定义 AI 输入框。
 4. 选择文本并查看选择相对泡泡菜单。
 5. 按 \`Control\` + \`\\\`（Windows / Linux）或 \`Command\` + \`\\\` 以触发行内补全。
+
+适用场景：专业领域文章、博客、用户故事、日报、周报等。
 
 ## 内联 AI 支持
 

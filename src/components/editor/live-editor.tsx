@@ -72,13 +72,6 @@ const LiveEditor = () => {
 
 	return (<div className={'w-full'}>
 			<div className={'editor-block w-full'}>
-				<div className={'domain-buttons lg:flex md:flex sm:hidden hidden'}>
-					<span className={'scene-text'}>Scene: (Todo)</span>
-					<button disabled={true} className={'domain-button'}>Blog</button>
-					<button disabled={true} className={'domain-button'}>Weekly Report</button>
-					<button disabled={true} className={'domain-button'}>Meeting Notes</button>
-					<button disabled={true} className={'domain-button'}>User Story</button>
-				</div>
 				<div className={'editor-section'}>
 					{editor && <MenuBar editor={editor}/>}
 					<EditorContent editor={editor}/>
