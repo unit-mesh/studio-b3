@@ -1,5 +1,7 @@
 # 3b Editor
 
+Chinese version: [中文版](./README.zh.md)
+
 [![Deploy](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg)](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml)
 
 > 3b Editor is a sophisticated editor designed for content creation, catering to various formats such as blogs, articles, user stories, and more.
@@ -21,7 +23,11 @@ Online Demo: [https://editor.unitmesh.cc/](https://editor.unitmesh.cc/)
 
 ## Design Principle
 
-[Facets as Composable Extension Points](https://marijnhaverbeke.nl/blog/facets.html)
+- **Intelligent Embedding**: Integrate artificial intelligence deeply with the user interface, ensuring that AI models are cleverly introduced at various positions in the editor to achieve a more intuitive and intelligent user interaction experience.
+- **Local Optimization**: Pursue an efficient and smooth writing experience by introducing local inference models, which operate within the user's local environment. This includes localized enhancements such as semantic search, local syntax checking, text prediction, etc.
+- **Context Flexibility**: Introduce a context API, providing users with custom prompts and predefined contexts, allowing for more flexible shaping of the editing environment. Through flexible context management, users gain better control over AI-generated content.
+
+### [Facets as Composable Extension Points](https://marijnhaverbeke.nl/blog/facets.html)
 
 * Composition: Multiple extensions attaching to a given extension point must have their effects combined in a
   predictable way.

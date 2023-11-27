@@ -5,6 +5,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const config: StorybookConfig = {
 	stories: [
 		"../src/**/*.mdx",
+		"../docs/**/*.mdx",
 		"../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
 	],
 	addons: [
