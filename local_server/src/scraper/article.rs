@@ -25,7 +25,7 @@ impl Article {
 pub struct ArticleContent<'a> {
     pub title: Option<Cow<'a, str>>,
     pub icon: Option<Cow<'a, str>>,
-    pub language: Option<str>,
+    pub language: Option<&'a str>,
     pub description: Option<Cow<'a, str>>,
     pub text: Option<Cow<'a, str>>,
 }
