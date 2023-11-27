@@ -103,6 +103,7 @@
     "postcss": "^8",
     "storybook": "^7.5.3",
     "tailwindcss": "^3.3.0",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "5.3.2"
   }
 }
