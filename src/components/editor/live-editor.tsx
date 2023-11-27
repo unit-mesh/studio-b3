@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { EditorContent, useEditor } from '@tiptap/react'
 import { Color } from '@tiptap/extension-color'
@@ -19,6 +19,8 @@ import { Sidebar } from './sidebar'
 import { CharacterCount } from "@tiptap/extension-character-count";
 import { createInlineCompletion } from "@/components/editor/inline/inline-completion";
 import { useTranslation } from "react-i18next";
+
+import "./editor.css"
 
 const md = new MarkdownIt()
 
