@@ -24,6 +24,7 @@ impl<'a> Section<'a> {
 // - these form a single chunk to be embedded
 // - repeat above on every section child-node
 const MAX_DEPTH: usize = 1;
+
 pub fn sectionize<'s, 'b>(
     start_node: &'b Node,
     sections: &'b mut Vec<Section<'s>>,
@@ -107,4 +108,28 @@ pub fn by_section(src: &str) -> Vec<Section<'_>> {
     sectionize(&root_node, &mut sections, vec![], 0, src);
 
     sections
+}
+
+
+// test
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_sectionize() {
+        let src = r#"
+# hello world
+
+## hello world
+
+### hello world
+"#;
+
+        let sections = by_section(src);
+
+        assert_eq!(sections.len(), 2);
+        assert_eq!(sections[0].data, "# hello world\n");
+        assert_eq!(sections[1].data, "## hello world\n\n### hello world\n");
+    }
 }
