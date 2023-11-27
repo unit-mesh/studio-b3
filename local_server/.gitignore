@@ -6,3 +6,4 @@ pkg/
 wasm-pack.log
 .idea
 !bin/*.rs
+*.db
