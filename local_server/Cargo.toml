@@ -8,6 +8,8 @@ edition = "2021"
 [dependencies]
 actix-web = "4"
 
+anyhow = "1.0.75"
+
 # misc
 serde = { version = "1.0", features = ["derive"] }
 
@@ -25,6 +27,8 @@ tree-sitter-md = "0.1.7"
 # doc scraper
 select = "0.6"
 url = "2.5.0"
+reqwest = { version = "0.11.20", features = ["rustls-tls-webpki-roots", "cookies", "gzip"], default-features = false }
+reqwest-eventsource = "0.5.0"
 
 # office ?
 # https://github.com/zitsen/ooxml-rs
