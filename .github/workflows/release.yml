@@ -1,0 +1,45 @@
+name: CoUnit CD
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Publish for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact_name: local_server
+            asset_name: local_server-linux
+          - os: windows-latest
+            artifact_name: local_server.exe
+            asset_name: local_server-windows.exe
+          - os: macos-latest
+            artifact_name: local_server
+            asset_name: local_server-macos
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
+      - name: Server Build
+        run: cargo build --release --manifest-path=local_server/Cargo.toml
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/${{ matrix.artifact_name }}
+          asset_name: ${{ matrix.asset_name }}
+          tag: ${{ github.ref }}
