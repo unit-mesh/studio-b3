@@ -16,14 +16,14 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            artifact_name: local_server
-            asset_name: local_server-linux
+            artifact_name: b3_server
+            asset_name: b3_server-linux
           - os: windows-latest
-            artifact_name: local_server.exe
-            asset_name: local_server-windows.exe
+            artifact_name: b3_server.exe
+            asset_name: b3_server-windows.exe
           - os: macos-latest
-            artifact_name: local_server
-            asset_name: local_server-macos
+            artifact_name: b3_server
+            asset_name: b3_server-macos
 
     steps:
       - uses: actions/checkout@v1
@@ -33,7 +33,7 @@ jobs:
           profile: minimal
           toolchain: stable
 
-      - name: Server Build
+      - name: Build Server
         run: cargo build --release --manifest-path=local_server/Cargo.toml
 
       - name: Upload binaries to release
