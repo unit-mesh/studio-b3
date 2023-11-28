@@ -47,4 +47,5 @@ tantivy-columnar = "0.2.0"
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.17", features = ["env-filter", "registry"] }
 tracing-appender = "0.2.2"
+serde_json = "1.0.108"
 

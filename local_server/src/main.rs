@@ -1,17 +1,26 @@
 use std::ops::Deref;
 
-use actix_web::{HttpServer, Responder};
+use actix_web::{App, HttpServer, Responder, web};
 use sqlx::{Executor, Pool, Sqlite, SqlitePool};
 
+use app_state::AppState;
+
+use crate::document_handler::create_embedding_document;
+
 pub mod scraper;
-mod create_app;
+mod document_handler;
+pub mod app_state;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // init_semantic_with_path("../model", "../model").unwrap();
+    let app_state = web::Data::new(AppState {
 
-    HttpServer::new(|| {
-        create_app::create_app()
+    });
+
+    HttpServer::new(move || {
+        App::new()
+            .app_data(app_state.clone())
+            .service(create_embedding_document)
     })
         .bind(("127.0.0.1", 8080))?
         .run()
@@ -21,7 +30,6 @@ async fn main() -> std::io::Result<()> {
 #[tracing::instrument(skip_all)]
 pub async fn initialize() -> Pool<Sqlite> {
     let url = format!("sqlite://./3b.db?mode=rwc");
-
     let pool = SqlitePool::connect(&*url);
     return pool.await.unwrap();
 }
