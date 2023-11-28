@@ -1,5 +1,3 @@
-use std::ops::Deref;
-
 use actix_web::{App, HttpServer, web};
 
 use app_state::AppState;

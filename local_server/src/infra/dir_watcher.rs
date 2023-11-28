@@ -3,7 +3,6 @@ use std::{
     time::Duration,
 };
 use std::path::PathBuf;
-use anyhow::Error;
 
 use flume::Sender;
 use notify_debouncer_mini::{Config, DebounceEventResult, Debouncer, new_debouncer_opt, notify, notify::RecommendedWatcher};
