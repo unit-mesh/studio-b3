@@ -27,7 +27,7 @@ async fn search_embedding_document(
     let documents: Vec<DocumentResult> = document_match
         .into_iter()
         .map(|doc| DocumentResult {
-            id: doc.embedded.id,
+            id: doc.embedding_id,
             score: doc.score,
             text: doc.embedded.text,
         })
