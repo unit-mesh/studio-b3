@@ -1,7 +1,7 @@
 use std::fs::canonicalize;
 use std::path::{Path, PathBuf};
 
-use tracing::{debug, warn};
+use tracing::warn;
 
 pub struct FileWalker {
     file_list: Vec<PathBuf>,
