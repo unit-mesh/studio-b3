@@ -3,7 +3,7 @@
 - [ ] Watch local directory for document changes
 - [ ] Embedding the document, code
     - [ ] Markdown Documentation Splitter: TreeSitter md
-    - [ ] Office, like Word Document Splitter: [docx-rs](https://github.com/bokuweb/docx-rs)
+    - [x] Office, like Word Document Splitter: [docx-rs](https://github.com/bokuweb/docx-rs)
       - [x] reader
       spike: [Document File Text Extractor](https://github.com/anvie/dotext), [docx](https://github.com/PoiScript/docx-rs), [OOXML](https://github.com/zitsen/ooxml-rs),
     - [ ] Code Splitter: TreeSitter,

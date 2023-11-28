@@ -7,7 +7,7 @@ use crate::app_state::AppState;
 #[post("/tickets/{id}")]
 async fn create_embedding_document(
     req: web::Json<ReqDocument>,
-    data: web::Data<AppState>,
+    _data: web::Data<AppState>,
 ) -> impl Responder {
     let response = serde_json::to_string(&req).unwrap();
 
