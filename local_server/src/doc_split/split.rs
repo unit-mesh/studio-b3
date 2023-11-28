@@ -6,7 +6,10 @@ use crate::doc_split::document_type::DocumentType;
 use crate::doc_split::splitter::{SplitOptions, Splitter};
 use crate::doc_split::office_splitter::OfficeSplitter;
 
-fn split(path: &PathBuf, options: &SplitOptions) -> Option<Vec<Document>> {
+/**
+ * Split a document into multiple documents which will according to the document type.
+ */
+pub fn split(path: &PathBuf, options: &SplitOptions) -> Option<Vec<Document>> {
     let path_buf = path.clone();
 
     let filename = path_buf.file_name()?.to_str()?;

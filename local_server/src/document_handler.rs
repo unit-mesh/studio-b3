@@ -19,13 +19,32 @@ async fn create_embedding_document(
 #[get("/embedding-document/search")]
 async fn search_embedding_document(
     query: web::Query<SearchQuery>,
-    _data: web::Data<AppState>,
+    data: web::Data<AppState>,
 ) -> impl Responder {
-    let response = serde_json::to_string(&query).unwrap();
+    let embedding = data.semantic.embed(&query.q).unwrap();
+    let document_match = data.storage.find_relevant(embedding, 5, 0.0);
+
+    let documents: Vec<DocumentResult> = document_match
+        .into_iter()
+        .map(|doc| DocumentResult {
+            id: doc.embedded.id,
+            score: doc.score,
+            text: doc.embedded.text,
+        })
+        .collect();
+
+    let response = serde_json::to_string(&documents).unwrap();
 
     HttpResponse::Ok()
         .content_type(ContentType::json())
         .body(response)
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct DocumentResult {
+    pub id: String,
+    pub score: f32,
+    pub text: String,
 }
 
 #[derive(Serialize, Deserialize)]

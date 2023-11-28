@@ -1,7 +1,8 @@
 use std::sync::Arc;
 
-use inference_core::Semantic;
+use inference_core::{InMemoryEmbeddingStore, Semantic};
 
 pub struct AppState {
-    pub(crate) semantic: Arc<Semantic>,
+    pub semantic: Arc<Semantic>,
+    pub storage: Arc<InMemoryEmbeddingStore>,
 }
