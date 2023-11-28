@@ -1,17 +1,29 @@
-use actix_web::{HttpResponse, post, Responder, web};
+use actix_web::{get, HttpResponse, post, Responder, web};
 use actix_web::http::header::ContentType;
 use serde::{Deserialize, Serialize};
 
 use crate::app_state::AppState;
 
-#[post("/tickets/{id}")]
+#[post("/embedding-document")]
 async fn create_embedding_document(
-    req: web::Json<ReqDocument>,
+    form: web::Form<ReqDocument>,
     _data: web::Data<AppState>,
 ) -> impl Responder {
-    let response = serde_json::to_string(&req).unwrap();
+    let response = serde_json::to_string(&form).unwrap();
 
     HttpResponse::Created()
+        .content_type(ContentType::json())
+        .body(response)
+}
+
+#[get("/embedding-document/search")]
+async fn search_embedding_document(
+    query: web::Query<SearchQuery>,
+    _data: web::Data<AppState>,
+) -> impl Responder {
+    let response = serde_json::to_string(&query).unwrap();
+
+    HttpResponse::Ok()
         .content_type(ContentType::json())
         .body(response)
 }
@@ -23,4 +35,9 @@ pub struct ReqDocument {
     #[serde(rename = "type")]
     pub doc_type: String,
     pub content: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct SearchQuery {
+    pub q: String,
 }
