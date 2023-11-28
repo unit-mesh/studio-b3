@@ -25,10 +25,7 @@ export class ActionExecutor {
 
             case SourceType.BEFORE_CURSOR: {
                 const value = this.editor.state.doc.textBetween(0, this.editor.state.selection.to);
-                console.log(value, 0, this.editor.state.selection.to)
                 this.action.compiledTemplate = promptManager.compile(this.action.template, {[DefinedVariable.BEFORE_CURSOR]: value});
-                console.log(this.action.template)
-                console.log(this.action.compiledTemplate)
                 break;
             }
 
