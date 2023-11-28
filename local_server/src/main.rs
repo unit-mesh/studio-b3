@@ -10,6 +10,7 @@ pub mod scraper;
 mod document_handler;
 pub mod app_state;
 pub mod infra;
+pub mod doc_split;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
