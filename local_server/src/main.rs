@@ -3,7 +3,8 @@ use std::sync::Arc;
 
 use actix_cors::Cors;
 use actix_web::{App, http, HttpServer, web};
-use inference_core::{init_semantic_with_path, InMemoryEmbeddingStore};
+use actix_web::web::Data;
+use inference_core::{Document, init_semantic_with_path, InMemoryEmbeddingStore};
 use uuid::Uuid;
 
 use app_state::AppState;
@@ -21,36 +22,7 @@ pub mod doc_split;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let semantic = init_semantic_with_path("model/model.onnx", "model/tokenizer.json")
-        .expect("Failed to initialize semantic");
-
-    let dir = PathBuf::from("testdocs");
-    let files = FileWalker::index_directory(dir);
-
-    let embedding_store = InMemoryEmbeddingStore::new();
-    let options = SplitOptions::default();
-
-    for file in files {
-        println!("Processing file: {:?}", file);
-        match split(&file, &options) {
-            None => {}
-            Some(docs) => {
-                docs.iter().for_each(|doc| {
-                    let embedding = semantic.embed(&doc.text).unwrap();
-                    let mut document = doc.clone();
-                    document.vector = embedding.clone();
-
-                    let uuid = Uuid::new_v4().to_string();
-                    embedding_store.add(uuid, embedding, document);
-                });
-            }
-        }
-    }
-
-    let app_state = web::Data::new(AppState {
-        semantic,
-        storage: Arc::new(embedding_store),
-    });
+    let app_state = create_app_state();
 
     HttpServer::new(move || {
         App::new()
@@ -68,4 +40,35 @@ async fn main() -> std::io::Result<()> {
         .bind(("127.0.0.1", 8080))?
         .run()
         .await
+}
+
+fn create_app_state() -> Data<AppState> {
+    let semantic = init_semantic_with_path("model/model.onnx", "model/tokenizer.json")
+        .expect("Failed to initialize semantic");
+
+    let dir = PathBuf::from("testdocs");
+    let files = FileWalker::index_directory(dir);
+
+    let embedding_store = InMemoryEmbeddingStore::new();
+    let options = SplitOptions::default();
+
+    files.iter().for_each(|file| {
+        if let Some(docs) = split(&file, &options) {
+            docs.iter().for_each(|doc| {
+                let embedding = semantic.embed(&doc.text).unwrap();
+                let mut document = doc.clone();
+                document.vector = embedding.clone();
+
+                let uuid = Uuid::new_v4().to_string();
+                embedding_store.add(uuid, embedding, document);
+            });
+        }
+    });
+
+    let app_state = web::Data::new(AppState {
+        semantic,
+        storage: Arc::new(embedding_store),
+    });
+
+    app_state
 }
