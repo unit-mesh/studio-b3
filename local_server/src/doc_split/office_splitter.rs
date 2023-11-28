@@ -8,9 +8,9 @@ use tracing::error;
 
 use crate::doc_split::splitter::Splitter;
 
-pub struct WordSplitter {}
+pub struct OfficeSplitter {}
 
-impl Splitter for WordSplitter {
+impl Splitter for OfficeSplitter {
     fn split(path: &PathBuf) -> Vec<Document> {
         let mut documents: Vec<Document> = vec![];
         let document = Self::docx_to_markdown(path);
@@ -19,7 +19,7 @@ impl Splitter for WordSplitter {
     }
 }
 
-impl WordSplitter {
+impl OfficeSplitter {
     fn docx_to_markdown(path: &PathBuf) -> String {
         let mut file = File::open(path).unwrap();
         let mut buf = vec![];
@@ -81,7 +81,7 @@ impl WordSplitter {
 mod tests {
     use std::path::PathBuf;
 
-    use crate::doc_split::word_splitter::WordSplitter;
+    use crate::doc_split::office_splitter::OfficeSplitter;
     use crate::infra::file_walker::FileWalker;
 
     #[test]
@@ -90,7 +90,7 @@ mod tests {
         let files = FileWalker::index_directory(testdir);
 
         let file = files.first().unwrap();
-        let documents = WordSplitter::docx_to_markdown(file);
+        let documents = OfficeSplitter::docx_to_markdown(file);
 
         assert_eq!(documents, "# Heading 1
 
