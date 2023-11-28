@@ -3,7 +3,7 @@ use crate::doc_split::document_type::DocumentType;
 use crate::doc_split::splitter::Splitter;
 use crate::doc_split::word_splitter::WordSplitter;
 
-fn doc_splitter(path: &PathBuf) -> Option<()> {
+fn doc_split(path: &PathBuf) -> Option<()> {
     let path_buf = path.clone();
     println!("doc_splitter: {:?}", path_buf);
     let filename = path_buf.file_name()?.to_str()?;
@@ -39,8 +39,8 @@ fn doc_splitter(path: &PathBuf) -> Option<()> {
 #[cfg(test)]
 mod tests {
     use std::path::PathBuf;
-    use crate::doc_split::file_walker::FileWalker;
-    use crate::doc_split::doc_splitter::doc_splitter;
+    use crate::doc_split::doc_splitter::doc_split;
+    use crate::infra::file_walker::FileWalker;
 
     #[test]
     fn test_doc_splitter() {
@@ -49,7 +49,7 @@ mod tests {
         println!("files: {:?}", files);
 
         for file in files {
-            doc_splitter(&file);
+            doc_split(&file);
         }
     }
 }

@@ -22,7 +22,7 @@ impl DocumentType {
         }
     }
 
-    pub(crate) fn of(file_name: &str) -> Option<DocumentType> {
+    pub fn of(file_name: &str) -> Option<DocumentType> {
         for document_type in [
             DocumentType::TXT,
             DocumentType::PDF,
