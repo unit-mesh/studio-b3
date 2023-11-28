@@ -2,12 +2,12 @@
 
 - [ ] Watch local directory for document changes
 - [ ] Embedding the document, code
-    - [ ] Markdown Documentation Splitter
-    - [ ] Office, like Word Document Splitter
-    - [ ] Code Splitter: TreeSitter
-- Document parser
-    - reader spike: [Document File Text Extractor](https://github.com/anvie/dotext), [docx](https://github.com/PoiScript/docx-rs), [OOXML](https://github.com/zitsen/ooxml-rs),
-    - writer: [docx-rs](https://github.com/bokuweb/docx-rs)
+    - [ ] Markdown Documentation Splitter: TreeSitter md
+    - [ ] Office, like Word Document Splitter: [docx-rs](https://github.com/bokuweb/docx-rs)
+      - [x] reader
+      spike: [Document File Text Extractor](https://github.com/anvie/dotext), [docx](https://github.com/PoiScript/docx-rs), [OOXML](https://github.com/zitsen/ooxml-rs),
+    - [ ] Code Splitter: TreeSitter,
+      like [Bloop](https://github.com/BloopAI/bloop/tree/main/server/bleep/src/intelligence/language)
 - [ ] Web Scrapper
     - [ ] Extract text from web page,
       like: [scraper](https://github.com/BloopAI/bloop/tree/main/server/bleep/src/scraper)
