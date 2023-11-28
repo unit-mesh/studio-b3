@@ -29,13 +29,45 @@ export enum BuiltInFunc {
 }
 
 export enum DefinedVariable {
+	/**
+	 * The base context, i.e. the document
+	 * 基础上下文，即文档的富余背景
+	 */
 	BASE_CONTEXT = "base_context",
+	/**
+	 * Temporary context, i.e. the background in sidebar
+	 * 临时上下文，即 sidebar 中的背景
+	 */
 	TEMP_CONTEXT = "temp_context",
+	/**
+	 * All the text content before the cursor
+	 * 光标前的所有文本内容
+ 	 */
 	BEFORE_CURSOR = "before_cursor",
+	/**
+	 * All the text content after the cursor
+	 * 光标后的所有文本内容
+	 */
 	AFTER_CURSOR = "after_cursor",
+	/**
+	 * The selected text
+	 * 选中的文本
+	 */
 	SELECTION = "selection",
+	/**
+	 * All text in the document
+	 * 文档中的所有文本
+	 */
 	ALL = "all",
+	/**
+	 * Similar chunks of the selected text
+	 * 选中文本的相似块
+	 */
 	SIMILAR_CHUNKS = "similar_chunks",
+	/**
+	 * Related chunks of the selected text
+	 * 选中文本的相关块
+	 */
 	RELATED_CHUNKS = "related_chunks",
 }
 
