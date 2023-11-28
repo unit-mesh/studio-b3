@@ -1,0 +1,3 @@
+[submodule "local_server/model"]
+	path = local_server/model
+	url = https://github.com/unit-mesh/mini-embedding
