@@ -43,12 +43,12 @@ export const MenuAiDropdown = ({ editor }: { editor: Editor }) => {
                 key={index}
                 className="DropdownMenuItem"
                 onClick={() => {
-                  const selection = editor.state.selection;
-                  let posInfo = new ActionExecutor(menu, editor).position(
-                    selection,
-                  );
+                  const actionExecutor = new ActionExecutor(menu, editor);
+                  // compile template
+                  actionExecutor.compile();
+                  editor.chain().callLlm(menu);
 
-                  editor.chain().focus().insertContentAt(posInfo, "TODO").run();
+                  // editor.chain().focus().insertContentAt(posInfo, "TODO").run();
                 }}
               >
                 {menu.name}

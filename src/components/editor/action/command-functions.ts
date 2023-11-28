@@ -20,6 +20,10 @@ declare module "@tiptap/core" {
       getSelectedText: () => string;
     };
 
+    callLlm: {
+      callLlm: (action: PromptAction) => string;
+    }
+
     getAiActions: {
       getAiActions: (facet: FacetType) => PromptAction[];
     };
@@ -57,6 +61,13 @@ export const CommandFunctions = Extension.create({
           // TODO: @phodal convert action to request
           // TODO: @genffy add LLM request type
           // do execute action
+          if (action.compiledTemplate == null) {
+            throw Error("template is not been compiled yet! compile it first");
+          }
+
+          fetch("/api/completion", {method: "POST", body: JSON.stringify({prompt: PromptsManager.getInstance().compile(action.compiledTemplate, {})})}).then((v) => {
+            console.log(v);
+          });
         },
       getAiActions:
         (facet: FacetType) =>
