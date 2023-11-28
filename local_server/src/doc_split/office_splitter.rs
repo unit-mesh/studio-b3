@@ -6,12 +6,12 @@ use docx_rs::{DocumentChild, ParagraphChild, read_docx, RunChild};
 use inference_core::Document;
 use tracing::error;
 
-use crate::doc_split::splitter::Splitter;
+use crate::doc_split::splitter::{SplitOptions, Splitter};
 
 pub struct OfficeSplitter {}
 
 impl Splitter for OfficeSplitter {
-    fn split(path: &PathBuf) -> Vec<Document> {
+    fn split(path: &PathBuf, options: &SplitOptions) -> Vec<Document> {
         let mut documents: Vec<Document> = vec![];
         let document = Self::docx_to_markdown(path);
 
