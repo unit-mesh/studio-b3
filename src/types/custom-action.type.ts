@@ -1,22 +1,44 @@
 export enum FacetType {
 	TOOLBAR_MENU = 0,
 	BUBBLE_MENU = 1,
-	CONTEXT_MENU = 2,
-	SLASH_COMMAND = 3,
-	QUICK_INSERT = 4,
+	SLASH_COMMAND = 2,
+	/**
+	 * the <AiBlockView />
+	 */
+	QUICK_INSERT = 3,
 }
 
 export enum OutputForm {
+	/**
+	 * Append the output to the document, not streaming
+	 */
 	NORMAL = 0,
+	/**
+	 * Streaming the output to the document
+	 */
 	STREAMING = 1,
+	/**
+	 * Show the difference between the selected text and the output
+	 */
 	DIFF = 2,
-	INSIDE_BOX = 3,
-	NOTIFICATION = 4,
+	/**
+	 * Show the output in <Notification /> which is a popup
+	 */
+	NOTIFICATION = 3,
 }
 
 export enum ChangeForm {
+	/**
+	 * Insert the output to the document
+	 */
 	INSERT = 0,
+	/**
+	 * Replace the selected text with the output
+	 */
 	REPLACE = 1,
+	/**
+	 * Show the difference between the selected text and the output
+	 */
 	DIFF = 2,
 }
 
@@ -42,7 +64,7 @@ export enum DefinedVariable {
 	/**
 	 * All the text content before the cursor
 	 * 光标前的所有文本内容
- 	 */
+	 */
 	BEFORE_CURSOR = "before_cursor",
 	/**
 	 * All the text content after the cursor
