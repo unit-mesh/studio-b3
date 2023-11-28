@@ -58,8 +58,7 @@ export const CommandFunctions = Extension.create({
       callLlm:
         (action: PromptAction) =>
         ({ tr, commands }: { tr: Transaction; commands: Commands }) => {
-          // TODO: @phodal convert action to request
-          // TODO: @genffy add LLM request type
+          // TODO(CGQAQ): parse response
           // do execute action
           if (action.compiledTemplate == null) {
             throw Error("template is not been compiled yet! compile it first");
