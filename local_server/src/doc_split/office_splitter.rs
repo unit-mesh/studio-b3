@@ -16,13 +16,24 @@ impl Splitter for OfficeSplitter {
         let document = Self::docx_to_markdown(path);
 
         // Split the document into chunks based on options.chunk_size with UTF-8 encoding.
-        let chunks = document.as_bytes().chunks(options.chunk_size).collect::<Vec<&[u8]>>();
+        let chunks = document.as_bytes().chunks(options.chunk_size * 4);
 
         // Create a document for each chunk.
-        chunks.iter().for_each(|chunk| {
-            let text = String::from_utf8_lossy(chunk);
-            documents.push(Document::from(text.into_owned()));
-        });
+        for chunk in chunks {
+            let mut char_indices = chunk.iter().enumerate();
+
+            while let Some((i, &byte)) = char_indices.next() {
+                if byte & 0xC0 != 0x80 {
+                    let remaining_bytes = chunk.len() - i;
+                    let valid_chunk = &chunk[i..i + remaining_bytes];
+                    if let Ok(text) = String::from_utf8(valid_chunk.to_vec()) {
+                        documents.push(Document::from(text));
+                    }
+
+                    break;
+                }
+            }
+        }
 
         documents
     }
