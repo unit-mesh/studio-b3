@@ -12,7 +12,7 @@ pub struct DocIndexes {
 }
 
 impl DocIndexes {
-    fn new() -> Self {
+    pub(crate) fn new() -> Self {
         let threads = std::thread::available_parallelism().unwrap().get();
         let index_dir = default_index_dir();
         let path = index_dir.join("doc");
@@ -45,6 +45,6 @@ impl DocIndexes {
 fn default_index_dir() -> PathBuf {
     match directories::ProjectDirs::from("org", "unitmesh", "b3") {
         Some(dirs) => dirs.data_dir().to_owned(),
-        None => "bloop_index".into(),
+        None => "b3_index".into(),
     }
 }

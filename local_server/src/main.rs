@@ -8,6 +8,7 @@ use inference_core::{Document, init_semantic_with_path, InMemoryEmbeddingStore};
 use uuid::Uuid;
 
 use app_state::AppState;
+use crate::doc_indexes::doc_indexes::DocIndexes;
 
 use crate::doc_split::split::split;
 use crate::doc_split::splitter::SplitOptions;
@@ -66,9 +67,12 @@ fn create_app_state() -> Data<AppState> {
         }
     });
 
+    let indexes = DocIndexes::new();
+
     let app_state = web::Data::new(AppState {
         semantic,
         storage: Arc::new(embedding_store),
+        indexes: Arc::new(indexes),
     });
 
     app_state
