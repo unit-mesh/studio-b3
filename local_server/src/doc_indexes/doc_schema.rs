@@ -1,3 +1,6 @@
+use std::path::PathBuf;
+
+use tantivy::doc;
 use tantivy::schema::{Field, Schema, SchemaBuilder};
 
 #[derive(Clone)]
@@ -37,5 +40,10 @@ impl DocumentFile {
             content,
             schema: builder.build(),
         }
+    }
+
+    pub fn build_document(&self, path: &PathBuf) -> Option<tantivy::schema::Document> {
+        // todo: read file content by types
+        None
     }
 }

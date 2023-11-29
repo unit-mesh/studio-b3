@@ -3,7 +3,7 @@
 Chinese version: [中文版](./README.zh.md)
 
 [![Deploy](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg)](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml)
-![npm](https://img.shields.io/npm/v/b3-editor)
+[![npm](https://img.shields.io/npm/v/b3-editor)](https://www.npmjs.com/package/b3-editor)
 ![GitHub release (with filter)](https://img.shields.io/github/v/release/unit-mesh/b3)
 
 > B3 (B-3 Bomber) Editor is a sophisticated editor designed for content creation, catering to various formats such as blogs, articles, user stories, and more.

@@ -9,6 +9,7 @@ use uuid::Uuid;
 
 use app_state::AppState;
 use crate::doc_indexes::doc_indexes::DocIndexes;
+use crate::doc_indexes::doc_schema::DocumentFile;
 
 use crate::doc_split::split::split;
 use crate::doc_split::splitter::SplitOptions;
@@ -53,8 +54,14 @@ fn create_app_state() -> Data<AppState> {
 
     let embedding_store = InMemoryEmbeddingStore::new();
     let options = SplitOptions::default();
+    let indexes = DocIndexes::new();
+    let mut index_writer = indexes.doc.writer(50_000_000).unwrap();
 
     files.iter().for_each(|file| {
+        // DocumentFile::build_document(&file)?.map(|doc| {
+        //     index_writer.add_document(doc).expect("TODO: panic message");
+        // });
+
         if let Some(docs) = split(&file, &options) {
             docs.iter().for_each(|doc| {
                 let embedding = semantic.embed(&doc.text).unwrap();
@@ -66,8 +73,6 @@ fn create_app_state() -> Data<AppState> {
             });
         }
     });
-
-    let indexes = DocIndexes::new();
 
     let app_state = web::Data::new(AppState {
         semantic,
