@@ -15,6 +15,7 @@ impl DocIndexes {
     pub(crate) fn new() -> Self {
         let threads = std::thread::available_parallelism().unwrap().get();
         let index_dir = default_index_dir();
+
         let path = index_dir.join("doc");
         let index = Self::init_index(DocumentFile::new().schema, path.as_ref(), threads).unwrap();
 
@@ -43,6 +44,9 @@ impl DocIndexes {
 // Configuration defaults
 //
 fn default_index_dir() -> PathBuf {
+    // in macOS, this will be ~/Library/Application Support/org.unitmesh.b3
+    // TODO: check in Linux, this will be ~/.local/share/org.unitmesh.b3
+    // TODO: check in Windows, this will be C:\Users\<user>\AppData\Roaming\org.unitmesh.b3
     match directories::ProjectDirs::from("org", "unitmesh", "b3") {
         Some(dirs) => dirs.data_dir().to_owned(),
         None => "b3_index".into(),
