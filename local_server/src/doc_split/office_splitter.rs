@@ -1,10 +1,11 @@
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
 use std::ptr;
 
 use docx_rs::{DocumentChild, ParagraphChild, read_docx, RunChild};
-use inference_core::Document;
+use inference_core::{Document, Metadata};
 use tracing::error;
 use unicode_segmentation::UnicodeSegmentation;
 
@@ -15,7 +16,15 @@ pub struct OfficeSplitter {}
 impl Splitter for OfficeSplitter {
     fn split(path: &PathBuf, options: &SplitOptions) -> Vec<Document> {
         let mut documents: Vec<Document> = vec![];
-        let document = Self::docx_to_markdown(path);
+        let document = Self::docx_to_markdown(path).expect("docx_to_markdown error");
+        let pure_file_name = path.file_stem().unwrap().to_str().unwrap();
+        let mut map = HashMap::new();
+        map.insert("file_name".to_string(), pure_file_name.to_string());
+        map.insert("file_path".to_string(), path.to_str().unwrap().to_string());
+
+        let metadata: Metadata = Metadata {
+            metadata: map,
+        };
 
         let buf_size = options.chunk_size * 4;
         let mut buffer = String::with_capacity(buf_size);
@@ -23,7 +32,7 @@ impl Splitter for OfficeSplitter {
             if buffer.len() + word.len() <= buf_size {
                 buffer.push_str(word);
             } else {
-                documents.push(Document::from(buffer.clone()));
+                documents.push(Document::from_with_metadata(buffer.clone(), metadata.clone()));
                 for i in buffer.len() .. buf_size {
                     unsafe{ ptr::write(buffer.as_mut_ptr().add(i), 0x20); };
                 }
@@ -36,10 +45,11 @@ impl Splitter for OfficeSplitter {
 }
 
 impl OfficeSplitter {
-    fn docx_to_markdown(path: &PathBuf) -> String {
-        let mut file = File::open(path).unwrap();
+    fn docx_to_markdown(path: &PathBuf) -> Result<String, anyhow::Error> {
+        let mut file = File::open(path)?;
+
         let mut buf = vec![];
-        file.read_to_end(&mut buf).unwrap();
+        file.read_to_end(&mut buf)?;
 
         let mut text = String::new();
 
@@ -89,7 +99,7 @@ impl OfficeSplitter {
             }
         }
 
-        text
+        Ok(text)
     }
 }
 

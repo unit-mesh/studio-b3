@@ -3,7 +3,7 @@
 - [ ] Watch local directory for document changes
     - [x] use Local directory 
 - [ ] Embedding the document, code
-    - [ ] Markdown Documentation Splitter: TreeSitter md
+    - [ ] Markdown Documentation Splitter: [TreeSitter-markdown](https://github.com/MDeiml/tree-sitter-markdown)
     - [x] Office, like Word Document Splitter: [docx-rs](https://github.com/bokuweb/docx-rs)
       - [x] reader
       spike: [Document File Text Extractor](https://github.com/anvie/dotext), [docx](https://github.com/PoiScript/docx-rs), [OOXML](https://github.com/zitsen/ooxml-rs),
@@ -14,9 +14,10 @@
       like: [scraper](https://github.com/BloopAI/bloop/tree/main/server/bleep/src/scraper)
 - [ ] Document version control
 - [x] Vector Search: InMemory
-    - [FANN: Vector Search in 200 Lines of Rust](https://fennel.ai/blog/vector-search-in-200-lines-of-rust/)
+    - [FANN](https://github.com/fennel-ai/fann) - [FANN: Vector Search in 200 Lines of Rust](https://fennel.ai/blog/vector-search-in-200-lines-of-rust/) 
     - [tinyvector](https://github.com/m1guelpf/tinyvector)
 - [x] Search document by semantic
+- [ ] Embedding Search engine by [tantivy](https://github.com/quickwit-oss/tantivy)
 
 ## HTTP API design
 

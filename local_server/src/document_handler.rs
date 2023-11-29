@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use actix_web::{get, HttpResponse, post, Responder, web};
 use actix_web::http::header::ContentType;
 use serde::{Deserialize, Serialize};
@@ -30,6 +31,7 @@ async fn search_embedding_document(
             id: doc.embedding_id,
             score: doc.score,
             text: doc.embedded.text,
+            metadata: doc.embedded.metadata.metadata,
         })
         .collect();
 
@@ -45,6 +47,7 @@ pub struct DocumentResult {
     pub id: String,
     pub score: f32,
     pub text: String,
+    pub metadata: HashMap<String, String>,
 }
 
 #[derive(Serialize, Deserialize)]
