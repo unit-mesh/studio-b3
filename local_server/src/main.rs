@@ -19,6 +19,7 @@ mod document_handler;
 pub mod app_state;
 pub mod infra;
 pub mod doc_split;
+pub mod doc_indexes;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {

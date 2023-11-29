@@ -49,8 +49,8 @@ docx-rs = "0.4.7"
 # storage
 #sqlx = { version = "0.7.3", features = ["sqlite", "migrate", "runtime-tokio-rustls", "chrono", "uuid"] }
 # search engine Tantivy?
-#tantivy = { version = "0.21.0", features = ["mmap"] }
-#tantivy-columnar = "0.2.0"
+tantivy = { version = "0.21.0", features = ["mmap"] }
+tantivy-columnar = "0.2.0"
 
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.17", features = ["env-filter", "registry"] }
