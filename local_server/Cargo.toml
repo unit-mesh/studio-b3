@@ -50,6 +50,8 @@ docx-rs = "0.4.7"
 #sqlx = { version = "0.7.3", features = ["sqlite", "migrate", "runtime-tokio-rustls", "chrono", "uuid"] }
 # search engine Tantivy?
 tantivy = { version = "0.21.0", features = ["mmap"] }
+# Chinese support
+tantivy-jieba = "0.10.0"
 tantivy-columnar = "0.2.0"
 
 tracing = "0.1.37"
@@ -58,3 +60,6 @@ tracing-appender = "0.2.2"
 
 # watch dir
 notify-debouncer-mini = { version = "0.4.1", default-features = false }
+
+#misc
+directories = "5.0.1"
