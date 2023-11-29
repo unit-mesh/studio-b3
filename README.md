@@ -1,10 +1,10 @@
-# 3b Editor
+# B3 Editor
 
 Chinese version: [中文版](./README.zh.md)
 
 [![Deploy](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg)](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml)
 
-> 3b Editor is a sophisticated editor designed for content creation, catering to various formats such as blogs, articles, user stories, and more.
+> B3 (B-3 Bomber) Editor is a sophisticated editor designed for content creation, catering to various formats such as blogs, articles, user stories, and more.
 
 In the documentary "10 Years with Hayao Miyazaki"  the esteemed artist (宫崎骏, 宮﨑駿／みやざきはやお) chooses a 3B
 pencil,

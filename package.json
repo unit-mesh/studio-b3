@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "pencil-3b",
+  "name": "b3-editor",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
