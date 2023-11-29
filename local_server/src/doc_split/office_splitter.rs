@@ -1,10 +1,12 @@
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
+use std::ptr;
 
 use docx_rs::{DocumentChild, ParagraphChild, read_docx, RunChild};
 use inference_core::Document;
 use tracing::error;
+use unicode_segmentation::UnicodeSegmentation;
 
 use crate::doc_split::splitter::{SplitOptions, Splitter};
 
@@ -15,23 +17,17 @@ impl Splitter for OfficeSplitter {
         let mut documents: Vec<Document> = vec![];
         let document = Self::docx_to_markdown(path);
 
-        // Split the document into chunks based on options.chunk_size with UTF-8 encoding.
-        let chunks = document.as_bytes().chunks(options.chunk_size * 4);
-
-        // Create a document for each chunk.
-        for chunk in chunks {
-            let mut char_indices = chunk.iter().enumerate();
-
-            while let Some((i, &byte)) = char_indices.next() {
-                if byte & 0xC0 != 0x80 {
-                    let remaining_bytes = chunk.len() - i;
-                    let valid_chunk = &chunk[i..i + remaining_bytes];
-                    if let Ok(text) = String::from_utf8(valid_chunk.to_vec()) {
-                        documents.push(Document::from(text));
-                    }
-
-                    break;
+        let buf_size = options.chunk_size * 4;
+        let mut buffer = String::with_capacity(buf_size);
+        for word in document.unicode_words() {
+            if buffer.len() + word.len() <= buf_size {
+                buffer.push_str(word);
+            } else {
+                documents.push(Document::from(buffer.clone()));
+                for i in buffer.len() .. buf_size {
+                    unsafe{ ptr::write(buffer.as_mut_ptr().add(i), 0x20); };
                 }
+                buffer.clear();
             }
         }
 
