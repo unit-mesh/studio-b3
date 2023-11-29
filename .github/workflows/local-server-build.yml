@@ -1,9 +1,8 @@
-name: LocalServer Release
+name: LocalServer Build
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [ "master" ]
 
 permissions:
   contents: write
@@ -35,11 +34,3 @@ jobs:
 
       - name: Build Server
         run: cargo build --release --manifest-path=local_server/Cargo.toml
-
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: local_server/target/release/${{ matrix.artifact_name }}
-          asset_name: ${{ matrix.asset_name }}
-          tag: ${{ github.ref }}
