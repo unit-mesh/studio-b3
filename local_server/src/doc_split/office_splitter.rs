@@ -17,7 +17,7 @@ impl Splitter for OfficeSplitter {
         let mut documents: Vec<Document> = vec![];
         let document = Self::docx_to_markdown(path);
 
-        let buf_size = options.chunk_size * 4;
+        let buf_size = options.chunk_size;
         let mut buffer = String::with_capacity(buf_size);
         for word in document.unicode_words() {
             if buffer.len() + word.len() <= buf_size {
@@ -25,7 +25,7 @@ impl Splitter for OfficeSplitter {
             } else {
                 documents.push(Document::from(buffer.clone()));
                 for i in buffer.len() .. buf_size {
-                    unsafe{ ptr::write(buffer.as_mut_ptr().add(i), 0x20); };
+                    unsafe{ ptr::write(buffer.as_mut_ptr().add(i), 0x20 /* space in ascii */); };
                 }
                 buffer.clear();
             }
