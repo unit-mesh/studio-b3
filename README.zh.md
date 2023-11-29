@@ -1,5 +1,9 @@
 # B3 编辑器
 
+[![Deploy](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg)](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml)
+![npm](https://img.shields.io/npm/v/b3-editor)
+![GitHub release (with filter)](https://img.shields.io/github/v/release/unit-mesh/b3)
+
 > B3 编辑器是一个为内容创作设计的高级编辑器，适用于各种格式，如博客、文章、用户故事等。
 
 在纪录片《宫崎骏：十载同行》中，这位备受尊敬的艺术家宫崎骏选择了一支 3B 铅笔，认为传统的铅笔在他的创作过程中过于僵硬。让我们向他的崇高理念致敬。
