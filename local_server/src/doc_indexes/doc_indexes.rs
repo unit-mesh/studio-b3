@@ -22,6 +22,7 @@ impl DocIndexes {
             doc: index
         }
     }
+
     fn init_index(schema: Schema, path: &Path, threads: usize) -> anyhow::Result<tantivy::Index> {
         fs::create_dir_all(path).context("failed to create index dir")?;
 
@@ -38,10 +39,15 @@ impl DocIndexes {
     }
 }
 
+/// Returns the default index directory for the current platform.
+///
+/// | Platform | Default index directory |
+/// | --- | --- |
+/// | macOS | ~/Library/Application Support/org.unitmesh.b3 |
+/// | Linux | ~/.config/b3 |
+/// | Windows | C:\Users\<user>\AppData\Roaming\unitmesh\b3\config |
+///
 fn default_index_dir() -> PathBuf {
-    // macOS:~/Library/Application Support/org.unitmesh.b3
-    // Linux: ~/.config/b3
-    // Windows: C:\Users\<user>\AppData\Roaming\unitmesh\b3\config
     match directories::ProjectDirs::from("org", "unitmesh", "b3") {
         Some(dirs) => dirs.data_dir().to_owned(),
         None => "b3_index".into(),

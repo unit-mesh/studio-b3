@@ -16,7 +16,7 @@ pub struct OfficeSplitter {}
 impl Splitter for OfficeSplitter {
     fn split(path: &PathBuf, options: &SplitOptions) -> Vec<Document> {
         let mut documents: Vec<Document> = vec![];
-        let document = Self::docx_to_markdown(path).expect("docx_to_markdown error");
+        let document = Self::read(path).expect("docx_to_markdown error");
         let pure_file_name = path.file_stem().unwrap().to_str().unwrap();
         let mut map = HashMap::new();
         map.insert("file_name".to_string(), pure_file_name.to_string());
@@ -45,7 +45,7 @@ impl Splitter for OfficeSplitter {
 }
 
 impl OfficeSplitter {
-    fn docx_to_markdown(path: &PathBuf) -> Result<String, anyhow::Error> {
+    pub(crate) fn read(path: &PathBuf) -> Result<String, anyhow::Error> {
         let mut file = File::open(path)?;
 
         let mut buf = vec![];
@@ -116,7 +116,7 @@ mod tests {
         let files = FileWalker::index_directory(testdir);
 
         let file = files.first().unwrap();
-        let documents = OfficeSplitter::docx_to_markdown(file);
+        let documents = OfficeSplitter::read(file);
 
         assert_eq!(documents, "# Heading 1
 
