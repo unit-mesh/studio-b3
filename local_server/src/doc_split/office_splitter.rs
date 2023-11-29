@@ -19,7 +19,7 @@ impl Splitter for OfficeSplitter {
 
         let buf_size = options.chunk_size * 4;
         let mut buffer = String::with_capacity(buf_size);
-        for word in document.split_word_bounds() {
+        for word in document.split_sentence_bounds() {
             if buffer.len() + word.len() <= buf_size {
                 buffer.push_str(word);
             } else {
