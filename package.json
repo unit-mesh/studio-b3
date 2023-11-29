@@ -1,6 +1,17 @@
 {
-  "private": true,
   "name": "b3-editor",
+  "version": "0.0.1",
+  "license": "MPL-2.0",
+  "contributors": [
+    {
+      "name": "CGQAQ",
+      "email": "m.jason.liu@outlook.com"
+    },
+    {
+      "name": "Phodal",
+      "email": "h@phodal.com"
+    }
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
