@@ -1,6 +1,7 @@
 # Local Document Server
 
 - [ ] Watch local directory for document changes
+    - [x] use Local directory 
 - [ ] Embedding the document, code
     - [ ] Markdown Documentation Splitter: TreeSitter md
     - [x] Office, like Word Document Splitter: [docx-rs](https://github.com/bokuweb/docx-rs)
@@ -12,10 +13,10 @@
     - [ ] Extract text from web page,
       like: [scraper](https://github.com/BloopAI/bloop/tree/main/server/bleep/src/scraper)
 - [ ] Document version control
-- [ ] Vector Search
+- [x] Vector Search: InMemory
     - [FANN: Vector Search in 200 Lines of Rust](https://fennel.ai/blog/vector-search-in-200-lines-of-rust/)
     - [tinyvector](https://github.com/m1guelpf/tinyvector)
-- [ ] Search document by semantic
+- [x] Search document by semantic
 
 ## HTTP API design
 
