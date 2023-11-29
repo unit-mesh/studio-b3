@@ -2,13 +2,12 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use anyhow::Context;
-use tantivy::Index;
 use tantivy::schema::Schema;
-use tantivy::tokenizer::*;
+
 use crate::doc_indexes::doc_schema::DocumentFile;
 
 pub struct DocIndexes {
-    pub doc: Index,
+    pub doc: tantivy::Index,
 }
 
 impl DocIndexes {
@@ -34,19 +33,15 @@ impl DocIndexes {
         index
             .tokenizers()
             .register("jieba", tokenizer);
-            // .register("default", NgramTokenizer::new(1, 3, false)?);
 
         Ok(index)
     }
 }
 
-//
-// Configuration defaults
-//
 fn default_index_dir() -> PathBuf {
-    // in macOS, this will be ~/Library/Application Support/org.unitmesh.b3
-    // TODO: check in Linux, this will be ~/.local/share/org.unitmesh.b3
-    // TODO: check in Windows, this will be C:\Users\<user>\AppData\Roaming\org.unitmesh.b3
+    // macOS:~/Library/Application Support/org.unitmesh.b3
+    // Linux: ~/.config/b3
+    // Windows: C:\Users\<user>\AppData\Roaming\unitmesh\b3\config
     match directories::ProjectDirs::from("org", "unitmesh", "b3") {
         Some(dirs) => dirs.data_dir().to_owned(),
         None => "b3_index".into(),
