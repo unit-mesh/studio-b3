@@ -23,7 +23,8 @@
                 "{projectRoot}/**/*.{ts,tsx,js,jsx,css}"
             ],
             "outputs": [
-                "{projectRoot}/.next"
+                "{projectRoot}/.next",
+                "{projectRoot}/out"
             ]
         },
         "serve": {
