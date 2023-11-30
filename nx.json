@@ -18,5 +18,8 @@
   },
   "installation": {
     "version": "17.1.3"
-  }
+  },
+  "plugins": [
+    "@monodon/rust"
+  ]
 }
