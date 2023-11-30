@@ -3,11 +3,13 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChangeForm, FacetType, OutputForm, PromptAction } from '@/types/custom-action.type'
 import { Editor } from "@tiptap/core";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { CookieIcon } from "@radix-ui/react-icons";
 import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
+import { Button, DropdownMenu } from "@radix-ui/themes";
 
-export const MenuBubble = ({ editor }: { editor: Editor }) => {
+export const MenuBubble = ({ editor }: {
+	editor: Editor
+}) => {
 	const selection = editor.commands?.getSelectedText()
 	let selectLength = selection?.length ? selection.length : 0
 	const { t, i18n } = useTranslation()
@@ -57,42 +59,42 @@ export const MenuBubble = ({ editor }: { editor: Editor }) => {
 		}
 	});
 
-	return <BubbleMenu className={'BubbleMenuGroup'} editor={editor} tippyOptions={{ duration: 100 }}>
+	return <BubbleMenu className={'bubble-menu-group w-64 bg-white'} editor={editor} >
 		<DropdownMenu.Root>
-			<DropdownMenu.Trigger asChild>
-				<button className={"top-0 right-0 transform -translate-x-1 -translate-y-0.5"}>
+			<DropdownMenu.Trigger>
+				<Button variant="soft">
 					Ask AI
 					<CookieIcon/>
-				</button>
+				</Button>
 			</DropdownMenu.Trigger>
-			<DropdownMenu.Portal>
-				<DropdownMenu.Content className="DropdownMenuContent">
-					{menus?.map((menu, index) => {
-						return (
-							<DropdownMenu.Item
-								key={index}
-								className={"DropdownMenuItem"}
-								onClick={() => {
-									editor.chain().callLlm(menu);
-								}}
-							>
-								{menu.name}
-							</DropdownMenu.Item>
-						);
-					})}
-				</DropdownMenu.Content>
-			</DropdownMenu.Portal>
+			<DropdownMenu.Content>
+				{menus?.map((menu, index) => {
+					return (
+						<DropdownMenu.Item
+							key={index}
+							className={"DropdownMenuItem"}
+							onClick={() => {
+								editor.chain().callLlm(menu);
+							}}
+						>
+							{menu.name}
+						</DropdownMenu.Item>
+					);
+				})}
+			</DropdownMenu.Content>
 		</DropdownMenu.Root>
+
 		{smartMenus && smartMenus.map((menu, index) => {
-			return <button
+			return <Button
+				color="orange"
+				variant="outline"
 				key={index}
-				className="BubbleMenuItem"
 				onClick={() => {
 					menu.action?.(editor)
 				}}
 			>
 				{menu.i18Name ? t(menu.name) : menu.name}
-			</button>
+			</Button>
 		})}
 	</BubbleMenu>
 }

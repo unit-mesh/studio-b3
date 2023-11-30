@@ -32,6 +32,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toggle": "^1.0.3",
     "@radix-ui/react-toggle-group": "^1.0.4",
+    "@radix-ui/themes": "^2.0.1",
     "@tailwindcss/typography": "^0.5.10",
     "@tiptap/core": "2.1.12",
     "@tiptap/extension-blockquote": "^2.1.12",

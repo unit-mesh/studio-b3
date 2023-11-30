@@ -1,8 +1,6 @@
 import { Node, NodeViewWrapper, ReactNodeViewRenderer } from "@tiptap/react";
-import { Editor, mergeAttributes } from "@tiptap/core";
-import AiBlockView from "@/components/editor/intelli/ai-block-view";
+import { Editor } from "@tiptap/core";
 import React, { useEffect, useRef } from "react";
-import { AiBlockEditor } from "@/components/editor/intelli/ai-block-editor";
 import { KeyboardIcon } from "@radix-ui/react-icons";
 
 declare module '@tiptap/core' {
