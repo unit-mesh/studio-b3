@@ -1,6 +1,6 @@
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
-import { ErnieAPI } from "@/app/api/completion/yiyan/erniebot";
+import { ErnieAPI } from "./erniebot";
 
 const api = new ErnieAPI({
 	// 访问令牌通过编程对 AI Studio ⽤户进⾏身份验证
@@ -21,14 +21,7 @@ export async function POST(req: Request) {
 		messages: [
 			{
 				role: "user",
-				content: `Create three slogans for a business with unique features.
- 
-Business: Bookstore with cats
-Slogans: "Purr-fect Pages", "Books and Whiskers", "Novels and Nuzzles"
-Business: Gym with rock climbing
-Slogans: "Peak Performance", "Reach New Heights", "Climb Your Way Fit"
-Business: ${prompt}
-Slogans:`,
+				content: prompt,
 			},
 		],
 	});

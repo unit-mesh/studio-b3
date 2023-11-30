@@ -1,5 +1,3 @@
-import { ok } from "node:assert";
-
 import OpenAI, { APIError, OpenAIError } from "openai";
 import { APIClient, type Fetch } from "openai/core";
 import { Stream } from "openai/streaming";
