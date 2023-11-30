@@ -1,3 +1,8 @@
 /node_modules
 .nx/installation
 .nx/cache
+.env
+.idea
+.next
+next-env.d.ts
+out
