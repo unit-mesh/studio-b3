@@ -4,6 +4,12 @@ export enum OPENAI_MODEL {
 	CHATGPT_4 = 'chatgpt-4',
 }
 
+// aka Yiyan
+export enum ERNIEBOT {
+	ERNIEBOT = 'ernie-bot',
+}
+
 export const LlmModelType  = {
 	OPENAI: OPENAI_MODEL,
+	ERNIEBOT: ERNIEBOT,
 }

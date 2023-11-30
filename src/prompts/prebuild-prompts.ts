@@ -74,10 +74,10 @@ const BubbleMenu: PromptAction[] = [
 
 const SlashCommands: PromptAction[] = [
 	{
-		sourceType: SourceType.SELECTION,
+		sourceType: SourceType.BEFORE_CURSOR,
 		name: 'Summarize',
 		i18Name: true,
-		template: `You are an assistant helping to summarize a document. Output in markdown format. \n ###{{${DefinedVariable.SELECTION}}}###`,
+		template: `You are an assistant helping to summarize a document. Output in markdown format. \n ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
 		facetType: FacetType.SLASH_COMMAND,
 		outputForm: OutputForm.STREAMING
 	}
