@@ -8,7 +8,7 @@
       "options": {
         "cwd": "local_server",
         "commands": [
-          "cargo build"
+          "cargo build --release"
         ]
       }
     },
