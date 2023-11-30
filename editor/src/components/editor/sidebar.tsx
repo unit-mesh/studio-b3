@@ -6,7 +6,10 @@ import { useTranslation } from "react-i18next";
 export const Sidebar: React.FC<any> = ({ editor }) => {
 	const { t, i18n } = useTranslation();
 
-	return <aside className={'fixed top-0 right-0 z-40 w-128 h-screen'} aria-label="Sidebar">
+	// make sidebar collapsible, open and close
+	const [open, setOpen] = React.useState(false);
+
+	return <aside className={'fixed top-0 left-0 z-40 w-128 h-screen'} aria-label="Sidebar">
 		<div className={'h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800'}>
 			<Accordion.Root className={'AccordionRoot'} type="multiple" defaultValue={['similar', 'bg-context']}>
 				<Accordion.Item className={'AccordionItem'} value="item-6">
