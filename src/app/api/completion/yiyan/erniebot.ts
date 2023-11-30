@@ -10,6 +10,12 @@ export type ErnieAPIOptions = {
   fetch?: Fetch | undefined;
 };
 
+// Note: 文心一言 由于分发在不同的平台，所以有不同的文档
+// 百度云的响应和 OpenAI 的比较类似，但授权没有 AI Studio 方便
+// 之前 AI Studio 的文档是有文档的，但现在不知道去哪了
+// 参考：
+// - https://cloud.baidu.com/doc/WENXINWORKSHOP/s/jlil56u11
+// - https://github.com/PaddlePaddle/ERNIE-Bot-SDK/blob/develop/erniebot/backends/aistudio.py
 export class ErnieAPI extends APIClient {
   protected token: string;
 
@@ -65,7 +71,13 @@ export class Completions extends APIResource {
   // Note: 文心一言不是通过模型，而是通过 endpoint 区分的
   // 使用模型名称是为了和 OpenAI 的 API 保持一致
   // 同时也是为了方便使用
-  protected resources = new Map([
+  protected resources: Map<
+    ErnieBot.ChatModel,
+    {
+      id: ErnieBot.ChatModel;
+      endpoint: string;
+    }
+  > = new Map([
     [
       "ernie-bot",
       {
@@ -87,38 +99,42 @@ export class Completions extends APIResource {
         endpoint: "/chat/completions_pro",
       },
     ],
+    [
+      "ernie-bot-8k",
+      {
+        id: "ernie-bot-8k",
+        endpoint: "/chat/ernie_bot_8k",
+      },
+    ],
   ]);
 
   /**
    * Creates a model response for the given chat conversation.
    */
   create(
-    body: OpenAI.ChatCompletionCreateParamsNonStreaming & {
-      model: ErnieChatModel;
-    },
+    body: OpenAI.ChatCompletionCreateParamsNonStreaming &
+      OverrideOpenAIChatCompletionCreateParams,
     options?: OpenAI.RequestOptions
   ): Promise<OpenAI.ChatCompletion>;
   create(
-    body: OpenAI.ChatCompletionCreateParamsStreaming & {
-      model: ErnieChatModel;
-    },
+    body: OpenAI.ChatCompletionCreateParamsStreaming &
+      OverrideOpenAIChatCompletionCreateParams,
     options?: OpenAI.RequestOptions
   ): Promise<Stream<OpenAI.ChatCompletionChunk>>;
 
   async create(
-    params: OpenAI.ChatCompletionCreateParams & {
-      model: ErnieChatModel;
-    },
+    params: OpenAI.ChatCompletionCreateParams &
+      OverrideOpenAIChatCompletionCreateParams,
     options?: OpenAI.RequestOptions
   ) {
-    const { model = "ernie-bot", ...body } = params;
+    const { model = "ernie-bot", ...body } = this.buildCreateParams(params);
     const resource = this.resources.get(model);
 
     if (!resource) {
       throw new OpenAIError(`Invalid model: ${model}`);
     }
 
-    const stream = body?.stream;
+    const stream = body.stream;
 
     const headers = {
       ...options?.headers,
@@ -126,13 +142,12 @@ export class Completions extends APIResource {
       Accept: stream ? "text/event-stream" : "application/json",
     };
 
-    // Note: 因为文心一言的响应内容被包裹了一层，
-    // 要设置 __binaryResponse 为 true， 是为了让 client 返回原始的 response
-    // 然后在 afterResponse 里面处理
     const response: Response = await this._client.post(resource.endpoint, {
       ...options,
       body,
       headers,
+      // 文心一言的响应内容被包裹了一层，需要解构并转换为 OpenAI 的格式
+      // 设置 __binaryResponse 为 true， 是为了让 client 返回原始的 response
       stream: false,
       __binaryResponse: true,
     });
@@ -153,6 +168,49 @@ export class Completions extends APIResource {
 
     return fromResponse(model, await response.json());
   }
+
+  protected buildCreateParams(
+    params: OpenAI.ChatCompletionCreateParams &
+      OverrideOpenAIChatCompletionCreateParams
+  ): ErnieBot.ChatCompletionCreateParams {
+    const { messages = [], presence_penalty, user, stop, ...rest } = params;
+
+    const head = messages[0];
+
+    // 文心一言的 system 是独立字段
+    //（1）长度限制1024个字符
+    //（2）如果使用functions参数，不支持设定人设system
+    const system = head && head.role === "system" ? head.content : undefined;
+
+    // 移除 system 角色的消息
+    if (system) {
+      messages.splice(0, 1);
+    }
+
+    const data: ErnieBot.ChatCompletionCreateParams = {
+      ...rest,
+      system,
+      messages,
+    };
+
+    if (user) {
+      data.user_id = user;
+    }
+
+    if (presence_penalty) {
+      data.penalty_score = presence_penalty;
+    }
+
+    if (stop) {
+      data.stop = ensureArray(stop);
+    }
+
+    return data;
+  }
+}
+
+function ensureArray<T>(value: T | T[]): T[] {
+  return Array.isArray(value) ? value : [value];
 }
 
 /**
@@ -161,7 +219,7 @@ export class Completions extends APIResource {
  * @param code -
  * @param message -
  */
-export function assertNonZero(code: number, message: string) {
+function assertNonZero(code: number, message: string) {
   if (code === 0) return;
 
   throw makeAPIError(code, message);
@@ -174,7 +232,7 @@ export function assertNonZero(code: number, message: string) {
  * @param message -
  * @returns 错误
  */
-export function makeAPIError(code: number, message: string) {
+function makeAPIError(code: number, message: string) {
   const error = { code, message };
 
   switch (code) {
@@ -205,9 +263,9 @@ export function makeAPIError(code: number, message: string) {
  * @param stream - 流
  * @param controller - 控制器
  */
-export function fromOpenAIStream(
+function fromOpenAIStream(
   model: string,
-  stream: Stream<ErnieResponse>,
+  stream: Stream<ErnieBot.APIResponse>,
   controller: AbortController
 ): Stream<OpenAI.ChatCompletionChunk> {
   async function* iterator(): AsyncIterator<
@@ -216,6 +274,7 @@ export function fromOpenAIStream(
     undefined
   > {
     for await (const chunk of stream) {
+      // TODO 某些情况下，文心一言的 result 只有 id，需要排查情况
       const { errorCode, errorMsg, result: data } = chunk;
 
       assertNonZero(errorCode, errorMsg);
@@ -224,7 +283,7 @@ export function fromOpenAIStream(
         index: 0,
         delta: {
           role: "assistant",
-          content: data.result,
+          content: data.result || '',
         },
         finish_reason: null,
       };
@@ -256,9 +315,9 @@ export function fromOpenAIStream(
  * @param model
  * @param data
  */
-export function fromResponse(
+function fromResponse(
   model: string,
-  data: ErnieResponse
+  data: ErnieBot.APIResponse
 ): OpenAI.ChatCompletion {
   const { errorCode, errorMsg, result } = data;
 
@@ -293,20 +352,128 @@ export function fromResponse(
   };
 }
 
-export type ErnieChatModel = "ernie-bot" | "ernie-bot-turbo" | "ernie-bot-4";
-
-export type ErnieResult = {
-  id: string;
-  result: string;
-  created: string;
-  is_end: boolean;
-  is_truncated: boolean;
-  need_clear_history: boolean;
-  usage: OpenAI.CompletionUsage;
+// 用于覆盖 OpenAI.ChatCompletionCreateParams 的参数
+type OverrideOpenAIChatCompletionCreateParams = {
+  model: ErnieBot.ChatModel;
+  disable_search?: boolean | null;
+  enable_citation?: boolean | null;
 };
 
-export type ErnieResponse = {
-  errorCode: number;
-  errorMsg: string;
-  result: ErnieResult;
-};
+export namespace ErnieBot {
+  export type ChatModel =
+    | "ernie-bot"
+    | "ernie-bot-turbo"
+    | "ernie-bot-4"
+    | "ernie-bot-8k";
+
+  export interface ChatCompletionCreateParams {
+    /**
+     * 模型名称
+     */
+    model: ErnieBot.ChatModel;
+
+    /**
+     * 是否强制关闭实时搜索功能，默认 false，表示不关闭
+     *
+     * @defaultValue false
+     */
+    disable_search?: boolean | null;
+
+    /**
+     * 是否开启上角标返回，说明：
+     * （1）开启后，有概率触发搜索溯源信息search_info，search_info内容见响应参数介绍
+     * （2）默认false，不开启
+     *
+     * @defaultValue false
+     */
+    enable_citation?: boolean | null;
+
+    /**
+     * 模型人设，主要用于人设设定，例如，你是xxx公司制作的AI助手，说明：
+     * （1）长度限制1024个字符
+     * （2）如果使用 functions 参数，不支持设定人设 system
+     *
+     * @remarks OpenAI 是通过 messages 的 role 来区分的
+     */
+    system?: string | null;
+
+    /**
+     * 聊天上下文信息
+     *
+     * @remarks 不支持 system 角色
+     */
+    messages: OpenAI.ChatCompletionCreateParams["messages"];
+
+    /**
+     * 一个可触发函数的描述列表
+     */
+    functions?: OpenAI.ChatCompletionCreateParams["functions"];
+
+    /**
+     * 内容随机性
+     *
+     * 说明：
+     * （1）较高的数值会使输出更加随机，而较低的数值会使其更加集中和确定
+     * （2）默认0.8，范围 (0, 1.0]，不能为0
+     * （3）建议该参数和 top_p 只设置1个
+     * （4）建议 top_p 和 temperature 不要同时更改
+     */
+    temperature?: number | null;
+
+    /**
+     * 生成文本的多样性
+     *
+     * 说明：
+     * （1）影响输出文本的多样性，取值越大，生成文本的多样性越强
+     * （2）默认0.8，取值范围 [0, 1.0]
+     * （3）建议该参数和 temperature 只设置1个
+     * （4）建议 top_p 和 temperature 不要同时更改
+     */
+    top_p?: number | null;
+
+    /**
+     *
+     * 通过对已生成的token增加惩罚，减少重复生成的现象。说明：
+     * （1）值越大表示惩罚越大
+     * （2）默认1.0，取值范围：[1.0, 2.0]
+     *
+     * @remarks 在 OpenAI 中，参数名为 presence_penalty
+     */
+    penalty_score?: number | null;
+
+    /**
+     * 是否以流式接口的形式返回数据，默认 false
+     */
+    stream?: boolean | null;
+
+    /**
+     * 生成停止标识，当模型生成结果以stop中某个元素结尾时，停止文本生成。说明：
+     * （1）每个元素长度不超过20字符
+     * （2）最多4个元素
+     */
+    stop?: string | string[] | undefined;
+
+    /**
+     * 表示最终用户的唯一标识符，可以监视和检测滥用行为，防止接口恶意调用
+     *
+     * @remarks OpenAI 中是通过 user 区分
+     */
+    user_id?: string | undefined;
+  }
+
+  export type APIResult = {
+    id: string;
+    result: string;
+    created: string;
+    is_end: boolean;
+    is_truncated: boolean;
+    need_clear_history: boolean;
+    usage: OpenAI.CompletionUsage;
+  };
+
+  export type APIResponse = {
+    errorCode: number;
+    errorMsg: string;
+    result: APIResult;
+  };
+}
