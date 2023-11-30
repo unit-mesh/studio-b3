@@ -1,4 +1,4 @@
-# B3 Editor
+# Studio B3
 
 Chinese version: [中文版](./README.zh.md)
 
@@ -6,7 +6,7 @@ Chinese version: [中文版](./README.zh.md)
 [![npm](https://img.shields.io/npm/v/b3-editor)](https://www.npmjs.com/package/b3-editor)
 ![GitHub release (with filter)](https://img.shields.io/github/v/release/unit-mesh/b3)
 
-> B3 (B-3 Bomber) Editor is a sophisticated editor designed for content creation, catering to various formats such as blogs, articles, user stories, and more.
+> Studio B3 (B-3 Bomber) is a sophisticated editor designed for content creation, catering to various formats such as blogs, articles, user stories, and more.
 
 In the documentary "10 Years with Hayao Miyazaki"  the esteemed artist (宫崎骏, 宮﨑駿／みやざきはやお) chooses a 3B
 pencil,

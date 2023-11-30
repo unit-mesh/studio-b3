@@ -17,7 +17,7 @@ export class ErnieAPI extends APIClient {
 
   constructor(options?: ErnieAPIOptions) {
     const {
-      token = process.env.AISTUDIO_ACCESS_TOKEN,
+      token = process.env.AISTUDIO_ACCESS_TOKEN || "",
       baseURL = "https://aistudio.baidu.com/llm/lmapi/v1",
       timeout = 30000,
       fetch = globalThis.fetch,
@@ -33,7 +33,7 @@ export class ErnieAPI extends APIClient {
       ...rest,
     });
 
-    ok(token, "token is required");
+    // ok(token, "token is required");
 
     this.token = token;
   }
