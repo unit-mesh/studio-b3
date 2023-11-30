@@ -1,44 +1,34 @@
 {
-    "$schema": "../.nx/installation/node_modules/nx/schemas/project-schema.json",
-    "name": "b3-local-server",
-    "projectType": "library",
-    "targets": {
-        "build": {
-            "executor": "@monodon/rust:build",
-            "outputs": [
-                "{options.target-dir}"
-            ],
-            "options": {
-                "target-dir": "dist/target/b3-local-server"
-            },
-            "configurations": {
-                "production": {
-                    "release": true
-                }
-            }
-        },
-        "test": {
-            "executor": "@monodon/rust:test",
-            "outputs": [
-                "{options.target-dir}"
-            ],
-            "options": {
-                "target-dir": "dist/target/b3-local-server"
-            },
-            "configurations": {
-                "production": {
-                    "release": true
-                }
-            }
-        },
-        "lint": {
-            "executor": "@monodon/rust:lint",
-            "outputs": [
-                "{options.target-dir}"
-            ],
-            "options": {
-                "target-dir": "dist/target/b3-local-server"
-            }
-        }
+  "name": "local_server",
+  "$schema": "../.nx/installation/node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "local-server/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "local_server",
+        "commands": [
+          "cargo build"
+        ]
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "local_server",
+        "commands": [
+          "cargo test"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "local_server",
+        "commands": [
+          "cargo lint"
+        ]
+      }
     }
+  }
 }

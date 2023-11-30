@@ -2,8 +2,9 @@
   "targetDefaults": {
     "build": {
       "cache": true,
-      "dependsOn": [
-        "^build"
+      "inputs": [
+        "production",
+        "^production"
       ]
     },
     "lint": {
@@ -11,15 +12,19 @@
     },
     "test": {
       "cache": true
-    },
-    "e2e": {
-      "cache": true
     }
   },
   "installation": {
     "version": "17.1.3"
   },
-  "plugins": [
-    "@monodon/rust"
-  ]
+  "namedInputs": {
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
+    "sharedGlobals": [],
+    "production": [
+      "default"
+    ]
+  }
 }
