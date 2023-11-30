@@ -3,17 +3,16 @@ import * as Dialog from '@radix-ui/react-dialog'
 import * as Tabs from '@radix-ui/react-tabs'
 
 import styles from '../../styles/Home.module.css'
+import { Button } from "@radix-ui/themes";
 
 export const Settings = () => {
 	return <Dialog.Root>
 		<Dialog.Trigger asChild>
-			<div className={styles.setting}>
-				<button onClick={() => {
-					// show some dialog
-				}}>
-					<GearIcon/>
-				</button>
-			</div>
+			<Button className={styles.setting} onClick={() => {
+				// show some dialog
+			}}>
+				<GearIcon/>
+			</Button>
 		</Dialog.Trigger>
 		<Dialog.Portal>
 			<Dialog.Overlay className="DialogOverlay"/>

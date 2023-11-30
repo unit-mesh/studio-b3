@@ -85,30 +85,13 @@
     }
 }
 
-.setting {
-    box-sizing: border-box;
-    position: absolute;
-    top: calc(50% - 24px);
-    left: 15px;
-}
-
-.setting button {
-    display: flex;
-    position: relative;
-    z-index: 1;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    border-radius: 100%;
+button.setting {
     width: 48px;
     height: 48px;
     color: var(--gray-12);
-    will-change: transform, box-shadow, opacity;
-    transition: all 100ms ease 0s;
-    box-shadow: var(--black-a6) 0 3px 16px -5px, var(--black-a2) 0px 1px 3px
 }
 
-.setting button svg {
-    width: 24px;
-    height: 24px;
+button.setting  svg {
+    height: 48px;
+    width: 48px;
 }
