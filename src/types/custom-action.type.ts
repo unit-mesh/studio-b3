@@ -100,11 +100,6 @@ export enum SourceType {
 
 export interface PromptAction {
 	/**
-	 * Type of the source we should get from
-	 */
-	sourceType: SourceType;
-
-	/**
 	 * Name of the action, will be displayed in the menu.
 	 * If i18Name is true, then it will be translated by i18n, so we suggest use `{{` and `}}` inside the name.
 	 * For example:
