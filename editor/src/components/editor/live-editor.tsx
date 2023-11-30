@@ -21,6 +21,7 @@ import { createInlineCompletion } from "@/components/editor/inline/inline-comple
 import { useTranslation } from "react-i18next";
 
 import "./editor.css"
+import { SideBox } from './side-view/side-box'
 
 const md = new MarkdownIt()
 
@@ -78,6 +79,7 @@ const LiveEditor = () => {
 					{editor && <MenuBar editor={editor}/>}
 					<EditorContent editor={editor}/>
 					{editor && <MenuBubble editor={editor}/>}
+					{editor && <SideBox editor={editor}/> }
 
 					{editor && <div className="character-count">
             <span>{Math.abs(editor.state.selection.$from.pos - editor.state.selection.$to.pos)} selected</span>

@@ -1,16 +1,8 @@
 import React, { useEffect } from "react";
-import {
-  CommandProps,
-  CommandSpec,
-  EditorContent,
-  Extension,
-  RawCommands,
-  useEditor,
-} from "@tiptap/react";
+import { CommandProps, EditorContent, Extension, useEditor, } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { EnterIcon } from "@radix-ui/react-icons";
-import * as Select from "@radix-ui/react-select";
-import { SelectItem } from "@radix-ui/react-select";
+
 import { BeSelect, BeSelectItem } from "../ui-select";
 
 declare module "@tiptap/core" {

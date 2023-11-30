@@ -25,6 +25,10 @@ export enum OutputForm {
 	 * Show the output in <Notification /> which is a popup
 	 */
 	NOTIFICATION = 3,
+	/**
+	 * Side suggestion box
+	 */
+	SIDE_BOX = 4,
 }
 
 export enum ChangeForm {
