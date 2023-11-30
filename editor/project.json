@@ -1,0 +1,48 @@
+{
+    "name": "editor",
+    "$schema": "../.nx/installation/node_modules/nx/schemas/project-schema.json",
+    "targets": {
+        "install": {
+            "executor": "nx:run-commands",
+            "options": {
+                "cwd": "editor",
+                "commands": [
+                    "npm install"
+                ]
+            }
+        },
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "cwd": "editor",
+                "commands": [
+                    "npx next build"
+                ]
+            },
+            "inputs": [
+                "{projectRoot}/**/*.{ts,tsx,js,jsx,css}"
+            ],
+            "outputs": [
+                "{projectRoot}/.next"
+            ]
+        },
+        "serve": {
+            "executor": "nx:run-commands",
+            "options": {
+                "cwd": "editor",
+                "commands": [
+                    "npx next start"
+                ]
+            }
+        },
+        "dev": {
+            "executor": "nx:run-commands",
+            "options": {
+                "cwd": "editor",
+                "commands": [
+                    "npx next dev"
+                ]
+            }
+        }
+    }
+}
