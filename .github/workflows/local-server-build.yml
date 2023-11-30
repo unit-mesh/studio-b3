@@ -2,7 +2,7 @@ name: LocalServer Build
 
 on:
   push:
-    branches: [ "master", "monorepo" ]
+    branches: [ "master" ]
 
 permissions:
   contents: write
