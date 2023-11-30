@@ -162,5 +162,9 @@ export interface PromptAction {
 	 * Condition to show the prompt
 	 */
 	condition?: string; // maybe use a function instead ?
+	/**
+	 * Menu Action
+	 */
+	action?: (context: any) => void;
 }
 
