@@ -29,7 +29,16 @@ export const MenuBubble = ({ editor }: {
 	if (selectLength < 64) {
 		smartMenus.push({
 			name: '扩写',
-			template: '搞定',
+			template: `根据如下的内容扩写：{{selection}}`,
+			facetType: FacetType.BUBBLE_MENU,
+			outputForm: OutputForm.DIFF,
+		})
+	}
+
+	if (selectLength > 3 && editor.isActive('paragraph')) {
+		smartMenus.push({
+			name: '润色',
+			template: '优化表达：{{selection}}',
 			facetType: FacetType.BUBBLE_MENU,
 			outputForm: OutputForm.DIFF,
 		})
@@ -59,30 +68,32 @@ export const MenuBubble = ({ editor }: {
 		}
 	});
 
-	return <BubbleMenu className={'bubble-menu-group w-64 bg-white'} editor={editor} >
-		<DropdownMenu.Root>
-			<DropdownMenu.Trigger>
-				<Button variant="soft">
-					Ask AI
-					<CookieIcon/>
-				</Button>
-			</DropdownMenu.Trigger>
-			<DropdownMenu.Content>
-				{menus?.map((menu, index) => {
-					return (
-						<DropdownMenu.Item
-							key={index}
-							className={"DropdownMenuItem"}
-							onClick={() => {
-								editor.chain().callLlm(menu);
-							}}
-						>
-							{menu.name}
-						</DropdownMenu.Item>
-					);
-				})}
-			</DropdownMenu.Content>
-		</DropdownMenu.Root>
+	return <BubbleMenu className={'bubble-menu-group w-64 bg-white'} editor={editor}>
+		<div>
+			<DropdownMenu.Root>
+				<DropdownMenu.Trigger>
+					<Button variant="soft">
+						Ask AI
+						<CookieIcon/>
+					</Button>
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Content>
+					{menus?.map((menu, index) => {
+						return (
+							<DropdownMenu.Item
+								key={index}
+								className={"DropdownMenuItem"}
+								onClick={() => {
+									editor.chain().callLlm(menu);
+								}}
+							>
+								{menu.name}
+							</DropdownMenu.Item>
+						);
+					})}
+				</DropdownMenu.Content>
+			</DropdownMenu.Root>
+		</div>
 
 		{smartMenus && smartMenus.map((menu, index) => {
 			return <Button
