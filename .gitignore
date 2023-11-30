@@ -29,5 +29,6 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 .idea
+.env
 
 next-env.d.ts
