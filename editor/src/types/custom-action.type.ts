@@ -94,7 +94,7 @@ export enum DefinedVariable {
 }
 
 export enum SourceType {
-	BEFORE_CURSOR= "BEFORE_CURSOR",
+	BEFORE_CURSOR = "BEFORE_CURSOR",
 	SELECTION = "SELECTION",
 }
 
