@@ -8,6 +8,13 @@ pub trait Splitter {
     fn split(path: &PathBuf, options: &SplitOptions) -> Vec<Document>;
 }
 
+pub trait TextSplitter {
+    /**
+     * Split a document into multiple documents by chunk size.
+     */
+    fn split(text: &str, options: &SplitOptions) -> Vec<Document>;
+}
+
 pub struct SplitOptions {
     pub chunk_size: usize,
 }
