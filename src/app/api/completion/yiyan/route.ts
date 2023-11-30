@@ -1,6 +1,6 @@
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
-import { ErnieAPI } from "@/shared/erniebot";
+import { ErnieAPI } from "@/app/api/completion/yiyan/erniebot";
 
 const api = new ErnieAPI({
 	// 访问令牌通过编程对 AI Studio ⽤户进⾏身份验证
