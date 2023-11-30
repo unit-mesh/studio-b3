@@ -31,5 +31,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build Server
-        run: ./nx build local_server
+      - name: Build Server(unix)
+        if: matrix.os != 'windows-latest'
+        run: bash nx build local_server
+      - name: Build Server(windows)
+        if: matrix.os == 'windows-latest'
+        run: .\nx.bat build local_server --configuration=windows
