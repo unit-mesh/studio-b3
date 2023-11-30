@@ -2,7 +2,7 @@ name: LocalServer Build
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "monorepo" ]
 
 permissions:
   contents: write
@@ -32,4 +32,4 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Server
-        run: cargo build --release --manifest-path=local_server/Cargo.toml
+        run: ./nx build local_server
