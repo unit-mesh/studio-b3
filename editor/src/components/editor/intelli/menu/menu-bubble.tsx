@@ -6,7 +6,7 @@ import { Editor } from "@tiptap/core";
 import { CookieIcon } from "@radix-ui/react-icons";
 import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
 import { Button, DropdownMenu } from "@radix-ui/themes";
-import { getNewComment } from '../../comment';
+import { getNewComment } from '../../advice/comment';
 
 export const MenuBubble = ({ editor }: {
 	editor: Editor

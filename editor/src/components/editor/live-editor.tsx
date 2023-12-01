@@ -15,7 +15,7 @@ import { createInlineCompletion } from "./inline/inline-completion";
 import { MenuBubble } from './intelli/menu/menu-bubble'
 import { createSlashExtension } from './intelli/slash-extension'
 import { createAiBlock } from './intelli/ai-block-extension'
-import { AdviceExtension } from './intelli/advice-extension';
+import { AdviceExtension } from './advice/advice-extension';
 
 import TrackChangeExtension from './diff/track-change-extension'
 import { MenuBar } from './menu-bar'
@@ -23,7 +23,7 @@ import { CommandFunctions } from './action/command-functions'
 import { Sidebar } from './sidebar'
 
 import "./editor.css"
-import { Comment } from "@/components/editor/comment";
+import { Comment } from "@/components/editor/advice/comment";
 
 const md = new MarkdownIt()
 
@@ -31,7 +31,6 @@ const LiveEditor = () => {
 	const { t, i18n } = useTranslation();
 
 	// based on : https://github.com/sereneinserenade/tiptap-comment-extension/blob/d8ad0d01e98ac416e69f27ab237467b782076c16/demos/react/src/components/Tiptap.tsx
-	const [comments, setComments] = useState<Comment[]>([])
 	const [activeCommentId, setActiveCommentId] = useState<string | null>(null)
 	const commentsSectionRef = useRef<HTMLDivElement | null>(null)
 
@@ -49,6 +48,8 @@ const LiveEditor = () => {
 		})
 	}
 
+	const [comments, setComments] = useState<Comment[]>([])
+
 	const extensions = [
 		// we define all commands here
 		CommandFunctions,
@@ -59,6 +60,7 @@ const LiveEditor = () => {
 			setAdviceCommand: (comment: Comment) => {
 				setComments([...comments, comment])
 				setActiveCommentId(comment.id)
+				setTimeout(() => console.log(comments))
 				setTimeout(focusCommentWithActiveId)
 			},
 			onAdviceActivated: (commentId) => {

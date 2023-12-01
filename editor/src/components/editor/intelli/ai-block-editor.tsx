@@ -3,7 +3,7 @@ import { CommandProps, EditorContent, Extension, useEditor, } from "@tiptap/reac
 import StarterKit from "@tiptap/starter-kit";
 import { EnterIcon } from "@radix-ui/react-icons";
 
-import { BeSelect, BeSelectItem } from "../ui-select";
+import { BeSelect, BeSelectItem } from "@/components/editor/components/ui-select";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {

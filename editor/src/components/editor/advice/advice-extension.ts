@@ -2,7 +2,7 @@
 import { Mark, mergeAttributes, Range } from "@tiptap/core";
 import { Mark as PMMark } from "@tiptap/pm/model";
 import { CommandProps } from "@tiptap/react";
-import { Comment } from "../comment";
+import { Comment } from "./comment";
 
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
