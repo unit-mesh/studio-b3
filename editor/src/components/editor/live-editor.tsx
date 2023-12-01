@@ -6,6 +6,10 @@ import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
 
+import { CharacterCount } from "@tiptap/extension-character-count";
+import { createInlineCompletion } from "@/components/editor/inline/inline-completion";
+import { useTranslation } from "react-i18next";
+
 import MarkdownIt from 'markdown-it'
 import { useDebounce } from 'use-debounce';
 
@@ -15,13 +19,10 @@ import { createSlashExtension } from './intelli/slash-extension'
 import { CommandFunctions } from './action/command-functions'
 import { createAiBlock } from './intelli/ai-block-extension'
 import TrackChangeExtension from './diff/track-change-extension'
+import { AdviceExtension } from "./intelli/advice-extension";
 import { Sidebar } from './sidebar'
-import { CharacterCount } from "@tiptap/extension-character-count";
-import { createInlineCompletion } from "@/components/editor/inline/inline-completion";
-import { useTranslation } from "react-i18next";
 
 import "./editor.css"
-import { AdviceExtension } from "@/components/editor/intelli/advice-extension";
 
 const md = new MarkdownIt()
 
