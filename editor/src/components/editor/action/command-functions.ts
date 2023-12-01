@@ -2,7 +2,7 @@ import { Commands, Extension } from "@tiptap/react";
 import { Editor } from "@tiptap/core";
 import { Transaction } from "prosemirror-state";
 import {
-	FacetType,
+	FacetType, OutputForm,
 	PromptAction,
 } from "@/types/custom-action.type";
 import { PromptsManager } from "@/prompts/prompts-manager";
@@ -25,6 +25,10 @@ declare module "@tiptap/core" {
 		getAiActions: {
 			getAiActions: (facet: FacetType) => PromptAction[];
 		};
+
+		callQuickAction: {
+			callQuickAction: (text: string) => ReturnType;
+		}
 
 		runAiAction: {
 			runAiAction: (action: PromptAction) => ReturnType;
@@ -82,6 +86,16 @@ export const CommandFunctions = Extension.create({
 				(action: PromptAction) =>
 					({ editor }: { editor: Editor }) => {
 						editor.commands.callLlm(action);
+					},
+			callQuickAction:
+				(text: string) =>
+					({ editor }: { editor: Editor }) => {
+						editor.commands.callLlm(<PromptAction>{
+							name: text,
+							template: text,
+							facetType: FacetType.QUICK_INSERT,
+							outputForm: OutputForm.STREAMING,
+						});
 					},
 			setBackgroundContext:
 				(context: string) =>

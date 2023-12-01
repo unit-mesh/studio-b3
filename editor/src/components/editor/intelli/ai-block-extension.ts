@@ -93,7 +93,6 @@ export const createAiBlock = () => {
 					return false;
 				},
 				Escape: (): boolean => {
-					console.log("Escape");
 					if (isEditInChild) {
 						this.editor.setEditable(true);
 						return this.editor.commands.focus();

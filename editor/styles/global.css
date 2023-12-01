@@ -544,7 +544,7 @@ input {
 }
 
 .editor-section {
-    max-width: 800px;
+    width: 800px;
     height: 100%;
     min-height: 80vh;
 }

@@ -14,7 +14,9 @@ const AiBlockView = (props?: { editor: Editor }) => {
 					props?.editor?.commands.toggleAiBlock({});
 					props?.editor?.commands.enableEnter();
 				}}
-			/>
+				go={(content: string) => {
+					props?.editor?.commands.callQuickAction(content);
+				}}/>
 		</NodeViewWrapper>
 	);
 };
