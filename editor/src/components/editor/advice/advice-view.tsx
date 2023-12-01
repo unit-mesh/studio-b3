@@ -26,12 +26,13 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 
 	useEffect(() => {
 		AdviceManager.getInstance().on('add', (advice) => {
-			setAdvices((prevAdvices) => {
-				const newAdvice = [...prevAdvices, advice];
-				setActiveId(advice.id);
-				setTimeout(focusAdviceWithActiveId);
-				return newAdvice;
-			});
+			setAdvices(AdviceManager.getInstance().getAdvices());
+			setActiveId(advice.id);
+			setTimeout(focusAdviceWithActiveId);
+		});
+
+		AdviceManager.getInstance().on('remove', (advice) => {
+			setAdvices(AdviceManager.getInstance().getAdvices());
 		});
 
 		AdviceManager.getInstance().onActiveIdChange((id) => {
@@ -58,38 +59,17 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
             </span>
           </span>
 
-					<textarea
-						value={advice.content || ''}
-						disabled={advice.id !== activeCommentId}
-						className={`p-2 text-inherit h-full bg-transparent focus:outline-none ${advice.id === activeCommentId ? 'bg-slate-300' : ''}`}
-						id={advice.id}
-						onInput={(event) => {
-							const value = (event.target as HTMLInputElement).value
-
-							setAdvices(advices.map(advice => {
-								if (advice.id === activeCommentId) {
-									return {
-										...advice,
-										content: value
-									}
-								}
-
-								return advice
-							}))
-						}}
-						onKeyDown={(event) => {
-							if (event.key !== 'Enter') return
-							setActiveId(null)
-						}}
-					/>
+					<p id={advice.id}
+					   className={`p-2 text-inherit h-full bg-transparent focus:outline-none ${advice.id === activeCommentId ? 'bg-slate-300' : ''}`}
+					>{advice.content || ''}</p>
 
 					{advice.id === activeCommentId && (
 						<div className={'flex'}>
 							<button
 								className='rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 								onClick={() => {
+									AdviceManager.getInstance().removeAdvice(advice.id)
 									editor.commands.unsetAdvice(advice.id)
-									editor.commands.undo()
 									editor.commands.focus()
 								}}
 							>
@@ -98,9 +78,10 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 							<button
 								className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 								onClick={() => {
-									setActiveId(null)
 									editor.commands.unsetAdvice(advice.id)
-									// todo: apply text
+									AdviceManager.getInstance().removeAdvice(advice.id)
+									setActiveId(null)
+									editor.commands?.replaceRange(advice.content)
 									editor.commands.focus()
 								}}
 							>

@@ -32,7 +32,7 @@ export const MenuBubble = ({ editor }: {
 	if (selectLength < 64) {
 		smartMenus.push({
 			name: '扩写',
-			template: `根据如下的内容扩写，返回三句。###{{${DefinedVariable.SELECTION}}}###。`,
+			template: `根据如下的内容扩写，只返回三句，限 100 字以内。###{{${DefinedVariable.SELECTION}}}###。`,
 			facetType: FacetType.BUBBLE_MENU,
 			changeForm: ChangeForm.DIFF,
 			outputForm: OutputForm.TEXT,
@@ -82,7 +82,7 @@ export const MenuBubble = ({ editor }: {
 						<CookieIcon/>
 					</Button>
 				</DropdownMenu.Trigger>
-				<DropdownMenu.Content>
+				<DropdownMenu.Content variant="solid">
 					{menus?.map((menu, index) => {
 						return (
 							<DropdownMenu.Item
@@ -107,12 +107,12 @@ export const MenuBubble = ({ editor }: {
 				key={index}
 				onClick={async () => {
 					const text = await editor.commands?.callLlm(menu);
-					console.log(text)
 
 					const newComment = newAdvice(text || "")
 					editor.commands?.setAdvice(newComment.id)
 					editor.commands?.setAdviceCommand(newComment)
 					menu.action?.(editor)
+					editor.commands?.focus()
 				}}
 			>
 				{menu.i18Name ? t(menu.name) : menu.name}

@@ -33,6 +33,9 @@ declare module "@tiptap/core" {
 		runAiAction: {
 			runAiAction: (action: PromptAction) => ReturnType;
 		};
+		replaceRange: {
+			replaceRange: (text: string) => ReturnType;
+		}
 		setBackgroundContext: () => ReturnType,
 	}
 }
@@ -122,6 +125,13 @@ export const CommandFunctions = Extension.create({
 							facetType: FacetType.QUICK_INSERT,
 							outputForm: OutputForm.STREAMING,
 						});
+					},
+			replaceRange:
+				(text: string) =>
+					({ editor }: { editor: Editor }) => {
+						const tr = editor.state.tr
+						const { from, to } = editor.state.selection;
+						tr.replaceWith(from, to, editor.state.schema.text(text));
 					},
 			setBackgroundContext:
 				(context: string) =>

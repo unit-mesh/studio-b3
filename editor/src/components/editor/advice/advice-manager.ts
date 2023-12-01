@@ -66,4 +66,9 @@ export class AdviceManager {
 	getAdvices(): Advice[] {
 		return Object.values(this.advices);
 	}
+
+	removeAdvice(id: string) {
+		delete this.advices[id];
+		this.emit('remove', id);
+	}
 }
