@@ -101,6 +101,7 @@ export const MenuBubble = ({ editor }: {
 				variant="outline"
 				key={index}
 				onClick={() => {
+					editor.commands?.setAdviceCommand("TODO, we are working on it")
 					menu.action?.(editor)
 				}}
 			>

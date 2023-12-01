@@ -1,10 +1,12 @@
 // This code based on https://github.com/sereneinserenade/tiptap-comment-extension which is licensed under MIT License
 import { Mark, mergeAttributes, Range } from "@tiptap/core";
 import { Mark as PMMark } from "@tiptap/pm/model";
+import { CommandProps } from "@tiptap/react";
 
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
 		advice: {
+			setAdviceCommand: (advice: string) => ReturnType;
 			setAdvice: (commentId: string) => ReturnType;
 			unsetAdvice: (commentId: string) => ReturnType;
 		};
@@ -17,6 +19,7 @@ export interface MarkWithRange {
 }
 
 export interface CommentOptions {
+	setAdviceCommand: (advice: string) => void;
 	HTMLAttributes: Record<string, any>;
 	onAdviceActivated: (commentId: string | null) => void;
 }
@@ -33,6 +36,8 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 
 	addOptions() {
 		return {
+			setAdviceCommand: (advice: string) => {
+			},
 			HTMLAttributes: {},
 			onAdviceActivated: () => {
 			},
@@ -89,12 +94,16 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 		};
 	},
 
+	// @ts-ignore
 	addCommands() {
 		return {
+			setAdviceCommand: (advice: string) => ({ commands }: CommandProps) => {
+				this.options.setAdviceCommand(advice);
+			},
 			setAdvice: (commentId) => ({ commands }) => {
 				if (!commentId) return false;
 
-				commands.setMark("comment", { commentId });
+				commands.setMark("advice", { commentId });
 				return true;
 			},
 			unsetAdvice: (commentId) => ({ tr, dispatch }) => {
