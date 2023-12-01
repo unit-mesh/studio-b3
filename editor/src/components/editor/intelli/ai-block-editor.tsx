@@ -8,7 +8,7 @@ import { BeSelect, BeSelectItem } from "@/components/editor/components/ui-select
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
 		callAi: {
-			callAi: () => ReturnType;
+			callAi: (text: string) => ReturnType;
 		};
 
 		cancelAi: {
@@ -29,9 +29,9 @@ export const AiBlockEditor = ({ content, cancel, go }: AiBlockEditorProps) => {
 
 		addCommands: () => ({
 			callAi:
-				() =>
+				(text: string) =>
 					({ commands }: CommandProps) => {
-						go(editor?.getText() || "");
+						go(text);
 
 						return true;
 					},
@@ -46,7 +46,7 @@ export const AiBlockEditor = ({ content, cancel, go }: AiBlockEditorProps) => {
 		addKeyboardShortcuts() {
 			return {
 				"Mod-Enter": () => {
-					this.editor.commands.callAi();
+					this.editor.commands.callAi(this.editor.getText() || "");
 					this.editor.view?.focus();
 					return true;
 				},
@@ -87,7 +87,6 @@ export const AiBlockEditor = ({ content, cancel, go }: AiBlockEditorProps) => {
 				editor?.view?.focus();
 			}
 			if (event.key === "Escape") {
-				console.log("sfdsfsf");
 				event.preventDefault();
 				editor?.commands?.cancelAi();
 			}
@@ -115,7 +114,7 @@ export const AiBlockEditor = ({ content, cancel, go }: AiBlockEditorProps) => {
 					<div className={"ai-block-actions"}>
 						<button
 							onClick={() => {
-								editor.commands.callAi();
+								editor.commands.callAi(editor.getText() || "");
 							}}
 						>
 							Go
