@@ -7,7 +7,6 @@ import TextStyle from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
 import { CharacterCount } from "@tiptap/extension-character-count";
 import { useTranslation } from "react-i18next";
-import { v4 } from 'uuid'
 
 import MarkdownIt from 'markdown-it'
 import { useDebounce } from 'use-debounce';
@@ -24,25 +23,9 @@ import { CommandFunctions } from './action/command-functions'
 import { Sidebar } from './sidebar'
 
 import "./editor.css"
+import { Comment } from "@/components/editor/comment";
 
 const md = new MarkdownIt()
-
-
-interface Comment {
-	id: string
-	content: string
-	replies: Comment[]
-	createdAt: Date
-}
-
-const getNewComment = (content: string): Comment => {
-	return {
-		id: `a${v4()}a`,
-		content,
-		replies: [],
-		createdAt: new Date()
-	}
-}
 
 const LiveEditor = () => {
 	const { t, i18n } = useTranslation();
@@ -72,11 +55,9 @@ const LiveEditor = () => {
 			HTMLAttributes: {
 				class: "my-advice",
 			},
-			setAdviceCommand: (advice: string) => {
-				const newComment = getNewComment(advice)
-				setComments([...comments, newComment])
-				editor?.commands.setAdvice(newComment.id)
-				setActiveCommentId(newComment.id)
+			setAdviceCommand: (comment: Comment) => {
+				setComments([...comments, comment])
+				setActiveCommentId(comment.id)
 				setTimeout(focusCommentWithActiveId)
 			},
 			onAdviceActivated: (commentId) => {

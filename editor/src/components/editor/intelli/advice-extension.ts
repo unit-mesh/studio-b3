@@ -2,11 +2,12 @@
 import { Mark, mergeAttributes, Range } from "@tiptap/core";
 import { Mark as PMMark } from "@tiptap/pm/model";
 import { CommandProps } from "@tiptap/react";
+import { Comment } from "../comment";
 
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
 		advice: {
-			setAdviceCommand: (advice: string) => ReturnType;
+			setAdviceCommand: (newComment: Comment) => ReturnType;
 			setAdvice: (commentId: string) => ReturnType;
 			unsetAdvice: (commentId: string) => ReturnType;
 		};
@@ -19,7 +20,7 @@ export interface MarkWithRange {
 }
 
 export interface CommentOptions {
-	setAdviceCommand: (advice: string) => void;
+	setAdviceCommand: (comment: Comment) => void;
 	HTMLAttributes: Record<string, any>;
 	onAdviceActivated: (commentId: string | null) => void;
 }
@@ -36,7 +37,7 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 
 	addOptions() {
 		return {
-			setAdviceCommand: (advice: string) => {
+			setAdviceCommand: (comment: Comment) => {
 			},
 			HTMLAttributes: {},
 			onAdviceActivated: () => {
@@ -97,8 +98,8 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 	// @ts-ignore
 	addCommands() {
 		return {
-			setAdviceCommand: (advice: string) => ({ commands }: CommandProps) => {
-				this.options.setAdviceCommand(advice);
+			setAdviceCommand: (comment: Comment) => ({ commands }: CommandProps) => {
+				this.options.setAdviceCommand(comment);
 			},
 			setAdvice: (commentId) => ({ commands }) => {
 				if (!commentId) return false;

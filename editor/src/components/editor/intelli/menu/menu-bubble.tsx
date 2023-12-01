@@ -6,6 +6,7 @@ import { Editor } from "@tiptap/core";
 import { CookieIcon } from "@radix-ui/react-icons";
 import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
 import { Button, DropdownMenu } from "@radix-ui/themes";
+import { getNewComment } from '../../comment';
 
 export const MenuBubble = ({ editor }: {
 	editor: Editor
@@ -101,7 +102,9 @@ export const MenuBubble = ({ editor }: {
 				variant="outline"
 				key={index}
 				onClick={() => {
-					editor.commands?.setAdviceCommand("TODO, we are working on it")
+					const newComment = getNewComment("TODO, we are working on it")
+					editor.commands?.setAdvice(newComment.id)
+					editor.commands?.setAdviceCommand(newComment)
 					menu.action?.(editor)
 				}}
 			>
