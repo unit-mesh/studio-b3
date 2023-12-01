@@ -155,7 +155,6 @@ input {
 
 .AccordionRoot {
     border-radius: 6px;
-    width: 300px;
     background-color: var(--mauve-6);
     box-shadow: 0 2px 10px var(--black-a4);
 }
@@ -540,6 +539,8 @@ input {
 
 .editor-block {
     width: fit-content;
+    display: flex;
+    justify-content: space-between;
 }
 
 .editor-section {

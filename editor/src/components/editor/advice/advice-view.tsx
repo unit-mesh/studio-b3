@@ -40,7 +40,7 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 		});
 	}, []);
 
-	return <section className='flex flex-col gap-2 p-2 border rounded-lg w-96 border-slate-200'
+	return <section className='flex flex-col gap-2 p-2 border rounded-lg w-96 h-screen border-slate-200'
 	                ref={advicesSectionRef}>
 		{advices.length ? (advices.map(advice => (
 				<div
@@ -95,7 +95,7 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 					)}
 				</div>
 			))
-		) : (<span className='pt-8 text-center text-slate-400'>No advices yet</span>)
+		) : (<span className='pt-8 text-center text-slate-400 w-96'>No advices yet</span>)
 		}
 	</section>
 }

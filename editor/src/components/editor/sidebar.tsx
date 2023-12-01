@@ -9,7 +9,7 @@ export const Sidebar: React.FC<any> = ({ editor }) => {
 	// make sidebar collapsible, open and close
 	const [open, setOpen] = React.useState(false);
 
-	return <aside className={'z-40 w-128 h-screen'} aria-label="Sidebar">
+	return <aside className={'z-40 w-96 h-screen'} aria-label="Sidebar">
 		<div className={'h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800'}>
 			<Accordion.Root className={'AccordionRoot'} type="multiple" defaultValue={['similar', 'bg-context']}>
 				<Accordion.Item className={'AccordionItem'} value="item-6">
