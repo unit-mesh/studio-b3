@@ -41,6 +41,14 @@ export class AdviceManager {
 		return this.advices[id];
 	}
 
+	setActiveId(id: string) {
+		this.emit('active', id);
+	}
+
+	onActiveIdChange(handler: EventHandler) {
+		this.on('active', handler);
+	}
+
 	updateAdvice(id: string, data: Advice) {
 		this.advices[id] = {
 			...this.advices[id],

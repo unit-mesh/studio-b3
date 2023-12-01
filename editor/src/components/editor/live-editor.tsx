@@ -25,31 +25,12 @@ import { Sidebar } from './sidebar'
 import "./editor.css"
 import { Advice } from "@/components/editor/advice/advice";
 import { AdviceManager } from "@/components/editor/advice/advice-manager";
+import { AdviceView } from "@/components/editor/advice/advice-view";
 
 const md = new MarkdownIt()
 
 const LiveEditor = () => {
 	const { t, i18n } = useTranslation();
-
-	// based on : https://github.com/sereneinserenade/tiptap-comment-extension/blob/d8ad0d01e98ac416e69f27ab237467b782076c16/demos/react/src/components/Tiptap.tsx
-	const [activeCommentId, setActiveId] = useState<string | null>(null)
-	const commentsSectionRef = useRef<HTMLDivElement | null>(null)
-
-	const focusAdviceWithActiveId = (id: string) => {
-		if (!commentsSectionRef.current) return
-
-		const commentInput = commentsSectionRef.current.querySelector<HTMLInputElement>(`input#${id}`)
-
-		if (!commentInput) return
-
-		commentInput.scrollIntoView({
-			behavior: 'smooth',
-			block: 'center',
-			inline: 'center'
-		})
-	}
-
-	const [advices, setAdvices] = useState<Advice[]>([])
 
 	const extensions = [
 		// we define all commands here
@@ -62,8 +43,7 @@ const LiveEditor = () => {
 				AdviceManager.getInstance().addAdvice(advice);
 			},
 			onAdviceActivated: (adviceId) => {
-				setActiveId(adviceId)
-				if (adviceId) setTimeout(() => focusAdviceWithActiveId(adviceId))
+				if (adviceId) AdviceManager.getInstance().setActiveId(adviceId);
 			},
 		}),
 		TrackChangeExtension.configure({
@@ -87,17 +67,6 @@ const LiveEditor = () => {
 		// @ts-ignore
 		TextStyle.configure({ types: [ListItem.name] }),
 	]
-
-	useEffect(() => {
-		AdviceManager.getInstance().on('add', (advice) => {
-			setAdvices((prevAdvices) => {
-				const newAdvice = [...prevAdvices, advice];
-				setActiveId(advice.id);
-				setTimeout(focusAdviceWithActiveId);
-				return newAdvice;
-			});
-		});
-	}, []);
 
 	const editor = useEditor({
 		extensions,
@@ -134,71 +103,7 @@ const LiveEditor = () => {
           </div>}
 				</div>
 			</div>
-			{editor &&
-        <section className='flex flex-col gap-2 p-2 border rounded-lg w-96 border-slate-200 fixed top-0 right-0 '
-                 ref={commentsSectionRef}>
-					{advices.length ? (
-						advices.map(advice => (
-							<div
-								key={advice.id}
-								className={`flex flex-col gap-4 p-2 border rounded-lg border-slate-400 ${advice.id === activeCommentId ? 'bg-slate-300 border-2' : ''} box-border`}
-							>
-                <span className='flex items-end gap-2'>
-                  <a href='https://github.com/unit-mesh/b3' className='font-semibold border-b border-blue-200'>
-                    Studio B3 AI
-                  </a>
-
-                  <span className='text-xs text-slate-400'>
-                    {advice.createdAt.toLocaleDateString()}
-                  </span>
-                </span>
-
-								<input
-									value={advice.content || ''}
-									disabled={advice.id !== activeCommentId}
-									className={`p-2 rounded-lg text-inherit bg-transparent focus:outline-none ${advice.id === activeCommentId ? 'bg-slate-600' : ''}`}
-									id={advice.id}
-									onInput={
-										(event) => {
-											const value = (event.target as HTMLInputElement).value
-
-											setAdvices(advices.map(comment => {
-												if (comment.id === activeCommentId) {
-													return {
-														...comment,
-														content: value
-													}
-												}
-
-												return comment
-											}))
-										}
-									}
-									onKeyDown={(event) => {
-										if (event.key !== 'Enter') return
-										setActiveId(null)
-									}}
-								/>
-
-								{
-									advice.id === activeCommentId && (
-										<button
-											className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
-											onClick={() => {
-												setActiveId(null)
-												editor.commands.focus()
-											}}
-										>
-											Accept
-										</button>
-									)
-								}
-							</div>
-						))
-					) : (<span className='pt-8 text-center text-slate-400'>No comments yet</span>)
-					}
-        </section>
-			}
+			{editor && <AdviceView editor={editor} /> }
 		</div>
 	)
 }
