@@ -23,18 +23,70 @@ import { CommandFunctions } from './action/command-functions'
 import { Sidebar } from './sidebar'
 
 import "./editor.css"
-import { Comment } from "@/components/editor/advice/comment";
+import { Advice } from "@/components/editor/advice/advice";
 
 const md = new MarkdownIt()
 
+type EventHandler = (data: any) => void;
+
+class AdviceManager {
+	private advices: Record<string, Advice> = {};
+
+	// pub sub
+	private handlers: Record<string, EventHandler[]> = {};
+
+	on(event: string, handler: EventHandler) {
+		if (!this.handlers[event]) {
+			this.handlers[event] = [];
+		}
+		this.handlers[event].push(handler);
+	}
+
+	emit(event: string, data: any) {
+		if (this.handlers[event]) {
+			this.handlers[event].forEach((handler) => handler(data));
+		}
+	}
+
+	addAdvice(advice: Advice) {
+		this.advices[advice.id] = advice;
+		this.emit('add', advice);
+	}
+
+	getAdvice(id: string) {
+		return this.advices[id];
+	}
+
+	updateAdvice(id: string, data: Advice) {
+		this.advices[id] = {
+			...this.advices[id],
+			...data,
+		};
+	}
+
+	updateAdvices(data: Advice[]) {
+		Object.keys(data).forEach((id) => {
+			// @ts-ignore
+			this.updateAdvice(id, data[id]);
+		});
+	}
+
+	getAdvices() : Advice[] {
+		return Object.values(this.advices);
+	}
+}
+
 const LiveEditor = () => {
 	const { t, i18n } = useTranslation();
+
+	const adviceManager = new AdviceManager();
 
 	// based on : https://github.com/sereneinserenade/tiptap-comment-extension/blob/d8ad0d01e98ac416e69f27ab237467b782076c16/demos/react/src/components/Tiptap.tsx
 	const [activeCommentId, setActiveCommentId] = useState<string | null>(null)
 	const commentsSectionRef = useRef<HTMLDivElement | null>(null)
 
 	const focusCommentWithActiveId = (id: string) => {
+		console.log(commentsSectionRef.current)
 		if (!commentsSectionRef.current) return
 
 		const commentInput = commentsSectionRef.current.querySelector<HTMLInputElement>(`input#${id}`)
@@ -48,7 +100,7 @@ const LiveEditor = () => {
 		})
 	}
 
-	const [comments, setComments] = useState<Comment[]>([])
+	const [comments, setComments] = useState<Advice[]>([])
 
 	const extensions = [
 		// we define all commands here
@@ -57,11 +109,8 @@ const LiveEditor = () => {
 			HTMLAttributes: {
 				class: "my-advice",
 			},
-			setAdviceCommand: (comment: Comment) => {
-				setComments([...comments, comment])
-				setActiveCommentId(comment.id)
-				setTimeout(() => console.log(comments))
-				setTimeout(focusCommentWithActiveId)
+			setAdviceCommand: (comment: Advice) => {
+				adviceManager.addAdvice(comment);
 			},
 			onAdviceActivated: (commentId) => {
 				setActiveCommentId(commentId)
@@ -90,6 +139,17 @@ const LiveEditor = () => {
 		// @ts-ignore
 		TextStyle.configure({ types: [ListItem.name] }),
 	]
+
+	useEffect(() => {
+		adviceManager.on('add', (comment) => {
+			setComments((prevComments) => {
+				const newComments = [...prevComments, comment];
+				setActiveCommentId(comment.id);
+				setTimeout(focusCommentWithActiveId);
+				return newComments;
+			});
+		});
+	}, []);
 
 	const editor = useEditor({
 		extensions,
@@ -133,7 +193,7 @@ const LiveEditor = () => {
 						comments.map(comment => (
 							<div
 								key={comment.id}
-								className={`flex flex-col gap-4 p-2 border rounded-lg border-slate-400 ${comment.id === activeCommentId ? 'border-blue-400 border-2' : ''} box-border`}
+								className={`flex flex-col gap-4 p-2 border rounded-lg border-slate-400 ${comment.id === activeCommentId ? 'bg-slate-300 border-2' : ''} box-border`}
 							>
                       <span className='flex items-end gap-2'>
                         <a href='https://github.com/unit-mesh/b3' className='font-semibold border-b border-blue-200'>
@@ -183,7 +243,7 @@ const LiveEditor = () => {
 												editor.commands.focus()
 											}}
 										>
-											Save
+											Accept
 										</button>
 									)
 								}

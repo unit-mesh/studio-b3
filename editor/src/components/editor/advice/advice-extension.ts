@@ -2,12 +2,12 @@
 import { Mark, mergeAttributes, Range } from "@tiptap/core";
 import { Mark as PMMark } from "@tiptap/pm/model";
 import { CommandProps } from "@tiptap/react";
-import { Comment } from "./comment";
+import { Advice } from "./advice";
 
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
 		advice: {
-			setAdviceCommand: (newComment: Comment) => ReturnType;
+			setAdviceCommand: (newComment: Advice) => ReturnType;
 			setAdvice: (commentId: string) => ReturnType;
 			unsetAdvice: (commentId: string) => ReturnType;
 		};
@@ -20,7 +20,7 @@ export interface MarkWithRange {
 }
 
 export interface CommentOptions {
-	setAdviceCommand: (comment: Comment) => void;
+	setAdviceCommand: (comment: Advice) => void;
 	HTMLAttributes: Record<string, any>;
 	onAdviceActivated: (commentId: string | null) => void;
 }
@@ -37,7 +37,7 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 
 	addOptions() {
 		return {
-			setAdviceCommand: (comment: Comment) => {
+			setAdviceCommand: (comment: Advice) => {
 			},
 			HTMLAttributes: {},
 			onAdviceActivated: () => {
@@ -84,8 +84,8 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 			return;
 		}
 
-		const commentMark = this.editor.schema.marks.comment;
-		const activeCommentMark = marks.find((mark) => mark.type === commentMark);
+		const adviceMark = this.editor.schema.marks.advice;
+		const activeCommentMark = marks.find((mark) => mark.type === adviceMark);
 		this.storage.activeAdviceId = activeCommentMark?.attrs.commentId || null;
 		this.options.onAdviceActivated(this.storage.activeAdviceId);
 	},
@@ -99,7 +99,7 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 	// @ts-ignore
 	addCommands() {
 		return {
-			setAdviceCommand: (comment: Comment) => ({ commands }: CommandProps) => {
+			setAdviceCommand: (comment: Advice) => ({ commands }: CommandProps) => {
 				this.options.setAdviceCommand(comment);
 			},
 			setAdvice: (commentId) => ({ commands }) => {
@@ -116,7 +116,7 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 				tr.doc.descendants((node, pos) => {
 					const commentMark = node.marks.find(
 						(mark) =>
-							mark.type.name === "comment" &&
+							mark.type.name === "advice" &&
 							mark.attrs.commentId === commentId
 					);
 

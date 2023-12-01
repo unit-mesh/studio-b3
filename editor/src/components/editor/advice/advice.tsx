@@ -1,13 +1,13 @@
 import { v4 } from 'uuid'
 
-export interface Comment {
+export interface Advice {
 	id: string
 	content: string
-	replies: Comment[]
+	replies: Advice[]
 	createdAt: Date
 }
 
-export const getNewComment = (content: string): Comment => {
+export const getNewComment = (content: string): Advice => {
 	return {
 		id: `a${v4()}a`,
 		content,
