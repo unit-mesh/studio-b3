@@ -5,14 +5,13 @@ import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
-
 import { CharacterCount } from "@tiptap/extension-character-count";
-import { createInlineCompletion } from "@/components/editor/inline/inline-completion";
 import { useTranslation } from "react-i18next";
 
 import MarkdownIt from 'markdown-it'
 import { useDebounce } from 'use-debounce';
 
+import { createInlineCompletion } from "./inline/inline-completion";
 import { MenuBar } from './menu-bar'
 import { MenuBubble } from './intelli/menu/menu-bubble'
 import { createSlashExtension } from './intelli/slash-extension'
@@ -29,7 +28,14 @@ const md = new MarkdownIt()
 const extensions = [
 	// we define all commands here
 	CommandFunctions,
-	AdviceExtension,
+	AdviceExtension.configure({
+		HTMLAttributes: {
+			class: "my-comment",
+		},
+		onAdviceActivated: (commentId) => {
+			console.log(commentId);
+		},
+	}),
 	TrackChangeExtension.configure({
 		enabled: false,
 	}),
