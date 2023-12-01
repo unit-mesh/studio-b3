@@ -40,8 +40,9 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 		});
 	}, []);
 
-	return <section className='flex flex-col border w-96 h-screen border-slate-200 bg-gray-50 dark:bg-gray-400 lg:flex md:hidden sm:hidden hidden'
-	                ref={advicesSectionRef}>
+	return <section
+		className='flex flex-col border w-96 h-screen border-slate-200 bg-gray-50 dark:bg-gray-400 lg:flex md:hidden sm:hidden hidden'
+		ref={advicesSectionRef}>
 		{advices.length ? (advices.map(advice => (
 				<div
 					key={advice.id}
@@ -57,10 +58,10 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
             </span>
           </span>
 
-					<input
+					<textarea
 						value={advice.content || ''}
 						disabled={advice.id !== activeCommentId}
-						className={`p-2 text-inherit bg-transparent focus:outline-none ${advice.id === activeCommentId ? 'bg-slate-300' : ''}`}
+						className={`p-2 text-inherit h-full bg-transparent focus:outline-none ${advice.id === activeCommentId ? 'bg-slate-300' : ''}`}
 						id={advice.id}
 						onInput={(event) => {
 							const value = (event.target as HTMLInputElement).value
@@ -87,7 +88,7 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 							<button
 								className='rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 								onClick={() => {
-									editor.commands.unsetAdvice(activeCommentId)
+									editor.commands.unsetAdvice(advice.id)
 									editor.commands.undo()
 									editor.commands.focus()
 								}}
@@ -98,7 +99,8 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 								className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 								onClick={() => {
 									setActiveId(null)
-									editor.commands.unsetAdvice(activeCommentId)
+									editor.commands.unsetAdvice(advice.id)
+									// todo: apply text
 									editor.commands.focus()
 								}}
 							>

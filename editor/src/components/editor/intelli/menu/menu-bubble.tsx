@@ -1,12 +1,13 @@
 import { BubbleMenu } from '@tiptap/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChangeForm, FacetType, OutputForm, PromptAction } from '@/types/custom-action.type'
+import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from '@/types/custom-action.type'
 import { Editor } from "@tiptap/core";
 import { CookieIcon } from "@radix-ui/react-icons";
 import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
 import { Button, DropdownMenu } from "@radix-ui/themes";
 import { newAdvice } from '../../advice/advice';
+import "../../action/command-functions";
 
 export const MenuBubble = ({ editor }: {
 	editor: Editor
@@ -21,27 +22,30 @@ export const MenuBubble = ({ editor }: {
 	if (editor.isActive('heading', { level: 1 })) {
 		smartMenus.push({
 			name: '优化子标题',
-			template: '优化子标题',
+			template: `优化文章的子标题 ###{{${DefinedVariable.SELECTION}}}###`,
 			facetType: FacetType.BUBBLE_MENU,
-			outputForm: OutputForm.DIFF,
+			changeForm: ChangeForm.DIFF,
+			outputForm: OutputForm.TEXT,
 		})
 	}
 
 	if (selectLength < 64) {
 		smartMenus.push({
 			name: '扩写',
-			template: `根据如下的内容扩写：{{selection}}`,
+			template: `根据如下的内容扩写，返回三句。###{{${DefinedVariable.SELECTION}}}###。`,
 			facetType: FacetType.BUBBLE_MENU,
-			outputForm: OutputForm.DIFF,
+			changeForm: ChangeForm.DIFF,
+			outputForm: OutputForm.TEXT,
 		})
 	}
 
 	if (selectLength > 3 && editor.isActive('paragraph')) {
 		smartMenus.push({
 			name: '润色',
-			template: '优化表达：{{selection}}',
+			template: `优化表达：###{{${DefinedVariable.SELECTION}}}###`,
 			facetType: FacetType.BUBBLE_MENU,
-			outputForm: OutputForm.DIFF,
+			changeForm: ChangeForm.DIFF,
+			outputForm: OutputForm.TEXT,
 		})
 	}
 
@@ -101,8 +105,11 @@ export const MenuBubble = ({ editor }: {
 				color="orange"
 				variant="outline"
 				key={index}
-				onClick={() => {
-					const newComment = newAdvice("TODO, we are working on it")
+				onClick={async () => {
+					const text = await editor.commands?.callLlm(menu);
+					console.log(text)
+
+					const newComment = newAdvice(text || "")
 					editor.commands?.setAdvice(newComment.id)
 					editor.commands?.setAdviceCommand(newComment)
 					menu.action?.(editor)

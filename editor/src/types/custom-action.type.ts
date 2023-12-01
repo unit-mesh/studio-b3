@@ -29,6 +29,10 @@ export enum OutputForm {
 	 * Side suggestion box
 	 */
 	SIDE_BOX = 4,
+	/**
+	 * Await all
+	 */
+	TEXT = 5,
 }
 
 export enum ChangeForm {

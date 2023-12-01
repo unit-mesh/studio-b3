@@ -15,6 +15,8 @@ export class ActionExecutor {
 	compile() {
 		const promptManager = PromptsManager.getInstance();
 		const range = this.position(this.editor.state.selection);
+		console.log(this.editor.state.selection);
+
 		const selection = this.editor.state.doc.textBetween(range.from, range.to);
 		const beforeCursor = this.editor.state.doc.textBetween(0, range.to);
 		const afterCursor = this.editor.state.doc.textBetween(range.to, this.editor.state.doc.nodeSize - 2);
@@ -29,14 +31,16 @@ export class ActionExecutor {
 
 		const similarChunks = "";
 
-		this.action.compiledTemplate = promptManager.compile(this.action.template, {
+		let context = {
 			[DefinedVariable.BEFORE_CURSOR]: beforeCursor,
 			[DefinedVariable.AFTER_CURSOR]: afterCursor,
 			[DefinedVariable.SELECTION]: selection,
 			[DefinedVariable.ALL]: all,
 			[DefinedVariable.SIMILAR_CHUNKS]: similarChunks,
 			[DefinedVariable.TITLE]: title,
-		});
+		};
+		console.log(context)
+		this.action.compiledTemplate = promptManager.compile(this.action.template, context);
 	}
 
 	position(selection: Selection): Range {

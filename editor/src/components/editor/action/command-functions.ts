@@ -19,7 +19,7 @@ declare module "@tiptap/core" {
 		};
 
 		callLlm: {
-			callLlm: (action: PromptAction) => void;
+			callLlm: (action: PromptAction) => string | undefined ;
 		}
 
 		getAiActions: {
@@ -83,8 +83,16 @@ export const CommandFunctions = Extension.create({
 									}
 								}));
 
-								break;
-							case OutputForm.NORMAL:
+								return undefined;
+
+							case OutputForm.TEXT:
+								const text = await fetch("/api/completion/yiyan", {
+									method: "POST",
+									body: JSON.stringify({ prompt: prompt }),
+								}).then(it => it.text());
+								return text;
+
+							default:
 								const msg = await fetch("/api/completion/yiyan", {
 									method: "POST",
 									body: JSON.stringify({ prompt: prompt }),
@@ -92,7 +100,7 @@ export const CommandFunctions = Extension.create({
 
 								const posInfo = actionExecutor.position(editor.state.selection);
 								editor.chain().focus().insertContentAt(posInfo, msg).run();
-								break;
+								return undefined;
 						}
 					},
 			getAiActions:
