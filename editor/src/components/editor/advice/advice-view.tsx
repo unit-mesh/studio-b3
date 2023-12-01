@@ -40,7 +40,7 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 		});
 	}, []);
 
-	return <section className='flex flex-col border w-96 h-screen border-slate-200 bg-gray-50 dark:bg-gray-400'
+	return <section className='flex flex-col border w-96 h-screen border-slate-200 bg-gray-50 dark:bg-gray-400 lg:flex md:hidden sm:hidden hidden'
 	                ref={advicesSectionRef}>
 		{advices.length ? (advices.map(advice => (
 				<div

@@ -105,7 +105,7 @@ const LiveEditor = () => {
         </div>}
 			</div>
 		</div>
-		{editor && <AdviceView editor={editor}/>}
+		{editor && <AdviceView  editor={editor}/>}
 	</div>
 }
 
