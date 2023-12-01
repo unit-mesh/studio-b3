@@ -40,7 +40,7 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 		});
 	}, []);
 
-	return <section className='flex flex-col gap-2 p-2 border rounded-lg w-96 border-slate-200 fixed top-0 right-0 '
+	return <section className='flex flex-col gap-2 p-2 border rounded-lg w-96 border-slate-200'
 	                ref={advicesSectionRef}>
 		{advices.length ? (advices.map(advice => (
 				<div

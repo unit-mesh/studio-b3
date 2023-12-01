@@ -26,47 +26,48 @@ import "./editor.css"
 import { Advice } from "@/components/editor/advice/advice";
 import { AdviceManager } from "@/components/editor/advice/advice-manager";
 import { AdviceView } from "@/components/editor/advice/advice-view";
+import { Settings } from "@/components/settings";
 
 const md = new MarkdownIt()
 
+const extensions = [
+	// we define all commands here
+	CommandFunctions,
+	AdviceExtension.configure({
+		HTMLAttributes: {
+			class: "my-advice",
+		},
+		setAdviceCommand: (advice: Advice) => {
+			AdviceManager.getInstance().addAdvice(advice);
+		},
+		onAdviceActivated: (adviceId) => {
+			if (adviceId) AdviceManager.getInstance().setActiveId(adviceId);
+		},
+	}),
+	TrackChangeExtension.configure({
+		enabled: false,
+	}),
+	createInlineCompletion(),
+	StarterKit.configure({
+		bulletList: {
+			keepMarks: true,
+			keepAttributes: false,
+		},
+		orderedList: {
+			keepMarks: true,
+			keepAttributes: false,
+		},
+	}),
+	createSlashExtension('ai-slash'),
+	createAiBlock(),
+	CharacterCount.configure({}),
+	Color.configure({ types: [TextStyle.name, ListItem.name] }),
+	// @ts-ignore
+	TextStyle.configure({ types: [ListItem.name] }),
+]
+
 const LiveEditor = () => {
 	const { t, i18n } = useTranslation();
-
-	const extensions = [
-		// we define all commands here
-		CommandFunctions,
-		AdviceExtension.configure({
-			HTMLAttributes: {
-				class: "my-advice",
-			},
-			setAdviceCommand: (advice: Advice) => {
-				AdviceManager.getInstance().addAdvice(advice);
-			},
-			onAdviceActivated: (adviceId) => {
-				if (adviceId) AdviceManager.getInstance().setActiveId(adviceId);
-			},
-		}),
-		TrackChangeExtension.configure({
-			enabled: false,
-		}),
-		createInlineCompletion(),
-		StarterKit.configure({
-			bulletList: {
-				keepMarks: true,
-				keepAttributes: false,
-			},
-			orderedList: {
-				keepMarks: true,
-				keepAttributes: false,
-			},
-		}),
-		createSlashExtension('ai-slash'),
-		createAiBlock(),
-		CharacterCount.configure({}),
-		Color.configure({ types: [TextStyle.name, ListItem.name] }),
-		// @ts-ignore
-		TextStyle.configure({ types: [ListItem.name] }),
-	]
 
 	const editor = useEditor({
 		extensions,
@@ -85,27 +86,27 @@ const LiveEditor = () => {
 		}
 	}, [debouncedEditor]);
 
-	return (<div className={'w-full'}>
-			<div className={'editor-block w-full'}>
-				{editor && <div className={'lg:flex md:hidden sm:hidden hidden'}><Sidebar eidtor={editor}/></div>}
+	return <div className={'w-full flex'}>
+		{editor && <div className={'lg:flex md:hidden sm:hidden hidden'}><Sidebar eidtor={editor}/></div>}
 
-				<div className={'editor-section'}>
-					{editor && <MenuBar editor={editor}/>}
-					<EditorContent editor={editor}/>
-					{editor && <MenuBubble editor={editor}/>}
+		<div className={'editor-block w-full'}>
+			<Settings />
+			<div className={'editor-section'}>
+				{editor && <MenuBar editor={editor}/>}
+				<EditorContent editor={editor}/>
+				{editor && <MenuBubble editor={editor}/>}
 
-					{editor && <div className="character-count">
-            <span>{Math.abs(editor.state.selection.$from.pos - editor.state.selection.$to.pos)} selected</span>
-            &nbsp;&nbsp;
-            <span>{editor.storage.characterCount.characters()} characters</span>
-            &nbsp;&nbsp;
-            <span>{editor.storage.characterCount.words()} words</span>
-          </div>}
-				</div>
+				{editor && <div className="character-count">
+          <span>{Math.abs(editor.state.selection.$from.pos - editor.state.selection.$to.pos)} selected</span>
+          &nbsp;&nbsp;
+          <span>{editor.storage.characterCount.characters()} characters</span>
+          &nbsp;&nbsp;
+          <span>{editor.storage.characterCount.words()} words</span>
+        </div>}
 			</div>
-			{editor && <AdviceView editor={editor} /> }
 		</div>
-	)
+		{editor && <AdviceView editor={editor}/>}
+	</div>
 }
 
 export default LiveEditor

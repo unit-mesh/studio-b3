@@ -4,7 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 
 const mainPlaceholder = `# Studio B3
 
-Hi there, 3B is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
+Hi there, B3 is editor for Unit Mesh architecture paradigms, the next-gen software architecture.
 
 1. Click toolbar's AI button to trigger AI commands.
 2. Press \`/\` to trigger AI commands.
@@ -31,9 +31,9 @@ Scenarios: professional article, blog, user stories, daily reports, weekly repor
 
 `
 
-const zhPlaceholder = `# 3B 编辑器
+const zhPlaceholder = `# B3 编辑器
 
-3B 是用于 Unit Mesh 架构范式的编辑器，以探索下一代软件架构。
+B3 是一个 AI 原生文本编辑器，适合于 Unit Mesh 架构范式的编辑器，以探索下一代软件架构。
 
 1. 点击工具栏上的 AI 按钮以触发 AI 指令。
 2. 按 \`/\` 键以触发 AI 指令。

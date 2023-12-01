@@ -2,7 +2,6 @@ import Head from 'next/head'
 
 import styles from '../../styles/Home.module.css'
 import LiveEditor from '@/components/editor/live-editor'
-import { Settings } from '@/components/settings'
 import '@/i18n/i18n';
 import { Theme } from '@radix-ui/themes';
 
@@ -17,7 +16,6 @@ export default function Home() {
       <main>
         <div>
           <Theme>
-            <Settings />
             <LiveEditor />
           </Theme>
         </div>
