@@ -75,7 +75,7 @@ export const MenuBubble = ({ editor }: {
 		}
 	});
 
-	return <BubbleMenu className={'bubble-menu-group w-64 bg-white'} editor={editor}>
+	return <BubbleMenu className={'bubble-menu-group w-64 bg-white'} editor={editor} tippyOptions={{ duration: 100 }}>
 		<div>
 			<DropdownMenu.Root>
 				<DropdownMenu.Trigger>

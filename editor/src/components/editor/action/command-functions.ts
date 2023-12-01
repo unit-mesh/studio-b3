@@ -2,6 +2,7 @@ import { Commands, Dispatch, Extension } from "@tiptap/react";
 import { Editor } from "@tiptap/core";
 import { Transaction } from "prosemirror-state";
 import {
+	DefinedVariable,
 	FacetType, OutputForm,
 	PromptAction,
 } from "@/types/custom-action.type";
@@ -56,6 +57,7 @@ export const CommandFunctions = Extension.create({
 				(action: PromptAction) =>
 					async ({ tr, commands, editor }: { tr: Transaction; commands: Commands, editor: Editor }) => {
 						// do execute action
+						editor.setEditable(false)
 						const actionExecutor = new ActionExecutor(action, editor);
 						actionExecutor.compile();
 						let prompt = action.compiledTemplate;
@@ -78,6 +80,7 @@ export const CommandFunctions = Extension.create({
 									}
 								}));
 
+								editor.setEditable(true);
 								return undefined;
 
 							case OutputForm.TEXT:
@@ -85,6 +88,8 @@ export const CommandFunctions = Extension.create({
 									method: "POST",
 									body: JSON.stringify({ prompt: prompt }),
 								}).then(it => it.text());
+
+								editor.setEditable(true);
 								return text;
 
 							default:
@@ -95,6 +100,8 @@ export const CommandFunctions = Extension.create({
 
 								const posInfo = actionExecutor.position(editor.state.selection);
 								editor.chain().focus().insertContentAt(posInfo, msg).run();
+
+								editor.setEditable(true);
 								return undefined;
 						}
 					},
@@ -111,12 +118,14 @@ export const CommandFunctions = Extension.create({
 			callQuickAction:
 				(text: string) =>
 					({ editor }: { editor: Editor }) => {
+						editor.setEditable(false);
 						editor.commands.callLlm(<PromptAction>{
 							name: text,
-							template: text,
+							template: `You are an assistant to help user write article. Here is user command:` + text + `\n Here is some content ###Article title: {{${DefinedVariable.TITLE}}}, Before Content: {{${DefinedVariable.BEFORE_CURSOR}}}###`,
 							facetType: FacetType.QUICK_INSERT,
 							outputForm: OutputForm.STREAMING,
 						});
+						editor.setEditable(true);
 					},
 			replaceRange:
 				(text: string) =>
