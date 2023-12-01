@@ -63,32 +63,31 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 					   className={`p-2 text-inherit h-full bg-transparent focus:outline-none ${advice.id === activeCommentId ? 'bg-slate-300' : ''}`}
 					>{advice.content || ''}</p>
 
-					{advice.id === activeCommentId && (
-						<div className={'flex'}>
-							<button
-								className='rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
-								onClick={() => {
-									AdviceManager.getInstance().removeAdvice(advice.id)
-									editor.commands.unsetAdvice(advice.id)
-									editor.commands.focus()
-								}}
-							>
-								Reject
-							</button>
-							<button
-								className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
-								onClick={() => {
-									editor.commands.unsetAdvice(advice.id)
-									AdviceManager.getInstance().removeAdvice(advice.id)
-									setActiveId(null)
-									editor.commands?.replaceRange(advice.content)
-									editor.commands.focus()
-								}}
-							>
-								Accept
-							</button>
-						</div>
-					)}
+					<div className={'flex'}>
+						<button
+							className='rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
+							onClick={() => {
+								AdviceManager.getInstance().removeAdvice(advice.id)
+								editor.commands.unsetAdvice(advice.id)
+								editor.commands.focus()
+							}}
+						>
+							Reject
+						</button>
+						<button
+							className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
+							onClick={() => {
+								console.log(advice.content)
+								editor.commands?.replaceRange(advice.content)
+								setActiveId(null)
+								editor.commands.unsetAdvice(advice.id)
+								AdviceManager.getInstance().removeAdvice(advice.id)
+								editor.commands.focus()
+							}}
+						>
+							Accept
+						</button>
+					</div>
 				</div>
 			))
 		) : (<span className='pt-8 text-center text-slate-400 w-96'>No advices yet</span>)

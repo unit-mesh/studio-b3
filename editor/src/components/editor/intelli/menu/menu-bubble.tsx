@@ -7,7 +7,7 @@ import { CookieIcon } from "@radix-ui/react-icons";
 import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
 import { Button, DropdownMenu } from "@radix-ui/themes";
 import { newAdvice } from '../../advice/advice';
-import "../../action/command-functions";
+import BounceLoader from "react-spinners/BounceLoader";
 
 export const MenuBubble = ({ editor }: {
 	editor: Editor
@@ -18,6 +18,8 @@ export const MenuBubble = ({ editor }: {
 
 	const menus = editor?.commands?.getAiActions(FacetType.BUBBLE_MENU) || [];
 	const smartMenus: PromptAction[] = [];
+	// loading
+	const [loading, setLoading] = React.useState(false);
 
 	if (editor.isActive('heading', { level: 1 })) {
 		smartMenus.push({
@@ -101,12 +103,25 @@ export const MenuBubble = ({ editor }: {
 		</div>
 
 		{smartMenus && smartMenus.map((menu, index) => {
+			if (loading) {
+				return <BounceLoader
+					key={index}
+					loading={loading}
+					size={32}
+					aria-label="Loading Spinner"
+					data-testid="loader"
+				/>
+			}
+
 			return <Button
 				color="orange"
 				variant="outline"
 				key={index}
 				onClick={async () => {
+					setLoading(true)
+
 					const text = await editor.commands?.callLlm(menu);
+					setLoading(false)
 
 					const newComment = newAdvice(text || "")
 					editor.commands?.setAdvice(newComment.id)

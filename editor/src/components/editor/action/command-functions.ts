@@ -1,4 +1,4 @@
-import { Commands, Extension } from "@tiptap/react";
+import { Commands, Dispatch, Extension } from "@tiptap/react";
 import { Editor } from "@tiptap/core";
 import { Transaction } from "prosemirror-state";
 import {
@@ -10,16 +10,12 @@ import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
 
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
-		variable: {
-			variable: () => ReturnType;
-		};
-
 		getSelectedText: {
 			getSelectedText: () => string;
 		};
 
 		callLlm: {
-			callLlm: (action: PromptAction) => string | undefined ;
+			callLlm: (action: PromptAction) => string | undefined;
 		}
 
 		getAiActions: {
@@ -45,10 +41,6 @@ export const CommandFunctions = Extension.create({
 	// @ts-ignore
 	addCommands: () => {
 		return {
-			// for examples: $selection, $beforeCursor
-			variable: (variableName: string, variableValue: string) => () => {
-				console.log("variable", variableName, variableValue);
-			},
 			getSelectedText:
 				() =>
 					({ editor }: { editor: Editor }) => {
@@ -128,10 +120,10 @@ export const CommandFunctions = Extension.create({
 					},
 			replaceRange:
 				(text: string) =>
-					({ editor }: { editor: Editor }) => {
-						const tr = editor.state.tr
+					({ editor, tr, dispatch }: { editor: Editor, tr: Transaction, dispatch: any }) => {
 						const { from, to } = editor.state.selection;
-						tr.replaceWith(from, to, editor.state.schema.text(text));
+						tr.replaceRangeWith(from, to, editor.state.schema.text(text));
+						dispatch(tr);
 					},
 			setBackgroundContext:
 				(context: string) =>
