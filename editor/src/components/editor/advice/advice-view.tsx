@@ -40,12 +40,12 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 		});
 	}, []);
 
-	return <section className='flex flex-col gap-2 p-2 border rounded-lg w-96 h-screen border-slate-200'
+	return <section className='flex flex-col border w-96 h-screen border-slate-200 bg-gray-50 dark:bg-gray-400'
 	                ref={advicesSectionRef}>
 		{advices.length ? (advices.map(advice => (
 				<div
 					key={advice.id}
-					className={`flex flex-col gap-4 p-2 border rounded-lg border-slate-400 ${advice.id === activeCommentId ? 'bg-slate-300 border-2' : ''} box-border`}
+					className={`flex flex-col gap-4 p-2 border border-slate-400 ${advice.id === activeCommentId ? 'bg-slate-300 border-2' : ''} box-border`}
 				>
           <span className='flex items-end gap-2'>
             <a href='https://github.com/unit-mesh/b3' className='font-semibold border-b border-blue-200'>
@@ -60,7 +60,7 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 					<input
 						value={advice.content || ''}
 						disabled={advice.id !== activeCommentId}
-						className={`p-2 rounded-lg text-inherit bg-transparent focus:outline-none ${advice.id === activeCommentId ? 'bg-slate-600' : ''}`}
+						className={`p-2 text-inherit bg-transparent focus:outline-none ${advice.id === activeCommentId ? 'bg-slate-300' : ''}`}
 						id={advice.id}
 						onInput={(event) => {
 							const value = (event.target as HTMLInputElement).value
@@ -83,15 +83,26 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 					/>
 
 					{advice.id === activeCommentId && (
-						<button
-							className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
-							onClick={() => {
-								setActiveId(null)
-								editor.commands.focus()
-							}}
-						>
-							Accept
-						</button>
+						<div className={'flex'}>
+							<button
+								className='rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
+								onClick={() => {
+									setActiveId(null)
+									editor.commands.focus()
+								}}
+							>
+								Reject
+							</button>
+							<button
+								className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
+								onClick={() => {
+									setActiveId(null)
+									editor.commands.focus()
+								}}
+							>
+								Accept
+							</button>
+						</div>
 					)}
 				</div>
 			))

@@ -544,13 +544,16 @@ input {
 }
 
 .editor-section {
+    max-width: 800px;
+    height: 100%;
+    min-height: 80vh;
+}
+
+.editor-main {
     margin: 0.5rem auto;
     padding: 1rem;
     flex-basis: 45%;
     border: 1px solid #0070f3;
-    max-width: 800px;
-    height: 100%;
-    min-height: 80vh;
 }
 
 .character-count {

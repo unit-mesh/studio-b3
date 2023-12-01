@@ -89,9 +89,9 @@ const LiveEditor = () => {
 	return <div className={'w-full flex editor-block'}>
 		{editor && <div className={'lg:flex md:hidden sm:hidden hidden'}><Sidebar eidtor={editor}/></div>}
 
-		<div className={'w-full'}>
+		<div className={'w-full editor-section'}>
 			<Settings />
-			<div className={'editor-section'}>
+			<div className={'editor-main'}>
 				{editor && <MenuBar editor={editor}/>}
 				<EditorContent editor={editor}/>
 				{editor && <MenuBubble editor={editor}/>}
