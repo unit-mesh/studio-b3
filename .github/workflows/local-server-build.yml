@@ -12,9 +12,8 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  publish:
-    name: Publish for ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+  build:
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
