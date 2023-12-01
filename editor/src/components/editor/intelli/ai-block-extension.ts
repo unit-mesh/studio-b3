@@ -4,12 +4,10 @@
  * origin: https://github.com/ueberdosis/tiptap/blob/develop/packages/extension-code-block/src/code-block.ts
  */
 import {
-	CommandProps,
 	Node,
 	RawCommands,
 	ReactNodeViewRenderer,
 } from "@tiptap/react";
-import { PluginKey } from "@tiptap/pm/state";
 
 import AiBlockView from "./ai-block-view";
 
@@ -20,11 +18,9 @@ declare module "@tiptap/core" {
 		setAiBlock: {
 			setAiBlock: (attributes: Record<string, any>) => ReturnType;
 		};
-
 		toggleAiBlock: {
 			toggleAiBlock: (attributes: Record<string, any>) => ReturnType;
 		};
-
 		enableEnter: {
 			enableEnter: () => ReturnType;
 		};
@@ -62,7 +58,7 @@ export const createAiBlock = () => {
 						},
 			};
 		},
-		addNodeView() {
+		addNodeView: function () {
 			return ReactNodeViewRenderer(AiBlockView);
 		},
 		addKeyboardShortcuts() {
