@@ -71,13 +71,18 @@ export const CommandFunctions = Extension.create({
 
 						switch (action.outputForm) {
 							case OutputForm.STREAMING:
-								const content = await fetch("/api/completion/yiyan", {
+								const response = await fetch("/api/completion/yiyan", {
 									method: "POST",
 									body: JSON.stringify({ prompt: prompt }),
-								}).then(it => it.text());
+								})
 
-								const pos = actionExecutor.position(editor.state.selection);
-								editor.chain().focus().insertContentAt(pos, content).run();
+								await response.body?.pipeThrough(new TextDecoderStream()).pipeTo(new WritableStream({
+									write: (chunk) => {
+										const pos = actionExecutor.position(editor.state.selection);
+										editor.chain().focus().insertContentAt(pos, chunk).run();
+									}
+								}));
+
 								break;
 							case OutputForm.NORMAL:
 								const msg = await fetch("/api/completion/yiyan", {
