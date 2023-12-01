@@ -70,7 +70,6 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 	renderHTML({ HTMLAttributes }: {
 		HTMLAttributes: Record<string, any>
 	}) {
-		console.log("renderHTML", HTMLAttributes);
 		return ["span", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0,];
 	},
 

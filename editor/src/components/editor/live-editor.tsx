@@ -71,7 +71,7 @@ class AdviceManager {
 		});
 	}
 
-	getAdvices() : Advice[] {
+	getAdvices(): Advice[] {
 		return Object.values(this.advices);
 	}
 }
@@ -82,10 +82,10 @@ const LiveEditor = () => {
 	const adviceManager = new AdviceManager();
 
 	// based on : https://github.com/sereneinserenade/tiptap-comment-extension/blob/d8ad0d01e98ac416e69f27ab237467b782076c16/demos/react/src/components/Tiptap.tsx
-	const [activeCommentId, setActiveCommentId] = useState<string | null>(null)
+	const [activeCommentId, setActiveId] = useState<string | null>(null)
 	const commentsSectionRef = useRef<HTMLDivElement | null>(null)
 
-	const focusCommentWithActiveId = (id: string) => {
+	const focusAdviceWithActiveId = (id: string) => {
 		console.log(commentsSectionRef.current)
 		if (!commentsSectionRef.current) return
 
@@ -100,7 +100,7 @@ const LiveEditor = () => {
 		})
 	}
 
-	const [comments, setComments] = useState<Advice[]>([])
+	const [advices, setAdvices] = useState<Advice[]>([])
 
 	const extensions = [
 		// we define all commands here
@@ -109,13 +109,12 @@ const LiveEditor = () => {
 			HTMLAttributes: {
 				class: "my-advice",
 			},
-			setAdviceCommand: (comment: Advice) => {
-				adviceManager.addAdvice(comment);
+			setAdviceCommand: (advice: Advice) => {
+				adviceManager.addAdvice(advice);
 			},
-			onAdviceActivated: (commentId) => {
-				setActiveCommentId(commentId)
-
-				if (commentId) setTimeout(() => focusCommentWithActiveId(commentId))
+			onAdviceActivated: (adviceId) => {
+				setActiveId(adviceId)
+				if (adviceId) setTimeout(() => focusAdviceWithActiveId(adviceId))
 			},
 		}),
 		TrackChangeExtension.configure({
@@ -141,12 +140,12 @@ const LiveEditor = () => {
 	]
 
 	useEffect(() => {
-		adviceManager.on('add', (comment) => {
-			setComments((prevComments) => {
-				const newComments = [...prevComments, comment];
-				setActiveCommentId(comment.id);
-				setTimeout(focusCommentWithActiveId);
-				return newComments;
+		adviceManager.on('add', (advice) => {
+			setAdvices((prevAdvices) => {
+				const newAdvice = [...prevAdvices, advice];
+				setActiveId(advice.id);
+				setTimeout(focusAdviceWithActiveId);
+				return newAdvice;
 			});
 		});
 	}, []);
@@ -187,34 +186,35 @@ const LiveEditor = () => {
           </div>}
 				</div>
 			</div>
-			{ editor && <section className='flex flex-col gap-2 p-2 border rounded-lg w-96 border-slate-200 fixed top-0 right-0 ' ref={commentsSectionRef}>
-				{
-					comments.length ? (
-						comments.map(comment => (
+			{editor &&
+        <section className='flex flex-col gap-2 p-2 border rounded-lg w-96 border-slate-200 fixed top-0 right-0 '
+                 ref={commentsSectionRef}>
+					{advices.length ? (
+						advices.map(advice => (
 							<div
-								key={comment.id}
-								className={`flex flex-col gap-4 p-2 border rounded-lg border-slate-400 ${comment.id === activeCommentId ? 'bg-slate-300 border-2' : ''} box-border`}
+								key={advice.id}
+								className={`flex flex-col gap-4 p-2 border rounded-lg border-slate-400 ${advice.id === activeCommentId ? 'bg-slate-300 border-2' : ''} box-border`}
 							>
-                      <span className='flex items-end gap-2'>
-                        <a href='https://github.com/unit-mesh/b3' className='font-semibold border-b border-blue-200'>
-                          Studio B3 AI
-                        </a>
+                <span className='flex items-end gap-2'>
+                  <a href='https://github.com/unit-mesh/b3' className='font-semibold border-b border-blue-200'>
+                    Studio B3 AI
+                  </a>
 
-                        <span className='text-xs text-slate-400'>
-                          {comment.createdAt.toLocaleDateString()}
-                        </span>
-                      </span>
+                  <span className='text-xs text-slate-400'>
+                    {advice.createdAt.toLocaleDateString()}
+                  </span>
+                </span>
 
 								<input
-									value={comment.content || ''}
-									disabled={comment.id !== activeCommentId}
-									className={`p-2 rounded-lg text-inherit bg-transparent focus:outline-none ${comment.id === activeCommentId ? 'bg-slate-600' : ''}`}
-									id={comment.id}
+									value={advice.content || ''}
+									disabled={advice.id !== activeCommentId}
+									className={`p-2 rounded-lg text-inherit bg-transparent focus:outline-none ${advice.id === activeCommentId ? 'bg-slate-600' : ''}`}
+									id={advice.id}
 									onInput={
 										(event) => {
 											const value = (event.target as HTMLInputElement).value
 
-											setComments(comments.map(comment => {
+											setAdvices(advices.map(comment => {
 												if (comment.id === activeCommentId) {
 													return {
 														...comment,
@@ -226,20 +226,18 @@ const LiveEditor = () => {
 											}))
 										}
 									}
-									onKeyDown={
-										(event) => {
-											if (event.key !== 'Enter') return
-											setActiveCommentId(null)
-										}
-									}
+									onKeyDown={(event) => {
+										if (event.key !== 'Enter') return
+										setActiveId(null)
+									}}
 								/>
 
 								{
-									comment.id === activeCommentId && (
+									advice.id === activeCommentId && (
 										<button
 											className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 											onClick={() => {
-												setActiveCommentId(null)
+												setActiveId(null)
 												editor.commands.focus()
 											}}
 										>
@@ -250,8 +248,8 @@ const LiveEditor = () => {
 							</div>
 						))
 					) : (<span className='pt-8 text-center text-slate-400'>No comments yet</span>)
-				}
-      </section>
+					}
+        </section>
 			}
 		</div>
 	)
