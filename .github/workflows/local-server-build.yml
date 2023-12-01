@@ -15,25 +15,9 @@ jobs:
   publish:
     name: Publish for ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-            artifact_name: b3_server
-            asset_name: b3_server-linux
-          - os: windows-latest
-            artifact_name: b3_server.exe
-            asset_name: b3_server-windows.exe
-          - os: macos-latest
-            artifact_name: b3_server
-            asset_name: b3_server-macos
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build Server(unix)
-        if: matrix.os != 'windows-latest'
-        run: bash nx build local_server
-      - name: Build Server(windows)
-        if: matrix.os == 'windows-latest'
-        run: .\nx.bat build local_server --configuration=windows
+      - name: Build Server
+        run: cargo build --release --manifest-path=local_server/Cargo.toml
