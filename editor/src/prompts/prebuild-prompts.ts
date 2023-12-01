@@ -9,6 +9,14 @@ import {
 
 
 const ToolbarMenu: PromptAction[] = [
+	// 生成大纲
+	{
+		name: 'Generate Outline',
+		i18Name: true,
+		template: `You are an assistant helping a user to generate an outline. Output in markdown format. ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
+		facetType: FacetType.TOOLBAR_MENU,
+		outputForm: OutputForm.STREAMING,
+	},
 	{
 		name: 'Continue writing',
 		i18Name: true,

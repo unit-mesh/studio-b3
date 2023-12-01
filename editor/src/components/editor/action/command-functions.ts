@@ -68,7 +68,7 @@ export const CommandFunctions = Extension.create({
 						}
 						console.info("compiledTemplate: \n\n", action.compiledTemplate);
 
-						const msg = await fetch("/api/completion/openai", {
+						const msg = await fetch("/api/completion/yiyan", {
 							method: "POST",
 							body: JSON.stringify({ prompt: action.compiledTemplate }),
 						}).then(it => it.text());
