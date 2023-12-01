@@ -30,6 +30,7 @@ const md = new MarkdownIt()
 const LiveEditor = () => {
 	const { t, i18n } = useTranslation();
 
+	// based on : https://github.com/sereneinserenade/tiptap-comment-extension/blob/d8ad0d01e98ac416e69f27ab237467b782076c16/demos/react/src/components/Tiptap.tsx
 	const [comments, setComments] = useState<Comment[]>([])
 	const [activeCommentId, setActiveCommentId] = useState<string | null>(null)
 	const commentsSectionRef = useRef<HTMLDivElement | null>(null)

@@ -265,6 +265,14 @@
     text-decoration: line-through;
 }
 
+.ProseMirror .my-advice {
+    border-bottom-width:2px;
+    --tw-border-opacity: 1;
+    border-color:rgb(254 240 138 / var(--tw-border-opacity));
+    --tw-bg-opacity: 1;
+    background-color:rgb(161 98 7 / var(--tw-bg-opacity))
+}
+
 .bubble-menu-group {
     position: absolute;
     display: flex;
