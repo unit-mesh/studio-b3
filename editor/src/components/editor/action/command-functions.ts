@@ -63,25 +63,26 @@ export const CommandFunctions = Extension.create({
 						// do execute action
 						const actionExecutor = new ActionExecutor(action, editor);
 						actionExecutor.compile();
-						if (action.compiledTemplate == null) {
+						let prompt = action.compiledTemplate;
+						if (prompt == null) {
 							throw Error("template is not been compiled yet! compile it first");
 						}
-						console.info("compiledTemplate: \n\n", action.compiledTemplate);
+						console.info("compiledTemplate: \n\n", prompt);
 
 						switch (action.outputForm) {
 							case OutputForm.STREAMING:
-								const content = await fetch("/api/completion/yiyan", {
+								const content = await fetch("/api/completion/qwen", {
 									method: "POST",
-									body: JSON.stringify({ prompt: action.compiledTemplate }),
+									body: JSON.stringify({ prompt: prompt }),
 								}).then(it => it.text());
 
 								const pos = actionExecutor.position(editor.state.selection);
 								editor.chain().focus().insertContentAt(pos, content).run();
 								break;
 							case OutputForm.NORMAL:
-								const msg = await fetch("/api/completion/yiyan", {
+								const msg = await fetch("/api/completion/qwen", {
 									method: "POST",
-									body: JSON.stringify({ prompt: action.compiledTemplate }),
+									body: JSON.stringify({ prompt: prompt }),
 								}).then(it => it.text());
 
 								const posInfo = actionExecutor.position(editor.state.selection);
