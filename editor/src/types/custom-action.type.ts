@@ -95,6 +95,10 @@ export enum DefinedVariable {
 	 * 选中文本的相关块
 	 */
 	RELATED_CHUNKS = "related_chunks",
+	/**
+	 * Title of the document
+	 */
+	TITLE = "title",
 }
 
 export enum SourceType {

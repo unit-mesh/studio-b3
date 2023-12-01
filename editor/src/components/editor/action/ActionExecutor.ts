@@ -18,7 +18,14 @@ export class ActionExecutor {
 		const selection = this.editor.state.doc.textBetween(range.from, range.to);
 		const beforeCursor = this.editor.state.doc.textBetween(0, range.to);
 		const afterCursor = this.editor.state.doc.textBetween(range.to, this.editor.state.doc.nodeSize - 2);
-		const all = this.editor.state.doc.textBetween(0, this.editor.state.doc.nodeSize - 2);
+		const all = this.editor.getText();
+		let title = '';
+
+		this.editor.state.doc.descendants((node, pos) => {
+			if (node.type.name === 'heading' && node.attrs.level === 1) {
+				title = node.textContent;
+			}
+		});
 
 		const similarChunks = "";
 
@@ -28,6 +35,7 @@ export class ActionExecutor {
 			[DefinedVariable.SELECTION]: selection,
 			[DefinedVariable.ALL]: all,
 			[DefinedVariable.SIMILAR_CHUNKS]: similarChunks,
+			[DefinedVariable.TITLE]: title,
 		});
 	}
 
