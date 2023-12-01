@@ -87,7 +87,8 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 							<button
 								className='rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 								onClick={() => {
-									setActiveId(null)
+									editor.commands.unsetAdvice(activeCommentId)
+									editor.commands.undo()
 									editor.commands.focus()
 								}}
 							>
@@ -97,6 +98,7 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 								className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 								onClick={() => {
 									setActiveId(null)
+									editor.commands.unsetAdvice(activeCommentId)
 									editor.commands.focus()
 								}}
 							>

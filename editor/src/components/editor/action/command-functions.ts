@@ -71,7 +71,7 @@ export const CommandFunctions = Extension.create({
 
 						switch (action.outputForm) {
 							case OutputForm.STREAMING:
-								const content = await fetch("/api/completion/qwen", {
+								const content = await fetch("/api/completion/yiyan", {
 									method: "POST",
 									body: JSON.stringify({ prompt: prompt }),
 								}).then(it => it.text());
@@ -80,7 +80,7 @@ export const CommandFunctions = Extension.create({
 								editor.chain().focus().insertContentAt(pos, content).run();
 								break;
 							case OutputForm.NORMAL:
-								const msg = await fetch("/api/completion/qwen", {
+								const msg = await fetch("/api/completion/yiyan", {
 									method: "POST",
 									body: JSON.stringify({ prompt: prompt }),
 								}).then(it => it.text());
