@@ -7,7 +7,7 @@ export interface Advice {
 	createdAt: Date
 }
 
-export const getNewComment = (content: string): Advice => {
+export const newAdvice = (content: string): Advice => {
 	return {
 		id: `a${v4()}a`,
 		content,

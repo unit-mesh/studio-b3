@@ -24,69 +24,18 @@ import { Sidebar } from './sidebar'
 
 import "./editor.css"
 import { Advice } from "@/components/editor/advice/advice";
+import { AdviceManager } from "@/components/editor/advice/advice-manager";
 
 const md = new MarkdownIt()
 
-type EventHandler = (data: any) => void;
-
-class AdviceManager {
-	private advices: Record<string, Advice> = {};
-
-	// pub sub
-	private handlers: Record<string, EventHandler[]> = {};
-
-	on(event: string, handler: EventHandler) {
-		if (!this.handlers[event]) {
-			this.handlers[event] = [];
-		}
-		this.handlers[event].push(handler);
-	}
-
-	emit(event: string, data: any) {
-		if (this.handlers[event]) {
-			this.handlers[event].forEach((handler) => handler(data));
-		}
-	}
-
-	addAdvice(advice: Advice) {
-		this.advices[advice.id] = advice;
-		this.emit('add', advice);
-	}
-
-	getAdvice(id: string) {
-		return this.advices[id];
-	}
-
-	updateAdvice(id: string, data: Advice) {
-		this.advices[id] = {
-			...this.advices[id],
-			...data,
-		};
-	}
-
-	updateAdvices(data: Advice[]) {
-		Object.keys(data).forEach((id) => {
-			// @ts-ignore
-			this.updateAdvice(id, data[id]);
-		});
-	}
-
-	getAdvices(): Advice[] {
-		return Object.values(this.advices);
-	}
-}
-
 const LiveEditor = () => {
 	const { t, i18n } = useTranslation();
-
-	const adviceManager = new AdviceManager();
 
 	// based on : https://github.com/sereneinserenade/tiptap-comment-extension/blob/d8ad0d01e98ac416e69f27ab237467b782076c16/demos/react/src/components/Tiptap.tsx
 	const [activeCommentId, setActiveId] = useState<string | null>(null)
 	const commentsSectionRef = useRef<HTMLDivElement | null>(null)
 
 	const focusAdviceWithActiveId = (id: string) => {
-		console.log(commentsSectionRef.current)
 		if (!commentsSectionRef.current) return
 
 		const commentInput = commentsSectionRef.current.querySelector<HTMLInputElement>(`input#${id}`)
@@ -110,7 +59,7 @@ const LiveEditor = () => {
 				class: "my-advice",
 			},
 			setAdviceCommand: (advice: Advice) => {
-				adviceManager.addAdvice(advice);
+				AdviceManager.getInstance().addAdvice(advice);
 			},
 			onAdviceActivated: (adviceId) => {
 				setActiveId(adviceId)
@@ -140,7 +89,7 @@ const LiveEditor = () => {
 	]
 
 	useEffect(() => {
-		adviceManager.on('add', (advice) => {
+		AdviceManager.getInstance().on('add', (advice) => {
 			setAdvices((prevAdvices) => {
 				const newAdvice = [...prevAdvices, advice];
 				setActiveId(advice.id);
@@ -163,8 +112,7 @@ const LiveEditor = () => {
 	const [debouncedEditor] = useDebounce(editor?.state.doc.content, 2000);
 	useEffect(() => {
 		if (debouncedEditor) {
-			// save
-			console.info('save', debouncedEditor)
+			console.info('todo: add save logic', debouncedEditor)
 		}
 	}, [debouncedEditor]);
 
