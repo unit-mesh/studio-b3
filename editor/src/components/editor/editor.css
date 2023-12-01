@@ -247,6 +247,10 @@
     }
 }
 
+.ProseMirror-content {
+    overflow-y: scroll;
+}
+
 .ProseMirror-focused {
     outline: #0d0d0d;
 }
