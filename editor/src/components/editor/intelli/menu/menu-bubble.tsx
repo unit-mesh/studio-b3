@@ -86,7 +86,7 @@ export const MenuBubble = ({ editor }: {
 
 		setSmartMenus(innerSmartMenus)
 		setMenus(buildMenus())
-	}, [editor, menus]);
+	}, [editor]);
 
 	const [isOpen, setIsOpen] = React.useState(false);
 	const handleToggle = () => setIsOpen(!isOpen);
