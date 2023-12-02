@@ -90,7 +90,7 @@ const LiveEditor = () => {
 		{editor && <div className={'lg:flex md:hidden sm:hidden hidden'}><Sidebar eidtor={editor}/></div>}
 
 		<div className={'w-full editor-section'}>
-			<Settings />
+			{editor && <Settings editor={editor}/>}
 			<div className={'editor-main'}>
 				{editor && <MenuBar editor={editor}/>}
 				<EditorContent editor={editor}/>
@@ -105,7 +105,7 @@ const LiveEditor = () => {
         </div>}
 			</div>
 		</div>
-		{editor && <AdviceView  editor={editor}/>}
+		{editor && <AdviceView editor={editor}/>}
 	</div>
 }
 

@@ -1,12 +1,16 @@
+import { useState } from "react";
+import { Editor } from "@tiptap/core";
+
+import { Button } from "@radix-ui/themes";
 import { Cross2Icon, GearIcon } from '@radix-ui/react-icons'
 import * as Dialog from '@radix-ui/react-dialog'
 import * as Tabs from '@radix-ui/react-tabs'
 import Select from 'react-select';
 
 import styles from '../../styles/Home.module.css'
-import { Button } from "@radix-ui/themes";
-import { useState } from "react";
 
+// all options
+// don't delete this
 const articleTypeOptions = [
 	{ value: 'essay', label: 'Essay' },
 	{ value: 'article', label: 'Article' },
@@ -24,6 +28,11 @@ const articleTypeOptions = [
 	{ value: 'speech', label: 'Speech' },
 	{ value: 'review', label: 'Review' },
 	{ value: 'proposal', label: 'Proposal' },
+];
+
+const b3TypeOptions = [
+	{ value: 'article', label: '文章' },
+	{ value: 'user-story', label: '需求文档' },
 ];
 
 const articleRoleOptions = [
@@ -59,8 +68,8 @@ const feelLikeOptions = [
 	{ value: 'captivating', label: 'Captivating' },
 ];
 
-export const Settings = () => {
-	const [articleType, setArticleType] = useState<any>(articleTypeOptions[0]);
+export const Settings = ({ editor }: { editor: Editor }) => {
+	const [articleType, setArticleType] = useState<any>(b3TypeOptions[0]);
 	const [articleRole, setArticleRole] = useState<any>(articleRoleOptions[0]);
 	const [articleFeel, setArticleFeel] = useState<any>(feelLikeOptions[0]);
 
@@ -70,8 +79,10 @@ export const Settings = () => {
 				<label className={'italic text-gray-400'}>Type of writing</label>
 				<Select
 					defaultValue={articleType}
-					onChange={setArticleType}
-					options={articleTypeOptions}
+					onChange={(value) => {
+						setArticleType(value)
+					}}
+					options={b3TypeOptions}
 				/>
 			</div>
 
