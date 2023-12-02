@@ -88,63 +88,71 @@ export const MenuBubble = ({ editor }: {
 		setMenus(buildMenus())
 	}, [editor, menus]);
 
-	return <BubbleMenu className={'bubble-menu-group w-64 bg-white'} editor={editor} tippyOptions={{ duration: 100 }}>
-		<div>
-			<DropdownMenu.Root>
-				<DropdownMenu.Trigger>
-					<Button variant="soft">
-						Ask AI
-						<CookieIcon/>
+	const [isOpen, setIsOpen] = React.useState(false);
+	const handleToggle = () => setIsOpen(!isOpen);
+
+	return <BubbleMenu className={'bubble-menu-group w-64'} editor={editor} tippyOptions={{ duration: 100 }}>
+		<div className={'bubble-menu-tier1'}>
+			<div className="dropdown">
+				<button onClick={handleToggle}><Button variant="soft">
+					Ask AI
+					<CookieIcon/>
+				</Button>
+				</button>
+			</div>
+			<div className="smart-menu">
+				{smartMenus && smartMenus.map((menu, index) => {
+					if (loading) {
+						return <BounceLoader
+							key={index}
+							loading={loading}
+							size={32}
+							aria-label="Loading Spinner"
+							data-testid="loader"
+						/>
+					}
+
+					return <Button
+						color="orange"
+						variant="outline"
+						key={index}
+						onClick={async () => {
+							setLoading(true)
+
+							const text = await editor.commands?.callLlm(menu);
+							setLoading(false)
+
+							const newComment = newAdvice(text || "")
+							editor.commands?.setAdvice(newComment.id)
+							editor.commands?.setAdviceCommand(newComment)
+							menu.action?.(editor)
+							editor.commands?.focus()
+						}}
+					>
+						{menu.i18Name ? t(menu.name) : menu.name}
 					</Button>
-				</DropdownMenu.Trigger>
-				<DropdownMenu.Content variant="solid">
+				})}
+			</div>
+		</div>
+		<div className={'ask-ai-dropdown'}>
+			{isOpen && (
+				<ul className="dropdown-menu">
 					{menus?.map((menu, index) => {
-						return (
-							<DropdownMenu.Item
-								key={index}
-								className={"DropdownMenuItem"}
-								onClick={() => {
+						return <li key={index}>
+							<Button
+								className="dropdown-item w-full"
+								variant={'soft'}
+								onClick={(event) => {
+									setIsOpen(false);
 									editor.chain().callLlm(menu);
 								}}
 							>
 								{menu.name}
-							</DropdownMenu.Item>
-						);
+							</Button>
+						</li>
 					})}
-				</DropdownMenu.Content>
-			</DropdownMenu.Root>
+				</ul>
+			)}
 		</div>
-
-		{smartMenus && smartMenus.map((menu, index) => {
-			if (loading) {
-				return <BounceLoader
-					key={index}
-					loading={loading}
-					size={32}
-					aria-label="Loading Spinner"
-					data-testid="loader"
-				/>
-			}
-
-			return <Button
-				color="orange"
-				variant="outline"
-				key={index}
-				onClick={async () => {
-					setLoading(true)
-
-					const text = await editor.commands?.callLlm(menu);
-					setLoading(false)
-
-					const newComment = newAdvice(text || "")
-					editor.commands?.setAdvice(newComment.id)
-					editor.commands?.setAdviceCommand(newComment)
-					menu.action?.(editor)
-					editor.commands?.focus()
-				}}
-			>
-				{menu.i18Name ? t(menu.name) : menu.name}
-			</Button>
-		})}
 	</BubbleMenu>
 }
