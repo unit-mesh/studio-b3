@@ -94,15 +94,13 @@ const LiveEditor = () => {
 			<div className={'editor-main'}>
 				{editor && <MenuBar editor={editor}/>}
 				<EditorContent editor={editor}/>
-				{editor && <MenuBubble editor={editor}/>}
+				<div>{editor && <MenuBubble editor={editor}/>}</div>
 
 				{editor && <div className="character-count">
-          <span>{Math.abs(editor.state.selection.$from.pos - editor.state.selection.$to.pos)} selected</span>
-          &nbsp;&nbsp;
-          <span>{editor.storage.characterCount.characters()} characters</span>
-          &nbsp;&nbsp;
-          <span>{editor.storage.characterCount.words()} words</span>
-        </div>}
+          <p className={'p2'}>{editor.storage.characterCount.characters()} characters</p>
+          <p className={'p2'}>{editor.storage.characterCount.words()} words</p>
+        </div>
+				}
 			</div>
 		</div>
 		{editor && <AdviceView editor={editor}/>}

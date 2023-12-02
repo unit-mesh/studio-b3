@@ -92,14 +92,14 @@ export const CommandFunctions = Extension.create({
 									method: "POST",
 									body: JSON.stringify({ prompt: prompt }),
 								})
+								let selection = editor.state.selection;
 
 								await response.body?.pipeThrough(new TextDecoderStream()).pipeTo(new WritableStream({
 									write: (chunk) => {
-										const pos = actionExecutor.position(editor.state.selection);
+										const pos = actionExecutor.position(selection);
 										editor.chain().focus().insertContentAt(pos, chunk).run();
 									}
 								}));
-
 
 								editor.setEditable(true);
 								if (action.changeForm == ChangeForm.DIFF) {
