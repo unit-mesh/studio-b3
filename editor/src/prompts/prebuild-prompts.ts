@@ -77,7 +77,7 @@ const SlashCommands: PromptAction[] = [
 	{
 		name: 'Summarize',
 		i18Name: true,
-		template: `You are an assistant helping to summarize a document. Output in markdown format. \n ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
+		template: `You are an assistant helping to summarize a article. Output in markdown format. \n ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
 		facetType: FacetType.SLASH_COMMAND,
 		outputForm: OutputForm.STREAMING
 	}
