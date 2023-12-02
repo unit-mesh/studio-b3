@@ -31,10 +31,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Override config
+        run: |
+          cp -f editor/next.config.ci.js editor/next.config.js       
+
       - name: Build
         run: |
           bash nx run --output-style=stream-without-prefixes editor:install
           bash nx run --output-style=stream-without-prefixes editor:build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
