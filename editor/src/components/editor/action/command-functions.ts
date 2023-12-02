@@ -2,6 +2,7 @@ import { Commands, Dispatch, Extension } from "@tiptap/react";
 import { Editor } from "@tiptap/core";
 import { Transaction } from "prosemirror-state";
 import {
+	ChangeForm,
 	DefinedVariable,
 	FacetType, OutputForm,
 	PromptAction,
@@ -80,6 +81,11 @@ export const CommandFunctions = Extension.create({
 						}
 						console.info("compiledTemplate: \n\n", prompt);
 
+						if (action.changeForm == ChangeForm.DIFF) {
+							// @ts-ignore
+							editor.commands?.setTrackChangeStatus(true)
+						}
+
 						switch (action.outputForm) {
 							case OutputForm.STREAMING:
 								const response = await fetch("/api/completion/yiyan", {
@@ -96,6 +102,11 @@ export const CommandFunctions = Extension.create({
 
 
 								editor.setEditable(true);
+								if (action.changeForm == ChangeForm.DIFF) {
+									// @ts-ignore
+									editor.commands?.setTrackChangeStatus(false)
+								}
+
 								return undefined;
 
 							case OutputForm.DIFF:
@@ -106,6 +117,11 @@ export const CommandFunctions = Extension.create({
 								}).then(it => it.text());
 
 								editor.setEditable(true);
+								if (action.changeForm == ChangeForm.DIFF) {
+									// @ts-ignore
+									editor.commands?.setTrackChangeStatus(false)
+								}
+
 								return text;
 
 							default:
@@ -118,6 +134,11 @@ export const CommandFunctions = Extension.create({
 								editor.chain().focus().insertContentAt(posInfo, msg).run();
 
 								editor.setEditable(true);
+								if (action.changeForm == ChangeForm.DIFF) {
+									// @ts-ignore
+									editor.commands?.setTrackChangeStatus(false)
+								}
+
 								return undefined;
 						}
 					},

@@ -21,33 +21,6 @@ export const MenuBubble = ({ editor }: {
 
 	function buildMenus(): PromptAction[] {
 		const originMenus = editor?.commands?.getAiActions(FacetType.BUBBLE_MENU) || [];
-		originMenus.map((menu, index) => {
-			if (menu.i18Name) {
-				menu.name = t(menu.name)
-			}
-
-			menu.action = async () => {
-				// @ts-ignore
-				const selection = editor.state.selection
-				let posInfo = new ActionExecutor(menu, editor).position(selection);
-
-				if (menu.changeForm == ChangeForm.DIFF) {
-					// @ts-ignore
-					editor.commands?.setTrackChangeStatus(true)
-				}
-
-				menu.outputForm = OutputForm.DIFF
-				const output = await editor.commands?.callLlm(menu)
-
-				editor.chain().focus().insertContentAt(posInfo, output!!).run();
-
-				if (menu.changeForm == ChangeForm.DIFF) {
-					// @ts-ignore
-					editor.commands?.setTrackChangeStatus(false)
-				}
-			}
-		});
-
 		return originMenus
 	}
 
@@ -147,7 +120,7 @@ export const MenuBubble = ({ editor }: {
 								variant={'soft'}
 								onClick={(event) => {
 									setIsOpen(false);
-									menu.action?.(editor)
+									editor.chain().callLlm(menu);
 								}}
 							>
 								{menu.name}
