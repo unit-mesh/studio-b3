@@ -8,10 +8,11 @@ import * as Tabs from '@radix-ui/react-tabs'
 import Select from 'react-select';
 
 import styles from '../../styles/Home.module.css'
+import { ARTICLE_TYPE_OPTIONS } from "@/components/editor/data/ArticleTypeOption";
 
 // all options
 // don't delete this
-const articleTypeOptions = [
+const allArticleTypeOptions = [
 	{ value: 'essay', label: 'Essay' },
 	{ value: 'article', label: 'Article' },
 	{ value: 'blog_post', label: 'Blog Post' },
@@ -28,11 +29,6 @@ const articleTypeOptions = [
 	{ value: 'speech', label: 'Speech' },
 	{ value: 'review', label: 'Review' },
 	{ value: 'proposal', label: 'Proposal' },
-];
-
-const b3TypeOptions = [
-	{ value: 'article', label: '文章' },
-	{ value: 'user-story', label: '需求文档' },
 ];
 
 const articleRoleOptions = [
@@ -69,7 +65,7 @@ const feelLikeOptions = [
 ];
 
 export const Settings = ({ editor }: { editor: Editor }) => {
-	const [articleType, setArticleType] = useState<any>(b3TypeOptions[0]);
+	const [articleType, setArticleType] = useState<any>(ARTICLE_TYPE_OPTIONS[0]);
 	const [articleRole, setArticleRole] = useState<any>(articleRoleOptions[0]);
 	const [articleFeel, setArticleFeel] = useState<any>(feelLikeOptions[0]);
 
@@ -80,9 +76,10 @@ export const Settings = ({ editor }: { editor: Editor }) => {
 				<Select
 					defaultValue={articleType}
 					onChange={(value) => {
+
 						setArticleType(value)
 					}}
-					options={b3TypeOptions}
+					options={ARTICLE_TYPE_OPTIONS}
 				/>
 			</div>
 

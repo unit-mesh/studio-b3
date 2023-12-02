@@ -8,13 +8,10 @@ import {
 } from "@/types/custom-action.type";
 import { PromptsManager } from "@/prompts/prompts-manager";
 import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
+import { ARTICLE_TYPE_OPTIONS, ArticleTypeOption } from "@/components/editor/data/ArticleTypeOption";
 
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
-		getSelectedText: {
-			getSelectedText: () => string;
-		};
-
 		callLlm: {
 			callLlm: (action: PromptAction) => string | undefined;
 		}
@@ -39,20 +36,13 @@ declare module "@tiptap/core" {
 
 export const CommandFunctions = Extension.create({
 	name: "commandFunctions",
+	addStorage: () => ({
+		backgroundContext: "",
+		articleType: ARTICLE_TYPE_OPTIONS[0],
+	}),
 	// @ts-ignore
 	addCommands: () => {
 		return {
-			getSelectedText:
-				() =>
-					({ editor }: { editor: Editor }) => {
-						if (!editor.state) return null;
-
-						const { from, to, empty } = editor.state.selection;
-
-						if (empty) return null;
-
-						return editor.state.doc.textBetween(from, to, " ");
-					},
 			callLlm:
 				(action: PromptAction) =>
 					async ({ tr, commands, editor }: { tr: Transaction; commands: Commands, editor: Editor }) => {
