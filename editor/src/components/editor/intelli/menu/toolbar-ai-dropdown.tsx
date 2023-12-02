@@ -1,20 +1,24 @@
 import { CookieIcon } from "@radix-ui/react-icons";
-import React from "react";
-import { FacetType } from "@/types/custom-action.type";
+import React, { useCallback, useEffect } from "react";
 import { Editor } from "@tiptap/core";
 import { Button, DropdownMenu } from "@radix-ui/themes";
 
-export const MenuAiDropdown = ({ editor }: {
+import { FacetType } from "@/types/custom-action.type";
+
+export const ToolbarAiDropdown = ({ editor }: {
 	editor: Editor
 }) => {
 	const [menus, setMenus] = React.useState<any[]>([]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setMenus(editor?.commands?.getAiActions(FacetType.TOOLBAR_MENU));
-	}, []);
+	}, [editor]);
 
 	return (
-		<DropdownMenu.Root>
+		<DropdownMenu.Root onOpenChange={() => {
+			let aiActions = editor?.commands?.getAiActions(FacetType.TOOLBAR_MENU);
+			setMenus(aiActions)
+		}}>
 			<DropdownMenu.Trigger>
 				<Button className={'bg-pink-500 text-white'}>
 					AI

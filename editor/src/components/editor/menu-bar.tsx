@@ -13,7 +13,7 @@ import React from 'react'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import { Editor } from "@tiptap/core";
 
-import { MenuAiDropdown } from './intelli/menu/menu-ai-dropdown'
+import { ToolbarAiDropdown } from './intelli/menu/toolbar-ai-dropdown'
 
 export const MenuBar = ({ editor }: { editor: Editor }) => {
   return (
@@ -126,7 +126,7 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
         <DividerHorizontalIcon/>
       </ToggleGroup.Item>
       <div className="empty-separator" />
-      <MenuAiDropdown editor={editor} />
+      <ToolbarAiDropdown editor={editor} />
     </ToggleGroup.Root>
   )
 }

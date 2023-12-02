@@ -82,6 +82,7 @@ const resources = {
       'Similar Chunk': 'Similar Content Chunk',
       'Simplify Content': 'Simplify Content',
       'Translate': 'Translate',
+      'Generate Outline': 'Generate Outline',
     }
   },
   zh: {
@@ -102,6 +103,7 @@ const resources = {
       'Similar Chunk': '相似内容块',
       'Simplify Content': '精简内容',
       'Translate': '翻译',
+      'Generate Outline': '生成大纲',
     }
   }
 }

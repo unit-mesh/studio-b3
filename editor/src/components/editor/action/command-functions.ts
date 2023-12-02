@@ -40,12 +40,11 @@ declare module "@tiptap/core" {
 	}
 }
 
+let articleType = ARTICLE_TYPE_OPTIONS[0];
+
 export const CommandFunctions = Extension.create({
 	name: "commandFunctions",
-	addStorage: () => ({
-		backgroundContext: "",
-		articleType: ARTICLE_TYPE_OPTIONS[0],
-	}),
+
 	// @ts-ignore
 	addCommands: () => {
 		return {
@@ -59,16 +58,13 @@ export const CommandFunctions = Extension.create({
 					},
 			getArticleType:
 				() =>
-					({ editor }: { editor: Editor }) => {
-						return editor.state.tr.getMeta("articleType") as ArticleTypeOption
+					({ tr }: { tr: Transaction }) => {
+						return articleType
 					},
 			setArticleType:
-				(articleType: ArticleTypeOption) =>
-					({ editor, tr, dispatch }: { editor: Editor, tr: Transaction, dispatch: Dispatch }) => {
-						console.info("set article type to: ", articleType);
-						tr.setMeta("articleType", articleType);
-						// @ts-ignore
-						dispatch(tr);
+				(type: ArticleTypeOption) =>
+					({ editor, tr, dispatch }: { editor: Editor, tr: Transaction, dispatch: any }) => {
+						articleType = type;
 					},
 
 			callLlm:
