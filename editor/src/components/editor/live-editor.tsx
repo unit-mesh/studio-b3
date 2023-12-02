@@ -97,8 +97,8 @@ const LiveEditor = () => {
 				<div>{editor && <MenuBubble editor={editor}/>}</div>
 
 				{editor && <div className="character-count">
-          <p className={'p2'}>{editor.storage.characterCount.characters()} characters</p>
-          <p className={'p2'}>{editor.storage.characterCount.words()} words</p>
+          <p className={'p-2'}>{editor.storage.characterCount.characters()} characters</p>
+          <p className={'p-2'}>{editor.storage.characterCount.words()} words</p>
         </div>
 				}
 			</div>
