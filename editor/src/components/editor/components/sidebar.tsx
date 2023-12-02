@@ -4,10 +4,7 @@ import { ChevronDownIcon } from '@radix-ui/react-icons'
 import { useTranslation } from "react-i18next";
 
 export const Sidebar: React.FC<any> = ({ editor }) => {
-	const { t, i18n } = useTranslation();
-
-	// make sidebar collapsible, open and close
-	const [open, setOpen] = React.useState(false);
+	const { t } = useTranslation();
 
 	return <aside className={'z-40 w-96 h-screen'} aria-label="Sidebar">
 		<div className={'h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800'}>

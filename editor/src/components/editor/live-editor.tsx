@@ -12,21 +12,21 @@ import MarkdownIt from 'markdown-it'
 import { useDebounce } from 'use-debounce';
 
 import { createInlineCompletion } from "@/components/editor/extensions/inline-completion/inline-completion";
-import { MenuBubble } from './intelli/menu/menu-bubble'
-import { createSlashExtension } from './intelli/slash-extension'
+import { MenuBubble } from '@/components/editor/menu/menu-bubble'
+import { createSlashExtension } from './extensions/slash-command/slash-extension'
 import { createQuickBox } from '@/components/editor/extensions/quick-box/quick-box-extension'
 import { AdviceExtension } from '@/components/editor/extensions/advice/advice-extension';
 
-import TrackChangeExtension from './diff/track-change-extension'
+import TrackChangeExtension from '@/components/editor/extensions/diff/track-change-extension'
 import { MenuBar } from './menu-bar'
-import { CommandFunctionsExtensions } from './action/command-functions-extensions'
-import { Sidebar } from './sidebar'
+import { CustomEditorCommands } from './action/custom-editor-commands'
+import { Sidebar } from './components/sidebar'
 
 import "./editor.css"
 import { Advice } from "@/components/editor/extensions/advice/advice";
 import { AdviceManager } from "@/components/editor/extensions/advice/advice-manager";
 import { AdviceView } from "@/components/editor/extensions/advice/advice-view";
-import { Settings } from "@/components/settings";
+import { Settings } from "@/components/editor/components/settings";
 import { Table } from "@tiptap/extension-table";
 import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
@@ -36,7 +36,7 @@ const md = new MarkdownIt()
 
 const extensions = [
 	// we define all commands here
-	CommandFunctionsExtensions,
+	CustomEditorCommands,
 	AdviceExtension.configure({
 		HTMLAttributes: {
 			class: "my-advice",

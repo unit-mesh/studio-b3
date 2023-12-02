@@ -4,7 +4,7 @@ import { Suggestion } from "@tiptap/suggestion";
 import tippy, { Instance, Props } from "tippy.js";
 import SlashView from "./slash-view";
 import { PluginKey } from "@tiptap/pm/state";
-import { FacetType } from "@/types/custom-action.type";
+import { FacetType } from "@/components/editor/defs/custom-action.type";
 import { PromptsManager } from "@/components/editor/prompts/prompts-manager";
 
 export const createSlashExtension = (name: string) => {

@@ -1,12 +1,4 @@
-import {
-	BuiltInFunc,
-	ChangeForm,
-	DefinedVariable,
-	FacetType,
-	OutputForm,
-	PromptAction, SourceType
-} from "@/types/custom-action.type";
-
+import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from "@/components/editor/defs/custom-action.type";
 
 const ToolbarMenu: PromptAction[] = [
 	{

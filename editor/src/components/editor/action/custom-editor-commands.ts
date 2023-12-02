@@ -1,9 +1,9 @@
 import { Commands, Extension } from "@tiptap/react";
 import { Editor } from "@tiptap/core";
 import { Transaction } from "prosemirror-state";
-import { DefinedVariable, FacetType, OutputForm, PromptAction, } from "@/types/custom-action.type";
+import { DefinedVariable, FacetType, OutputForm, PromptAction, } from "@/components/editor/defs/custom-action.type";
 import { PromptsManager } from "@/components/editor/prompts/prompts-manager";
-import { ARTICLE_TYPE_OPTIONS, ArticleTypeOption } from "@/components/editor/data/ArticleTypeOption";
+import { ARTICLE_TYPE_OPTIONS, TypeOptions } from "@/components/editor/defs/type-options.type";
 import { AiActionHandler } from "@/components/editor/action/AiActionHandler";
 
 declare module "@tiptap/core" {
@@ -25,17 +25,17 @@ declare module "@tiptap/core" {
 		}
 		setBackgroundContext: () => ReturnType,
 		getArticleType: {
-			getArticleType: () => ArticleTypeOption,
+			getArticleType: () => TypeOptions,
 		}
 		setArticleType: {
-			setArticleType: (articleType: ArticleTypeOption) => ReturnType
+			setArticleType: (articleType: TypeOptions) => ReturnType
 		},
 	}
 }
 
 let articleType = ARTICLE_TYPE_OPTIONS[0];
 
-export const CommandFunctionsExtensions = Extension.create({
+export const CustomEditorCommands = Extension.create({
 	name: "commandFunctions",
 
 	// @ts-ignore
@@ -47,7 +47,7 @@ export const CommandFunctionsExtensions = Extension.create({
 						return articleType
 					},
 			setArticleType:
-				(type: ArticleTypeOption) =>
+				(type: TypeOptions) =>
 					({ editor, tr, dispatch }: { editor: Editor, tr: Transaction, dispatch: any }) => {
 						articleType = type;
 					},

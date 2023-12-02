@@ -3,7 +3,7 @@ import React, { useCallback, useEffect } from "react";
 import { Editor } from "@tiptap/core";
 import { Button, DropdownMenu } from "@radix-ui/themes";
 
-import { FacetType } from "@/types/custom-action.type";
+import { FacetType } from "@/components/editor/defs/custom-action.type";
 
 export const ToolbarAiDropdown = ({ editor }: {
 	editor: Editor

@@ -13,7 +13,7 @@ import React from 'react'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import { Editor } from "@tiptap/core";
 
-import { ToolbarAiDropdown } from './intelli/menu/toolbar-ai-dropdown'
+import { ToolbarAiDropdown } from '@/components/editor/menu/toolbar-ai-dropdown'
 
 export const MenuBar = ({ editor }: { editor: Editor }) => {
   return (

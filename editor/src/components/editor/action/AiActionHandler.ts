@@ -1,5 +1,5 @@
 import { Editor } from "@tiptap/core";
-import { ChangeForm, OutputForm, PromptAction } from "@/types/custom-action.type";
+import { ChangeForm, OutputForm, PromptAction } from "@/components/editor/defs/custom-action.type";
 import { ActionExecutor, actionPosition } from "@/components/editor/action/ActionExecutor";
 
 // @ts-ignore

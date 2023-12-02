@@ -5,7 +5,7 @@ import {
 	FacetType,
 	OutputForm,
 	PromptAction, SourceType
-} from "@/types/custom-action.type";
+} from "@/components/editor/defs/custom-action.type";
 
 
 const ToolbarMenu: PromptAction[] = [

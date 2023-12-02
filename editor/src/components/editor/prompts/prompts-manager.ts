@@ -1,8 +1,8 @@
 import Handlebars from 'handlebars'
 import i18next from "i18next";
-import { DefinedVariable, FacetType, PromptAction } from "@/types/custom-action.type";
+import { DefinedVariable, FacetType, PromptAction } from "@/components/editor/defs/custom-action.type";
 import ArticlePrompts from "@/components/editor/prompts/article-prompts";
-import { ArticleTypeOption } from "@/components/editor/data/ArticleTypeOption";
+import { TypeOptions } from "@/components/editor/defs/type-options.type";
 import RequirementsPrompts from "@/components/editor/prompts/requirements-prompts";
 
 export class PromptsManager {
@@ -21,7 +21,7 @@ export class PromptsManager {
 		return PromptsManager.instance;
 	}
 
-	getActions(type: FacetType, articleType: ArticleTypeOption): PromptAction[] {
+	getActions(type: FacetType, articleType: TypeOptions): PromptAction[] {
 		let typedPrompts: PromptAction[] = []
 
 		switch (articleType?.value) {

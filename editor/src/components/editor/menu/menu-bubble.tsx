@@ -5,7 +5,7 @@ import { Editor } from "@tiptap/core";
 import { CookieIcon } from "@radix-ui/react-icons";
 import { Button } from "@radix-ui/themes";
 import BounceLoader from "react-spinners/BounceLoader";
-import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from '@/types/custom-action.type'
+import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from '@/components/editor/defs/custom-action.type'
 import { newAdvice } from '@/components/editor/extensions/advice/advice';
 
 export const MenuBubble = ({ editor }: {
