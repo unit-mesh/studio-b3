@@ -1,13 +1,14 @@
 import { BubbleMenu } from '@tiptap/react'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from '@/types/custom-action.type'
 import { Editor } from "@tiptap/core";
 import { CookieIcon } from "@radix-ui/react-icons";
-import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
 import { Button, DropdownMenu } from "@radix-ui/themes";
-import { newAdvice } from '../../advice/advice';
 import BounceLoader from "react-spinners/BounceLoader";
+
+import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
+import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from '@/types/custom-action.type'
+import { newAdvice } from '@/components/editor/advice/advice';
 
 export const MenuBubble = ({ editor }: {
 	editor: Editor
