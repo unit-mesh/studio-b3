@@ -11,12 +11,12 @@ export class AiActionHandler {
 	}
 
 	private async handleStreaming(action: PromptAction, prompt: string) {
+		this.editor.setEditable(false);
+
 		const response = await fetch("/api/completion/yiyan", {
 			method: "POST",
 			body: JSON.stringify({ prompt: prompt }),
 		});
-
-		let selection = this.editor.state.selection;
 
 		await response.body?.pipeThrough(new TextDecoderStream()).pipeTo(
 			new WritableStream({
@@ -28,10 +28,14 @@ export class AiActionHandler {
 		);
 
 		this.editor.setEditable(true);
-		this.handleChangeForm(action);
 	}
 
 	private async handleTextOrDiff(action: PromptAction, prompt: string): Promise<string | undefined> {
+		// @ts-ignore
+		this.editor.commands?.setTrackChangeStatus(true);
+
+		this.editor.setEditable(false);
+
 		const response = await fetch("/api/completion/yiyan", {
 			method: "POST",
 			body: JSON.stringify({ prompt: prompt }),
@@ -39,12 +43,14 @@ export class AiActionHandler {
 
 		const text = await response.text();
 		this.editor.setEditable(true);
-		this.handleChangeForm(action);
 
+		// @ts-ignore
+		this.editor.commands?.setTrackChangeStatus(false);
 		return text;
 	}
 
 	private async handleDefault(action: PromptAction, prompt: string) {
+		this.editor.setEditable(false);
 		const response = await fetch("/api/completion/yiyan", {
 			method: "POST",
 			body: JSON.stringify({ prompt: prompt }),
@@ -55,18 +61,9 @@ export class AiActionHandler {
 		this.editor.chain().focus().insertContentAt(posInfo, msg).run();
 
 		this.editor.setEditable(true);
-		this.handleChangeForm(action);
-	}
-
-	private handleChangeForm(action: PromptAction) {
-		if (action.changeForm == ChangeForm.DIFF) {
-			// @ts-ignore
-			this.editor.commands?.setTrackChangeStatus(false);
-		}
 	}
 
 	public async execute(action: PromptAction) {
-		this.editor.setEditable(false);
 		const actionExecutor = new ActionExecutor(action, this.editor);
 		actionExecutor.compile();
 
