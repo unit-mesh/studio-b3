@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Editor } from "@tiptap/core";
 import { BookmarkIcon, CookieIcon } from "@radix-ui/react-icons";
 import { Button } from "@radix-ui/themes";
-import BounceLoader from "react-spinners/BounceLoader";
 import {
 	ChangeForm,
 	DefinedVariable,
@@ -13,14 +12,12 @@ import {
 	PromptAction
 } from '@/components/editor/defs/custom-action.type'
 import { newAdvice } from '@/components/editor/extensions/advice/advice';
-import { Toolbar } from "@radix-ui/react-toolbar";
-import { ToolBar } from "@/components/editor/menu/tool-bar";
+import { ToolbarMenu } from "@/components/editor/menu/toolbar-menu";
 
 export const MenuBubble = ({ editor }: {
 	editor: Editor
 }) => {
 	const [loading, setLoading] = React.useState(false);
-	const { t, i18n } = useTranslation()
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const [smartMenus, setSmartMenus] = React.useState<PromptAction[]>([]);
@@ -53,16 +50,16 @@ export const MenuBubble = ({ editor }: {
 
 	const handleToggle = () => setIsOpen(!isOpen);
 
-	return <BubbleMenu className={'bubble-menu-group w-64'} editor={editor} tippyOptions={{ duration: 100 }}>
+	return <BubbleMenu className={`bubble-menu-group w-64`} editor={editor} tippyOptions={{ duration: 100 }}>
 		<div className={'bubble-menu-tier1'}>
-			<div className="dropdown">
-				<Button variant="soft" onClick={handleToggle}>
+			<div className="bubble-dropdown">
+				<Button variant="soft" onClick={handleToggle} className={'bg-pink-500 text-white'}>
 					Ask AI
 					<CookieIcon/>
 				</Button>
 			</div>
 			<div className="smart-menu">
-				<ToolBar editor={editor} isBubbleMenu={true}/>
+				<ToolbarMenu editor={editor} isBubbleMenu={true}/>
 			</div>
 		</div>
 		<div className={'ask-ai-dropdown'}>

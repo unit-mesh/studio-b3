@@ -18,7 +18,7 @@ import { createQuickBox } from '@/components/editor/extensions/quick-box/quick-b
 import { AdviceExtension } from '@/components/editor/extensions/advice/advice-extension';
 
 import TrackChangeExtension from '@/components/editor/extensions/diff/track-change-extension'
-import { ToolBar } from './menu/tool-bar'
+import { ToolbarMenu } from './menu/toolbar-menu'
 import { CustomEditorCommands } from './action/custom-editor-commands'
 import { Sidebar } from './components/sidebar'
 
@@ -99,8 +99,8 @@ const LiveEditor = () => {
 
 		<div className={'w-full editor-section'}>
 			{editor && <Settings editor={editor}/>}
+			{editor && <ToolbarMenu className={'toolbar-menu'} editor={editor}/>}
 			<div className={'editor-main'}>
-				{editor && <ToolBar editor={editor}/>}
 				<EditorContent editor={editor}/>
 				<div>{editor && <MenuBubble editor={editor}/>}</div>
 

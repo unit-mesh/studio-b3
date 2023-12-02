@@ -59,21 +59,24 @@
     all: unset;
 }
 
+.toolbar-menu {
+    box-shadow: 0 2px 2px var(--black-a7);
+}
+
 .ToggleGroup {
     display: flex;
     border-radius: 4px;
     justify-content: center;
     width: fit-content;
     margin: 0 auto;
-    box-shadow: 0 2px 2px var(--black-a7);
 }
 
 .ToggleGroupItem {
     cursor: pointer;
     background-color: white;
     color: var(--mauve-11);
-    height: 35px;
-    width: 35px;
+    height: 38px;
+    width: 38px;
     display: flex;
     font-size: 15px;
     line-height: 1;
@@ -291,6 +294,7 @@
     background: var(--mauve-1);
     border: 1px solid var(--mauve-5);
     border-radius: 4px;
+    height: 40px;
     box-shadow: var(--black-a6) 0 3px 16px -5px, var(--black-a2) 0px 1px 3px;
 }
 
@@ -298,6 +302,19 @@
     background: var(--mauve-1);
     width: 160px;
     margin-top: 4px;
+}
+
+.toolbar-ai-button {
+    height: 38px;
+}
+
+.bubble-dropdown button {
+    height: 38px;
+    width: 96px;
+}
+
+.bubble-dropdown button {
+    padding: 4px;
 }
 
 .node-quick-command {

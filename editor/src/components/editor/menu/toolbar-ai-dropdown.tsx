@@ -20,7 +20,7 @@ export const ToolbarAiDropdown = ({ editor }: {
 			setMenus(aiActions)
 		}}>
 			<DropdownMenu.Trigger>
-				<Button className={'bg-pink-500 text-white'}>
+				<Button className={'bg-pink-500 text-white toolbar-ai-button'}>
 					AI
 					<CookieIcon/>
 				</Button>

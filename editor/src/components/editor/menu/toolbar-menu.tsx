@@ -18,12 +18,13 @@ import { ToolbarAiDropdown } from '@/components/editor/menu/toolbar-ai-dropdown'
 export interface ToolbarProps {
 	editor: Editor
 	isBubbleMenu?: boolean // 是否是气泡菜单
+	className?: string
 }
 
-export const ToolBar = ({ editor, isBubbleMenu = false }: ToolbarProps) => {
+export const ToolbarMenu = ({ editor, isBubbleMenu = false, className }: ToolbarProps) => {
 	return (
 		<ToggleGroup.Root
-			className={'ToggleGroup'}
+			className={`${className} ToggleGroup`}
 			type="single"
 			defaultValue="center"
 			aria-label="Text alignment"
