@@ -94,9 +94,11 @@ export const CommandFunctions = Extension.create({
 									}
 								}));
 
+
 								editor.setEditable(true);
 								return undefined;
 
+							case OutputForm.DIFF:
 							case OutputForm.TEXT:
 								const text = await fetch("/api/completion/yiyan", {
 									method: "POST",

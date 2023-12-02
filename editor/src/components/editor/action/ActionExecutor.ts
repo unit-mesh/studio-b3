@@ -14,16 +14,16 @@ export class ActionExecutor {
 
 	compile() {
 		const promptManager = PromptsManager.getInstance();
-		const range = this.position(this.editor.state.selection);
-		console.log(this.editor.state.selection);
+		let state = this.editor.state;
 
-		const selection = this.editor.state.doc.textBetween(range.from, range.to);
-		const beforeCursor = this.editor.state.doc.textBetween(0, range.to);
-		const afterCursor = this.editor.state.doc.textBetween(range.to, this.editor.state.doc.nodeSize - 2);
+		const range = this.position(state.selection);
+		const selection = state.doc.textBetween(range.from, range.to);
+		const beforeCursor = state.doc.textBetween(0, range.to);
+		const afterCursor = state.doc.textBetween(range.to, state.doc.nodeSize - 2);
 		const all = this.editor.getText();
 		let title = '';
 
-		this.editor.state.doc.descendants((node, pos) => {
+		state.doc.descendants((node, pos) => {
 			if (node.type.name === 'heading' && node.attrs.level === 1) {
 				title = node.textContent;
 			}
@@ -39,7 +39,7 @@ export class ActionExecutor {
 			[DefinedVariable.SIMILAR_CHUNKS]: similarChunks,
 			[DefinedVariable.TITLE]: title,
 		};
-		console.log(context)
+		console.info("variable context", context);
 		this.action.compiledTemplate = promptManager.compile(this.action.template, context);
 	}
 

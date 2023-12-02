@@ -26,7 +26,7 @@ export const MenuBubble = ({ editor }: {
 				menu.name = t(menu.name)
 			}
 
-			menu.action = () => {
+			menu.action = async () => {
 				// @ts-ignore
 				const selection = editor.state.selection
 				let posInfo = new ActionExecutor(menu, editor).position(selection);
@@ -36,7 +36,10 @@ export const MenuBubble = ({ editor }: {
 					editor.commands?.setTrackChangeStatus(true)
 				}
 
-				editor.chain().focus().insertContentAt(posInfo, "TODO").run()
+				menu.outputForm = OutputForm.DIFF
+				const output = await editor.commands?.callLlm(menu)
+
+				editor.chain().focus().insertContentAt(posInfo, output!!).run();
 
 				if (menu.changeForm == ChangeForm.DIFF) {
 					// @ts-ignore
@@ -144,7 +147,7 @@ export const MenuBubble = ({ editor }: {
 								variant={'soft'}
 								onClick={(event) => {
 									setIsOpen(false);
-									editor.chain().callLlm(menu);
+									menu.action?.(editor)
 								}}
 							>
 								{menu.name}

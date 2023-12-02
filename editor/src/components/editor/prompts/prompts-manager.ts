@@ -23,7 +23,6 @@ export class PromptsManager {
 
 	getPrompt(type: FacetType, articleType: ArticleTypeOption): PromptAction[] {
 		let typedPrompts: PromptAction[] = []
-		console.log(articleType?.value)
 
 		switch (articleType?.value) {
 			case "requirements":
@@ -32,8 +31,6 @@ export class PromptsManager {
 			default:
 				typedPrompts = ArticlePrompts;
 		}
-
-		console.log(typedPrompts)
 
 		let actions = typedPrompts.filter(prompt => prompt.facetType === type);
 		return actions.map(prompt => {
