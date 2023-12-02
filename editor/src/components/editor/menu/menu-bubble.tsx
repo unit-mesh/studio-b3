@@ -13,6 +13,7 @@ import {
 } from '@/components/editor/defs/custom-action.type'
 import { newAdvice } from '@/components/editor/extensions/advice/advice';
 import { ToolbarMenu } from "@/components/editor/menu/toolbar-menu";
+import { BounceLoader } from "react-spinners";
 
 export const MenuBubble = ({ editor }: {
 	editor: Editor
@@ -50,13 +51,15 @@ export const MenuBubble = ({ editor }: {
 
 	const handleToggle = () => setIsOpen(!isOpen);
 
-	return <BubbleMenu className={`bubble-menu-group w-64`} editor={editor} tippyOptions={{ duration: 100 }}>
+	return <BubbleMenu className={`bubble-menu-group w-64`} editor={editor} updateDelay={800}>
 		<div className={'bubble-menu-tier1'}>
 			<div className="bubble-dropdown">
-				<Button variant="soft" onClick={handleToggle} className={'bg-pink-500 text-white'}>
-					Ask AI
-					<CookieIcon/>
-				</Button>
+				{loading && <BounceLoader color={"#6E56CF"} size={38}/>}
+				{!loading && <Button variant="soft" onClick={handleToggle} className={'bg-pink-500 text-white'}>
+          Ask AI
+          <CookieIcon/>
+        </Button>
+				}
 			</div>
 			<div className="smart-menu">
 				<ToolbarMenu editor={editor} isBubbleMenu={true}/>
@@ -69,6 +72,7 @@ export const MenuBubble = ({ editor }: {
 							<Button
 								className="dropdown-item w-full"
 								onClick={async () => {
+									setIsOpen(false)
 									setLoading(true)
 
 									const text = await editor.commands?.callLlm(menu);
@@ -78,7 +82,7 @@ export const MenuBubble = ({ editor }: {
 									editor.commands?.setAdvice(newComment.id)
 									editor.commands?.setAdviceCommand(newComment)
 									menu.action?.(editor)
-									editor.commands?.focus()
+									editor.view?.focus()
 								}}
 							>
 								{menu.name} <BookmarkIcon/>
@@ -91,8 +95,10 @@ export const MenuBubble = ({ editor }: {
 							<Button
 								className="dropdown-item w-full"
 								onClick={(event) => {
+									event.preventDefault();
 									setIsOpen(false);
 									editor.chain().callLlm(menu);
+									editor.view?.focus()
 								}}
 							>
 								{menu.name}
