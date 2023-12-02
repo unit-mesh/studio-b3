@@ -8,9 +8,6 @@ import { AiActionHandler } from "@/components/editor/action/AiActionHandler";
 
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
-		getSelectedText: {
-			getSelectedText: () => string;
-		};
 		callLlm: {
 			callLlm: (action: PromptAction) => string | undefined;
 		};
@@ -44,14 +41,6 @@ export const CommandFunctionsExtensions = Extension.create({
 	// @ts-ignore
 	addCommands: () => {
 		return {
-			getSelectedText:
-				() =>
-					({ editor }: { editor: Editor }) => {
-						if (!editor.state) return null;
-						const { from, to, empty } = editor.state.selection;
-						if (empty) return null;
-						return editor.state.doc.textBetween(from, to, " ");
-					},
 			getArticleType:
 				() =>
 					({ tr }: { tr: Transaction }) => {
