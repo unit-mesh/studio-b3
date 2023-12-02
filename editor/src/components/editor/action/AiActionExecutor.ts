@@ -1,9 +1,10 @@
 import { Editor } from "@tiptap/core";
 import { ChangeForm, OutputForm, PromptAction } from "@/components/editor/defs/custom-action.type";
-import { PromptCompiler, actionPosition } from "@/components/editor/action/PromptCompiler";
+import { actionPosition, PromptCompiler } from "@/components/editor/action/PromptCompiler";
 
 // @ts-ignore
 import { MarkdownParser } from "node_modules/tiptap-markdown/src/parse/MarkdownParser";
+import { BuiltinFunctionExecutor } from "@/components/editor/action/BuiltinFunctionExecutor";
 
 export class AiActionExecutor {
 	private readonly editor: Editor;
@@ -93,7 +94,11 @@ export class AiActionExecutor {
 	}
 
 	public async execute(action: PromptAction) {
-		// builtinFunction
+		console.log("execute action", action)
+		if (action.builtinFunction) {
+			return new BuiltinFunctionExecutor(this.editor).execute(action);
+		}
+
 		const actionExecutor = new PromptCompiler(action, this.editor);
 		actionExecutor.compile();
 

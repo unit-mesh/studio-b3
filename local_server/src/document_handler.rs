@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::app_state::AppState;
 
-#[post("/embedding-document")]
+#[post("/api/embedding-document")]
 async fn create_embedding_document(
     form: web::Form<ReqDocument>,
     _data: web::Data<AppState>,
@@ -17,7 +17,7 @@ async fn create_embedding_document(
         .body(response)
 }
 
-#[get("/embedding-document/search")]
+#[get("/api/embedding-document/search")]
 async fn search_embedding_document(
     query: web::Query<SearchQuery>,
     data: web::Data<AppState>,
