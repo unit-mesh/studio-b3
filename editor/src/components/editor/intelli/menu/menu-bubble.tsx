@@ -30,15 +30,15 @@ export const MenuBubble = ({ editor }: {
 
 		const innerSmartMenus: PromptAction[] = []
 
-		if (editor.isActive('heading', { level: 1 })) {
-			innerSmartMenus.push({
-				name: '优化子标题',
-				template: `优化文章的子标题 ###{{${DefinedVariable.SELECTION}}}###`,
-				facetType: FacetType.BUBBLE_MENU,
-				changeForm: ChangeForm.DIFF,
-				outputForm: OutputForm.TEXT,
-			})
-		}
+		// if (editor.isActive('heading', { level: 1 })) {
+		// 	innerSmartMenus.push({
+		// 		name: '优化子标题',
+		// 		template: `优化文章的子标题 ###{{${DefinedVariable.SELECTION}}}###`,
+		// 		facetType: FacetType.BUBBLE_MENU,
+		// 		changeForm: ChangeForm.DIFF,
+		// 		outputForm: OutputForm.TEXT,
+		// 	})
+		// }
 
 		if (selectLength < 64) {
 			innerSmartMenus.push({

@@ -22,7 +22,7 @@ export class AiActionHandler {
 			new WritableStream({
 				write: (chunk) => {
 					const pos = actionPosition(action, this.editor.state.selection);
-					this.editor.chain().focus().insertContentAt(pos, chunk).run();
+					this.editor.chain().focus()?.insertContentAt(pos, chunk).run();
 				},
 			})
 		);
@@ -58,7 +58,7 @@ export class AiActionHandler {
 
 		const msg = await response.text();
 		const posInfo = actionPosition(action, this.editor.state.selection);
-		this.editor.chain().focus().insertContentAt(posInfo, msg).run();
+		this.editor.chain().focus()?.insertContentAt(posInfo, msg).run();
 
 		this.editor.setEditable(true);
 	}

@@ -27,6 +27,7 @@ import { Advice } from "@/components/editor/advice/advice";
 import { AdviceManager } from "@/components/editor/advice/advice-manager";
 import { AdviceView } from "@/components/editor/advice/advice-view";
 import { Settings } from "@/components/settings";
+import { Markdown } from "tiptap-markdown";
 
 const md = new MarkdownIt()
 
@@ -60,6 +61,7 @@ const extensions = [
 	}),
 	createSlashExtension('ai-slash'),
 	createAiBlock(),
+	Markdown,
 	CharacterCount.configure({}),
 	Color.configure({ types: [TextStyle.name, ListItem.name] }),
 	// @ts-ignore
