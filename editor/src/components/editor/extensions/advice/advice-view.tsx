@@ -1,7 +1,7 @@
 import { Editor } from "@tiptap/core"
 import React, { useEffect, useRef, useState } from "react";
-import { AdviceManager } from "@/components/editor/advice/advice-manager";
-import { Advice } from "@/components/editor/advice/advice";
+import { AdviceManager } from "@/components/editor/extensions/advice/advice-manager";
+import { Advice } from "@/components/editor/extensions/advice/advice";
 
 export interface AdviceViewProps {
 	editor: Editor

@@ -6,7 +6,7 @@ import { CookieIcon } from "@radix-ui/react-icons";
 import { Button } from "@radix-ui/themes";
 import BounceLoader from "react-spinners/BounceLoader";
 import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from '@/types/custom-action.type'
-import { newAdvice } from '@/components/editor/advice/advice';
+import { newAdvice } from '@/components/editor/extensions/advice/advice';
 
 export const MenuBubble = ({ editor }: {
 	editor: Editor

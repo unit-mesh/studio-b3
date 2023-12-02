@@ -1,4 +1,4 @@
-import { Advice } from "@/components/editor/advice/advice";
+import { Advice } from "@/components/editor/extensions/advice/advice";
 
 type EventHandler = (data: any) => void;
 

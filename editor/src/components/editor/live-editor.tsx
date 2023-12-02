@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import MarkdownIt from 'markdown-it'
 import { useDebounce } from 'use-debounce';
 
-import { createInlineCompletion } from "./inline/inline-completion";
+import { createInlineCompletion } from "@/components/editor/extensions/inline/inline-completion";
 import { MenuBubble } from './intelli/menu/menu-bubble'
 import { createSlashExtension } from './intelli/slash-extension'
 import { createAiBlock } from './intelli/ai-block-extension'
-import { AdviceExtension } from './advice/advice-extension';
+import { AdviceExtension } from '@/components/editor/extensions/advice/advice-extension';
 
 import TrackChangeExtension from './diff/track-change-extension'
 import { MenuBar } from './menu-bar'
@@ -23,9 +23,9 @@ import { CommandFunctionsExtensions } from './action/command-functions-extension
 import { Sidebar } from './sidebar'
 
 import "./editor.css"
-import { Advice } from "@/components/editor/advice/advice";
-import { AdviceManager } from "@/components/editor/advice/advice-manager";
-import { AdviceView } from "@/components/editor/advice/advice-view";
+import { Advice } from "@/components/editor/extensions/advice/advice";
+import { AdviceManager } from "@/components/editor/extensions/advice/advice-manager";
+import { AdviceView } from "@/components/editor/extensions/advice/advice-view";
 import { Settings } from "@/components/settings";
 import { Table } from "@tiptap/extension-table";
 import { TableRow } from "@tiptap/extension-table-row";
