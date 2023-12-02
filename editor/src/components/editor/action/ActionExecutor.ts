@@ -16,7 +16,7 @@ export class ActionExecutor {
 		const promptManager = PromptsManager.getInstance();
 		let state = this.editor.state;
 
-		const range = this.position(state.selection);
+		const range = actionPosition(this.action, state.selection);
 		const selection = state.doc.textBetween(range.from, range.to);
 		const beforeCursor = state.doc.textBetween(0, range.to);
 		const afterCursor = state.doc.textBetween(range.to, state.doc.nodeSize - 2);
@@ -42,35 +42,35 @@ export class ActionExecutor {
 		console.info("variable context", context);
 		this.action.compiledTemplate = promptManager.compile(this.action.template, context);
 	}
+}
 
-	position(selection: Selection): Range {
-		let posInfo: Range;
-		switch (this.action.changeForm) {
-			case ChangeForm.INSERT:
-				posInfo = {
-					from: selection.to,
-					to: selection.to
-				};
-				break;
-			case ChangeForm.REPLACE:
-				posInfo = {
-					from: selection.from,
-					to: selection.to
-				};
-				break;
-			case ChangeForm.DIFF:
-				posInfo = {
-					from: selection.from,
-					to: selection.to
-				};
-				break;
-			default:
-				posInfo = {
-					from: selection.to,
-					to: selection.to
-				};
-		}
-
-		return posInfo;
+export function actionPosition(action: PromptAction, selection: Selection): Range {
+	let posInfo: Range;
+	switch (action.changeForm) {
+		case ChangeForm.INSERT:
+			posInfo = {
+				from: selection.to,
+				to: selection.to
+			};
+			break;
+		case ChangeForm.REPLACE:
+			posInfo = {
+				from: selection.from,
+				to: selection.to
+			};
+			break;
+		case ChangeForm.DIFF:
+			posInfo = {
+				from: selection.from,
+				to: selection.to
+			};
+			break;
+		default:
+			posInfo = {
+				from: selection.from,
+				to: selection.to
+			};
 	}
+
+	return posInfo;
 }

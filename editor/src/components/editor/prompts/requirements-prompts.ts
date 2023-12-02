@@ -43,6 +43,13 @@ const SlashCommands: PromptAction[] = [
 		template: `You are an assistant helping to summarize a article. Output in markdown format. \n ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
 		facetType: FacetType.SLASH_COMMAND,
 		outputForm: OutputForm.STREAMING
+	},
+	{
+		name: '生成需求大纲',
+		i18Name: true,
+		template: `你是一个产品经理。请编写一个 ###{{${DefinedVariable.TITLE}}}###的需求文档大纲。`,
+		facetType: FacetType.TOOLBAR_MENU,
+		outputForm: OutputForm.STREAMING,
 	}
 ]
 

@@ -5,6 +5,7 @@ import tippy, { Instance, Props } from "tippy.js";
 import SlashView from "./slash-view";
 import { PluginKey } from "@tiptap/pm/state";
 import { FacetType } from "@/types/custom-action.type";
+import { PromptsManager } from "@/components/editor/prompts/prompts-manager";
 
 export const createSlashExtension = (name: string) => {
 	const extensionName = `ai-insert`;
@@ -42,7 +43,8 @@ export const createSlashExtension = (name: string) => {
 						editor?.view?.focus();
 					},
 					items: ({ query }) => {
-						return (this.editor?.commands?.getAiActions(FacetType.SLASH_COMMAND,) || []) as any[];
+						let articleType = this.editor.commands.getArticleType();
+						return (PromptsManager.getInstance().getPrompt(FacetType.SLASH_COMMAND, articleType) || []) as any[];
 					},
 					render: () => {
 						let component: ReactRenderer<unknown, {}>;
