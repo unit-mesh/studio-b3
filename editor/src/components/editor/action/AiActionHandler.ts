@@ -1,7 +1,10 @@
 import { Editor, Range } from "@tiptap/core";
 import { ChangeForm, OutputForm, PromptAction } from "@/types/custom-action.type";
 import { ActionExecutor, actionPosition } from "@/components/editor/action/ActionExecutor";
-import { Selection } from "prosemirror-state";
+// @ts-ignore
+import { MarkdownSerializer } from "node_modules/tiptap-markdown/src/serialize/MarkdownSerializer";
+// @ts-ignore
+import { MarkdownParser } from "node_modules/tiptap-markdown/src/parse/MarkdownParser";
 
 export class AiActionHandler {
 	private editor: Editor;
@@ -12,16 +15,19 @@ export class AiActionHandler {
 
 	private async handleStreaming(action: PromptAction, prompt: string) {
 		this.editor.setEditable(false);
+		const originalSelection = this.editor.state.selection;
 
 		const response = await fetch("/api/completion/yiyan", {
 			method: "POST",
 			body: JSON.stringify({ prompt: prompt }),
 		});
 
+		let allText = "";
 		let buffer = "";
 		await response.body?.pipeThrough(new TextDecoderStream()).pipeTo(
 			new WritableStream({
 				write: (chunk) => {
+					allText += chunk;
 					buffer = buffer.concat(chunk);
 
 					if (buffer.includes("\n")) {
@@ -41,6 +47,20 @@ export class AiActionHandler {
 		// last chunk
 		const pos = actionPosition(action, this.editor.state.selection);
 		this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
+
+		const lastNode = this.editor.state.doc.lastChild;
+		console.log("lastNode: ", lastNode)
+
+		let markdownParser = new MarkdownParser(this.editor, {});
+		let markdownNode = markdownParser.parse(allText);
+
+		// replace last node
+
+		this.editor.chain().focus()?.deleteRange({
+			from: originalSelection.from,
+			to: this.editor.state.selection.to
+		}).run();
+		this.editor.chain().insertContentAt(this.editor.state.selection, markdownNode).run();
 
 		this.editor.setEditable(true);
 	}
