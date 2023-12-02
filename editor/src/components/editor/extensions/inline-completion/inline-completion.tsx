@@ -13,66 +13,63 @@ declare module '@tiptap/core' {
 	}
 }
 
-export const createInlineCompletion = () => {
-	const extensionName = "inline-completion-completion";
-
-	return Node.create({
-		name: extensionName,
-		group: "block",
-		defining: true,
-		isolating: true,
-		content: "text*",
-		addOptions() {
-			return {
-				HTMLAttributes: {
-					class: "inline-completion-completion",
-				},
+const extensionName = "inline-completion-completion";
+export const InlineCompletion = Node.create({
+	name: extensionName,
+	group: "block",
+	defining: true,
+	isolating: true,
+	content: "text*",
+	addOptions() {
+		return {
+			HTMLAttributes: {
+				class: "inline-completion-completion",
+			},
+		}
+	},
+	addKeyboardShortcuts() {
+		return {
+			"Mod-\\": (): boolean => {
+				this.editor.commands.triggerInlineCompletion()
+				return true
+			},
+			"Tab": (): boolean => {
+				this.editor.commands.completeInlineCompletion()
+				return true
+			},
+			"`": (): boolean => {
+				this.editor.commands.completeInlineCompletion()
+				return true
+			},
+			Escape: (): boolean => {
+				this.editor.commands.cancelInlineCompletion();
+				return true
+			},
+		}
+	},
+	// @ts-ignore
+	addCommands() {
+		return {
+			triggerInlineCompletion: (options: any) => ({ commands }: { commands: any }) => {
+				return commands.insertContent({
+					type: this.name,
+					attrs: options,
+				})
+			},
+			completeInlineCompletion: (options: any) => ({ commands }: { commands: any }) => {
+				const pos = this.editor.view.state.selection.$anchor.pos;
+				commands.deleteNode(this.name)
+				commands.insertContentAt(pos, "done completion")
+			},
+			cancelInlineCompletion: (options: any) => ({ commands }: { commands: any }) => {
+				commands.deleteNode(this.name)
 			}
-		},
-		addKeyboardShortcuts() {
-			return {
-				"Mod-\\": (): boolean => {
-					this.editor.commands.triggerInlineCompletion()
-					return true
-				},
-				"Tab": (): boolean => {
-					this.editor.commands.completeInlineCompletion()
-					return true
-				},
-				"`": (): boolean => {
-					this.editor.commands.completeInlineCompletion()
-					return true
-				},
-				Escape: (): boolean => {
-					this.editor.commands.cancelInlineCompletion();
-					return true
-				},
-			}
-		},
-		// @ts-ignore
-		addCommands() {
-			return {
-				triggerInlineCompletion: (options: any) => ({ commands }: { commands: any }) => {
-					return commands.insertContent({
-						type: this.name,
-						attrs: options,
-					})
-				},
-				completeInlineCompletion: (options: any) => ({ commands }: { commands: any }) => {
-					const pos = this.editor.view.state.selection.$anchor.pos;
-					commands.deleteNode(this.name)
-					commands.insertContentAt(pos, "done completion")
-				},
-				cancelInlineCompletion: (options: any) => ({ commands }: { commands: any }) => {
-					commands.deleteNode(this.name)
-				}
-			}
-		},
-		addNodeView() {
-			return ReactNodeViewRenderer(InlineCompletionView);
-		},
-	})
-}
+		}
+	},
+	addNodeView() {
+		return ReactNodeViewRenderer(InlineCompletionView);
+	},
+});
 
 const InlineCompletionView = (props?: { editor: Editor }) => {
 	const $container = useRef();
@@ -90,11 +87,11 @@ const InlineCompletionView = (props?: { editor: Editor }) => {
 		return () => {
 			document.removeEventListener("keydown", handleKeyDown);
 		};
-	}, []);
+	}, [props?.editor?.commands]);
 
 	return (
 		<NodeViewWrapper ref={$container}>
-			<span>show inline completion <span className={'inline-completion-tip'}><KeyboardIcon />`</span></span>
+			<span>show inline completion <span className={'inline-completion-tip'}><KeyboardIcon/>`</span></span>
 		</NodeViewWrapper>
 	);
 };

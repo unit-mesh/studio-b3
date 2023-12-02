@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import MarkdownIt from 'markdown-it'
 import { useDebounce } from 'use-debounce';
 
-import { createInlineCompletion } from "@/components/editor/extensions/inline-completion/inline-completion";
+import { InlineCompletion } from "@/components/editor/extensions/inline-completion/inline-completion";
 import { MenuBubble } from '@/components/editor/menu/menu-bubble'
 import { createSlashExtension } from './extensions/slash-command/slash-extension'
 import { createQuickBox } from '@/components/editor/extensions/quick-box/quick-box-extension'
@@ -51,7 +51,7 @@ const extensions = [
 	TrackChangeExtension.configure({
 		enabled: false,
 	}),
-	createInlineCompletion(),
+	InlineCompletion,
 	StarterKit.configure({
 		bulletList: {
 			keepMarks: true,
