@@ -27,7 +27,10 @@ import { Advice } from "@/components/editor/advice/advice";
 import { AdviceManager } from "@/components/editor/advice/advice-manager";
 import { AdviceView } from "@/components/editor/advice/advice-view";
 import { Settings } from "@/components/settings";
-import { Markdown } from "tiptap-markdown";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
 
 const md = new MarkdownIt()
 
@@ -65,6 +68,10 @@ const extensions = [
 	Color.configure({ types: [TextStyle.name, ListItem.name] }),
 	// @ts-ignore
 	TextStyle.configure({ types: [ListItem.name] }),
+	Table,
+	TableRow,
+	TableCell,
+	TableHeader
 ]
 
 const LiveEditor = () => {
