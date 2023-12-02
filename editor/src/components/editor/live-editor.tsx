@@ -61,7 +61,6 @@ const extensions = [
 	}),
 	createSlashExtension('ai-slash'),
 	createAiBlock(),
-	Markdown,
 	CharacterCount.configure({}),
 	Color.configure({ types: [TextStyle.name, ListItem.name] }),
 	// @ts-ignore

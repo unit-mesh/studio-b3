@@ -80,7 +80,14 @@ const SlashCommands: PromptAction[] = [
 		template: `You are an assistant helping to summarize a article. Output in markdown format. \n ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
 		facetType: FacetType.SLASH_COMMAND,
 		outputForm: OutputForm.STREAMING
-	}
+	},
+	{
+		name: 'Continue writing',
+		i18Name: true,
+		template: `You are an assistant helping a user write a document. Output how the document continues, no more than 3 sentences. ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
+		facetType: FacetType.SLASH_COMMAND,
+		outputForm: OutputForm.STREAMING,
+	},
 ]
 
 const ArticlePrompts: PromptAction[] = [

@@ -18,14 +18,29 @@ export class AiActionHandler {
 			body: JSON.stringify({ prompt: prompt }),
 		});
 
+		let buffer = "";
 		await response.body?.pipeThrough(new TextDecoderStream()).pipeTo(
 			new WritableStream({
 				write: (chunk) => {
-					const pos = actionPosition(action, this.editor.state.selection);
-					this.editor.chain().focus()?.insertContentAt(pos, chunk).run();
+					buffer = buffer.concat(chunk);
+
+					if (buffer.includes("\n")) {
+						const pos = actionPosition(action, this.editor.state.selection);
+						this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
+
+						// insert new line
+						const posInfo = actionPosition(action, this.editor.state.selection);
+						this.editor.chain().focus()?.insertContentAt(posInfo, "\n").run();
+
+						buffer = "";
+					}
 				},
 			})
 		);
+
+		// last chunk
+		const pos = actionPosition(action, this.editor.state.selection);
+		this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
 
 		this.editor.setEditable(true);
 	}
