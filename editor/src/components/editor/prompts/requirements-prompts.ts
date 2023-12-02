@@ -12,61 +12,25 @@ const ToolbarMenu: PromptAction[] = [
 	{
 		name: 'Generate Requirements',
 		i18Name: true,
-		template: `You are an software assistant helping a user to generate an requirements outline. Output in markdown format. ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
+		template: `你是一个产品经理。请编写一个 ###{{${DefinedVariable.TITLE}}}###的需求文档大纲。`,
 		facetType: FacetType.TOOLBAR_MENU,
 		outputForm: OutputForm.STREAMING,
-	},
-	{
-		name: 'Continue writing',
-		i18Name: true,
-		template: `You are an assistant helping a user write requirements. Output how the document continues, no more than 3 sentences. ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
-		facetType: FacetType.TOOLBAR_MENU,
-		outputForm: OutputForm.STREAMING,
-	},
-	{
-		name: 'Help Me Write',
-		i18Name: true,
-		template: ` You are an assistant helping a user write more content in a document based on a prompt. Output in markdown format. ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
-		facetType: FacetType.TOOLBAR_MENU,
-		outputForm: OutputForm.STREAMING,
-	},
-	{
-		name: 'Spelling and Grammar',
-		i18Name: true,
-		template: `You are an assistant helping a user to check spelling and grammar. Output in markdown format. ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
-		facetType: FacetType.TOOLBAR_MENU,
-		outputForm: OutputForm.STREAMING,
-	},
+	}
 ];
 
 const BubbleMenu: PromptAction[] = [
 	{
-		name: 'Polish',
+		name: '细化需求',
 		i18Name: true,
-		template: `You are an assistant helping to polish sentence. Output in markdown format. \n ###{{${DefinedVariable.SELECTION}}}###`,
-		facetType: FacetType.BUBBLE_MENU,
-		outputForm: OutputForm.STREAMING,
-	},
-	{
-		name: 'Simplify Content',
-		i18Name: true,
-		template: `You are an assistant helping to simplify content. Output in markdown format. \n ###{{${DefinedVariable.SELECTION}}}###`,
+		template: `你是一个产品经理。请细化这些需求 \n ###{{${DefinedVariable.SELECTION}}}###`,
 		facetType: FacetType.BUBBLE_MENU,
 		outputForm: OutputForm.STREAMING,
 		changeForm: ChangeForm.DIFF,
 	},
 	{
-		name: 'Similar Chunk',
+		name: 'Polish',
 		i18Name: true,
-		template: `{{${DefinedVariable.SELECTION}}}`,
-		builtinFunction: BuiltInFunc.SIMILAR_CHUNKS,
-		facetType: FacetType.BUBBLE_MENU,
-		outputForm: OutputForm.STREAMING,
-	},
-	{
-		name: 'Translate',
-		i18Name: true,
-		template: `You are an assistant helping to translate a sentence. Output in markdown format. \n ###{{${DefinedVariable.SELECTION}}}###`,
+		template: `You are an assistant helping to polish sentence. Output in markdown format. \n ###{{${DefinedVariable.SELECTION}}}###`,
 		facetType: FacetType.BUBBLE_MENU,
 		outputForm: OutputForm.STREAMING,
 	}

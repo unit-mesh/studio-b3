@@ -13,49 +13,15 @@ import { newAdvice } from '@/components/editor/advice/advice';
 export const MenuBubble = ({ editor }: {
 	editor: Editor
 }) => {
-	const selection = editor.commands?.getSelectedText()
 	const [loading, setLoading] = React.useState(false);
 	const { t, i18n } = useTranslation()
 
-	const smartMenus: PromptAction[] = [];
-	const menus: PromptAction[] = [];
+	const [smartMenus, setSmartMenus] = React.useState<PromptAction[]>([]);
+	const [menus, setMenus] = React.useState<any[]>([]);
 
-	useEffect(() => {
-		const menus = editor?.commands?.getAiActions(FacetType.BUBBLE_MENU) || [];
-		// loading
-		let selectLength = selection?.length ? selection.length : 0
-
-		if (editor.isActive('heading', { level: 1 })) {
-			smartMenus.push({
-				name: '优化子标题',
-				template: `优化文章的子标题 ###{{${DefinedVariable.SELECTION}}}###`,
-				facetType: FacetType.BUBBLE_MENU,
-				changeForm: ChangeForm.DIFF,
-				outputForm: OutputForm.TEXT,
-			})
-		}
-
-		if (selectLength < 64) {
-			smartMenus.push({
-				name: '扩写',
-				template: `根据如下的内容扩写，只返回三句，限 100 字以内。###{{${DefinedVariable.SELECTION}}}###。`,
-				facetType: FacetType.BUBBLE_MENU,
-				changeForm: ChangeForm.DIFF,
-				outputForm: OutputForm.TEXT,
-			})
-		}
-
-		if (selectLength > 3 && editor.isActive('paragraph')) {
-			smartMenus.push({
-				name: '润色',
-				template: `优化表达：###{{${DefinedVariable.SELECTION}}}###`,
-				facetType: FacetType.BUBBLE_MENU,
-				changeForm: ChangeForm.DIFF,
-				outputForm: OutputForm.TEXT,
-			})
-		}
-
-		menus.map((menu, index) => {
+	function buildMenus(): PromptAction[] {
+		const originMenus = editor?.commands?.getAiActions(FacetType.BUBBLE_MENU) || [];
+		originMenus.map((menu, index) => {
 			if (menu.i18Name) {
 				menu.name = t(menu.name)
 			}
@@ -78,7 +44,49 @@ export const MenuBubble = ({ editor }: {
 				}
 			}
 		});
-	}, []);
+
+		return originMenus
+	}
+
+	useEffect(() => {
+		const selection = editor.commands?.getSelectedText()
+		let selectLength = selection?.length ? selection.length : 0
+
+		const innerSmartMenus: PromptAction[] = []
+
+		if (editor.isActive('heading', { level: 1 })) {
+			innerSmartMenus.push({
+				name: '优化子标题',
+				template: `优化文章的子标题 ###{{${DefinedVariable.SELECTION}}}###`,
+				facetType: FacetType.BUBBLE_MENU,
+				changeForm: ChangeForm.DIFF,
+				outputForm: OutputForm.TEXT,
+			})
+		}
+
+		if (selectLength < 64) {
+			innerSmartMenus.push({
+				name: '扩写',
+				template: `根据如下的内容扩写，只返回三句，限 100 字以内。###{{${DefinedVariable.SELECTION}}}###。`,
+				facetType: FacetType.BUBBLE_MENU,
+				changeForm: ChangeForm.DIFF,
+				outputForm: OutputForm.TEXT,
+			})
+		}
+
+		if (selectLength > 3 && editor.isActive('paragraph')) {
+			innerSmartMenus.push({
+				name: '润色',
+				template: `优化表达：###{{${DefinedVariable.SELECTION}}}###`,
+				facetType: FacetType.BUBBLE_MENU,
+				changeForm: ChangeForm.DIFF,
+				outputForm: OutputForm.TEXT,
+			})
+		}
+
+		setSmartMenus(innerSmartMenus)
+		setMenus(buildMenus())
+	}, [editor, menus]);
 
 	return <BubbleMenu className={'bubble-menu-group w-64 bg-white'} editor={editor} tippyOptions={{ duration: 100 }}>
 		<div>
