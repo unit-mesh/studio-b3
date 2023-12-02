@@ -1,13 +1,12 @@
-import { Editor, Range } from "@tiptap/core";
+import { Editor } from "@tiptap/core";
 import { ChangeForm, OutputForm, PromptAction } from "@/types/custom-action.type";
 import { ActionExecutor, actionPosition } from "@/components/editor/action/ActionExecutor";
-// @ts-ignore
-import { MarkdownSerializer } from "node_modules/tiptap-markdown/src/serialize/MarkdownSerializer";
+
 // @ts-ignore
 import { MarkdownParser } from "node_modules/tiptap-markdown/src/parse/MarkdownParser";
 
 export class AiActionHandler {
-	private editor: Editor;
+	private readonly editor: Editor;
 
 	constructor(editor: Editor) {
 		this.editor = editor;
@@ -44,16 +43,11 @@ export class AiActionHandler {
 			})
 		);
 
-		// last chunk
 		const pos = actionPosition(action, this.editor.state.selection);
 		this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
 
-		const lastNode = this.editor.state.doc.lastChild;
-
 		let markdownParser = new MarkdownParser(this.editor, {});
 		let markdownNode = markdownParser.parse(allText);
-
-		// replace last node
 
 		this.editor.chain().focus()?.deleteRange({
 			from: originalSelection.from,
@@ -65,7 +59,7 @@ export class AiActionHandler {
 		this.editor.setEditable(true);
 	}
 
-	private async handleTextOrDiff(action: PromptAction, prompt: string): Promise<string | undefined> {
+	private async handleTextOrDiff(_action: PromptAction, prompt: string): Promise<string | undefined> {
 		// @ts-ignore
 		this.editor.commands?.setTrackChangeStatus(true);
 
