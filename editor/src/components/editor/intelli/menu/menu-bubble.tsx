@@ -70,11 +70,10 @@ export const MenuBubble = ({ editor }: {
 	return <BubbleMenu className={'bubble-menu-group w-64'} editor={editor} tippyOptions={{ duration: 100 }}>
 		<div className={'bubble-menu-tier1'}>
 			<div className="dropdown">
-				<button onClick={handleToggle}><Button variant="soft">
+				<Button variant="soft" onClick={handleToggle}>
 					Ask AI
 					<CookieIcon/>
 				</Button>
-				</button>
 			</div>
 			<div className="smart-menu">
 				{smartMenus && smartMenus.map((menu, index) => {
