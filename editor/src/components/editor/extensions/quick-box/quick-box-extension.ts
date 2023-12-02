@@ -9,7 +9,7 @@ import {
 	ReactNodeViewRenderer,
 } from "@tiptap/react";
 
-import AiBlockView from "./ai-block-view";
+import QuickBoxViewWrapper from "./quick-box-view-wrapper";
 
 const extensionName = "quick-command";
 
@@ -27,7 +27,7 @@ declare module "@tiptap/core" {
 	}
 }
 
-export const createAiBlock = () => {
+export const createQuickBox = () => {
 	let isEditInChild = false;
 
 	return Node.create({
@@ -59,7 +59,7 @@ export const createAiBlock = () => {
 			};
 		},
 		addNodeView: function () {
-			return ReactNodeViewRenderer(AiBlockView);
+			return ReactNodeViewRenderer(QuickBoxViewWrapper);
 		},
 		addKeyboardShortcuts() {
 			return {

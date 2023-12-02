@@ -23,7 +23,7 @@ export type AiBlockEditorProps = {
 	go: (content: string) => void;
 };
 
-export const AiBlockEditor = ({ content, cancel, go }: AiBlockEditorProps) => {
+export const QuickBoxView = ({ content, cancel, go }: AiBlockEditorProps) => {
 	const ActionBar = Extension.create({
 		name: "actionBar",
 

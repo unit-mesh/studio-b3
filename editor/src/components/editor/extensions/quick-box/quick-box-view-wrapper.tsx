@@ -1,14 +1,14 @@
 import React, { useRef } from "react";
 import { NodeViewWrapper } from "@tiptap/react";
-import { AiBlockEditor } from "./ai-block-editor";
+import { QuickBoxView } from "./quick-box-view";
 import { Editor } from "@tiptap/core";
 
-const AiBlockView = (props?: { editor: Editor }) => {
+const QuickBoxViewWrapper = (props?: { editor: Editor }) => {
 	const $container = useRef();
 
 	return (
 		<NodeViewWrapper className={"shadow"} ref={$container}>
-			<AiBlockEditor
+			<QuickBoxView
 				content={""}
 				cancel={() => {
 					props?.editor?.commands.toggleAiBlock({});
@@ -23,4 +23,4 @@ const AiBlockView = (props?: { editor: Editor }) => {
 	);
 };
 
-export default AiBlockView;
+export default QuickBoxViewWrapper;

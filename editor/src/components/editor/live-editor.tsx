@@ -11,10 +11,10 @@ import { useTranslation } from "react-i18next";
 import MarkdownIt from 'markdown-it'
 import { useDebounce } from 'use-debounce';
 
-import { createInlineCompletion } from "@/components/editor/extensions/inline/inline-completion";
+import { createInlineCompletion } from "@/components/editor/extensions/inline-completion/inline-completion";
 import { MenuBubble } from './intelli/menu/menu-bubble'
 import { createSlashExtension } from './intelli/slash-extension'
-import { createAiBlock } from './intelli/ai-block-extension'
+import { createQuickBox } from '@/components/editor/extensions/quick-box/quick-box-extension'
 import { AdviceExtension } from '@/components/editor/extensions/advice/advice-extension';
 
 import TrackChangeExtension from './diff/track-change-extension'
@@ -63,7 +63,7 @@ const extensions = [
 		},
 	}),
 	createSlashExtension('ai-slash'),
-	createAiBlock(),
+	createQuickBox(),
 	CharacterCount.configure({}),
 	Color.configure({ types: [TextStyle.name, ListItem.name] }),
 	// @ts-ignore

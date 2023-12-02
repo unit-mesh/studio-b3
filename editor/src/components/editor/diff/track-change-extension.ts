@@ -256,7 +256,7 @@ const changeTrack = (opType, param) => {
 // @ts-ignore
 /**
  * TODO: some problems to fix or feature to implement
- * 1. when delete content includes two and more paragraphs, cannot mark the new paragraph as insert mark, because the mark is inline, can we add global attrs?
+ * 1. when delete content includes two and more paragraphs, cannot mark the new paragraph as insert mark, because the mark is inline-completion, can we add global attrs?
  * 2. when delete content includes two and more paragraphs, connot ignore the insert mark inside the content. Currently, the insert mark is marked as deleted. But it need to be delete directly.
  * 3. select two chars and inout a chinese char, the new char was input with wrong position. (fixed by stop input action)
  * 4. how to toggle to "hide" mode and can record the change ranges too, just look likes the office word

@@ -14,7 +14,7 @@ declare module '@tiptap/core' {
 }
 
 export const createInlineCompletion = () => {
-	const extensionName = "inline-completion";
+	const extensionName = "inline-completion-completion";
 
 	return Node.create({
 		name: extensionName,
@@ -25,7 +25,7 @@ export const createInlineCompletion = () => {
 		addOptions() {
 			return {
 				HTMLAttributes: {
-					class: "inline-completion",
+					class: "inline-completion-completion",
 				},
 			}
 		},

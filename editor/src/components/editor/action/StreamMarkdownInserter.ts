@@ -25,7 +25,7 @@ export class StreamMarkdownInserter {
 			}
 			return {
 				type: "heading",
-				content: "inline*",
+				content: "inline-completion*",
 				text: text.substring(level),
 				attrs: {
 					level: level,
@@ -109,6 +109,6 @@ export class StreamMarkdownInserter {
 			}
 		}
 
-		
+
 	}
 }
