@@ -12,9 +12,12 @@ import { ARTICLE_TYPE_OPTIONS, ArticleTypeOption } from "@/components/editor/dat
 
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
+		getSelectedText: {
+			getSelectedText: () => string;
+		};
 		callLlm: {
 			callLlm: (action: PromptAction) => string | undefined;
-		}
+		};
 		getAiActions: {
 			getAiActions: (facet: FacetType) => PromptAction[];
 		};
@@ -46,6 +49,14 @@ export const CommandFunctions = Extension.create({
 	// @ts-ignore
 	addCommands: () => {
 		return {
+			getSelectedText:
+				() =>
+					({ editor }: { editor: Editor }) => {
+						if (!editor.state) return null;
+						const { from, to, empty } = editor.state.selection;
+						if (empty) return null;
+						return editor.state.doc.textBetween(from, to, " ");
+					},
 			getArticleType:
 				() =>
 					({ editor }: { editor: Editor }) => {
@@ -54,6 +65,7 @@ export const CommandFunctions = Extension.create({
 			setArticleType:
 				(articleType: ArticleTypeOption) =>
 					({ editor, tr, dispatch }: { editor: Editor, tr: Transaction, dispatch: Dispatch }) => {
+						console.info("set article type to: ", articleType);
 						tr.setMeta("articleType", articleType);
 						// @ts-ignore
 						dispatch(tr);
@@ -114,7 +126,8 @@ export const CommandFunctions = Extension.create({
 			getAiActions:
 				(facet: FacetType) =>
 					({ editor }: { editor: Editor }) => {
-						return PromptsManager.getInstance().get(facet);
+						let articleType = editor.commands.getArticleType();
+						return PromptsManager.getInstance().getPrompt(facet, articleType);
 					},
 			runAiAction:
 				(action: PromptAction) =>

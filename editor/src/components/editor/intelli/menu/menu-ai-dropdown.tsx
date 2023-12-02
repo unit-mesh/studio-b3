@@ -7,7 +7,11 @@ import { Button, DropdownMenu } from "@radix-ui/themes";
 export const MenuAiDropdown = ({ editor }: {
 	editor: Editor
 }) => {
-	const menus = editor?.commands?.getAiActions(FacetType.TOOLBAR_MENU);
+	const [menus, setMenus] = React.useState<any[]>([]);
+
+	React.useEffect(() => {
+		setMenus(editor?.commands?.getAiActions(FacetType.TOOLBAR_MENU));
+	}, []);
 
 	return (
 		<DropdownMenu.Root>

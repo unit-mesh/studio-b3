@@ -1,11 +1,13 @@
 import Handlebars from 'handlebars'
 import i18next from "i18next";
 import { DefinedVariable, FacetType, PromptAction } from "@/types/custom-action.type";
-import PrebuildPrompts from "@/components/editor/prompts/prebuild-prompts";
+import ArticlePrompts from "@/components/editor/prompts/article-prompts";
+import { ArticleTypeOption } from "@/components/editor/data/ArticleTypeOption";
 
 export class PromptsManager {
 	private backgroundContext: string = "";
-	private constructor() { }
+	private constructor() {
+	}
 
 	private static instance: PromptsManager;
 
@@ -17,9 +19,8 @@ export class PromptsManager {
 		return PromptsManager.instance;
 	}
 
-	get(type: FacetType): PromptAction[] {
-		// todo: handle with local storage in here
-		let actions = PrebuildPrompts.filter(prompt => prompt.facetType === type);
+	getPrompt(type: FacetType, articleType: ArticleTypeOption): PromptAction[] {
+		let actions = ArticlePrompts.filter(prompt => prompt.facetType === type);
 		const filterActions = actions.map(prompt => {
 			if (prompt.i18Name) {
 				prompt.name = i18next.t(prompt.name)

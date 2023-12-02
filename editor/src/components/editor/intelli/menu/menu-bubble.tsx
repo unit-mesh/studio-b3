@@ -1,5 +1,5 @@
 import { BubbleMenu } from '@tiptap/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from '@/types/custom-action.type'
 import { Editor } from "@tiptap/core";
@@ -13,67 +13,71 @@ export const MenuBubble = ({ editor }: {
 	editor: Editor
 }) => {
 	const selection = editor.commands?.getSelectedText()
-	let selectLength = selection?.length ? selection.length : 0
+	const [loading, setLoading] = React.useState(false);
 	const { t, i18n } = useTranslation()
 
-	const menus = editor?.commands?.getAiActions(FacetType.BUBBLE_MENU) || [];
 	const smartMenus: PromptAction[] = [];
-	// loading
-	const [loading, setLoading] = React.useState(false);
+	const menus: PromptAction[] = [];
 
-	if (editor.isActive('heading', { level: 1 })) {
-		smartMenus.push({
-			name: '优化子标题',
-			template: `优化文章的子标题 ###{{${DefinedVariable.SELECTION}}}###`,
-			facetType: FacetType.BUBBLE_MENU,
-			changeForm: ChangeForm.DIFF,
-			outputForm: OutputForm.TEXT,
-		})
-	}
+	useEffect(() => {
+		const menus = editor?.commands?.getAiActions(FacetType.BUBBLE_MENU) || [];
+		// loading
+		let selectLength = selection?.length ? selection.length : 0
 
-	if (selectLength < 64) {
-		smartMenus.push({
-			name: '扩写',
-			template: `根据如下的内容扩写，只返回三句，限 100 字以内。###{{${DefinedVariable.SELECTION}}}###。`,
-			facetType: FacetType.BUBBLE_MENU,
-			changeForm: ChangeForm.DIFF,
-			outputForm: OutputForm.TEXT,
-		})
-	}
-
-	if (selectLength > 3 && editor.isActive('paragraph')) {
-		smartMenus.push({
-			name: '润色',
-			template: `优化表达：###{{${DefinedVariable.SELECTION}}}###`,
-			facetType: FacetType.BUBBLE_MENU,
-			changeForm: ChangeForm.DIFF,
-			outputForm: OutputForm.TEXT,
-		})
-	}
-
-	menus.map((menu, index) => {
-		if (menu.i18Name) {
-			menu.name = t(menu.name)
+		if (editor.isActive('heading', { level: 1 })) {
+			smartMenus.push({
+				name: '优化子标题',
+				template: `优化文章的子标题 ###{{${DefinedVariable.SELECTION}}}###`,
+				facetType: FacetType.BUBBLE_MENU,
+				changeForm: ChangeForm.DIFF,
+				outputForm: OutputForm.TEXT,
+			})
 		}
 
-		menu.action = () => {
-			// @ts-ignore
-			const selection = editor.state.selection
-			let posInfo = new ActionExecutor(menu, editor).position(selection);
-
-			if (menu.changeForm == ChangeForm.DIFF) {
-				// @ts-ignore
-				editor.commands?.setTrackChangeStatus(true)
-			}
-
-			editor.chain().focus().insertContentAt(posInfo, "TODO").run()
-
-			if (menu.changeForm == ChangeForm.DIFF) {
-				// @ts-ignore
-				editor.commands?.setTrackChangeStatus(false)
-			}
+		if (selectLength < 64) {
+			smartMenus.push({
+				name: '扩写',
+				template: `根据如下的内容扩写，只返回三句，限 100 字以内。###{{${DefinedVariable.SELECTION}}}###。`,
+				facetType: FacetType.BUBBLE_MENU,
+				changeForm: ChangeForm.DIFF,
+				outputForm: OutputForm.TEXT,
+			})
 		}
-	});
+
+		if (selectLength > 3 && editor.isActive('paragraph')) {
+			smartMenus.push({
+				name: '润色',
+				template: `优化表达：###{{${DefinedVariable.SELECTION}}}###`,
+				facetType: FacetType.BUBBLE_MENU,
+				changeForm: ChangeForm.DIFF,
+				outputForm: OutputForm.TEXT,
+			})
+		}
+
+		menus.map((menu, index) => {
+			if (menu.i18Name) {
+				menu.name = t(menu.name)
+			}
+
+			menu.action = () => {
+				// @ts-ignore
+				const selection = editor.state.selection
+				let posInfo = new ActionExecutor(menu, editor).position(selection);
+
+				if (menu.changeForm == ChangeForm.DIFF) {
+					// @ts-ignore
+					editor.commands?.setTrackChangeStatus(true)
+				}
+
+				editor.chain().focus().insertContentAt(posInfo, "TODO").run()
+
+				if (menu.changeForm == ChangeForm.DIFF) {
+					// @ts-ignore
+					editor.commands?.setTrackChangeStatus(false)
+				}
+			}
+		});
+	}, []);
 
 	return <BubbleMenu className={'bubble-menu-group w-64 bg-white'} editor={editor} tippyOptions={{ duration: 100 }}>
 		<div>

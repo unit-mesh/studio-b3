@@ -42,9 +42,7 @@ export const createSlashExtension = (name: string) => {
 						editor?.view?.focus();
 					},
 					items: ({ query }) => {
-						return (this.editor?.commands?.getAiActions(
-							FacetType.SLASH_COMMAND,
-						) || []) as any[];
+						return (this.editor?.commands?.getAiActions(FacetType.SLASH_COMMAND,) || []) as any[];
 					},
 					render: () => {
 						let component: ReactRenderer<unknown, {}>;

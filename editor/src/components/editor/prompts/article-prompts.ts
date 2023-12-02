@@ -83,10 +83,10 @@ const SlashCommands: PromptAction[] = [
 	}
 ]
 
-const PrebuildPrompts: PromptAction[] = [
+const ArticlePrompts: PromptAction[] = [
 	ToolbarMenu,
 	BubbleMenu,
 	SlashCommands
 ].flat();
 
-export default PrebuildPrompts;
+export default ArticlePrompts;
