@@ -4,7 +4,7 @@ import { Transaction } from "prosemirror-state";
 import { DefinedVariable, FacetType, OutputForm, PromptAction, } from "@/types/custom-action.type";
 import { PromptsManager } from "@/components/editor/prompts/prompts-manager";
 import { ARTICLE_TYPE_OPTIONS, ArticleTypeOption } from "@/components/editor/data/ArticleTypeOption";
-import { AiActionHandler } from "@/components/editor/action/ai-action-handler";
+import { AiActionHandler } from "@/components/editor/action/AiActionHandler";
 
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
@@ -38,7 +38,7 @@ declare module "@tiptap/core" {
 
 let articleType = ARTICLE_TYPE_OPTIONS[0];
 
-export const CommandFunctions = Extension.create({
+export const CommandFunctionsExtensions = Extension.create({
 	name: "commandFunctions",
 
 	// @ts-ignore

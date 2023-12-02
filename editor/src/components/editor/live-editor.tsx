@@ -19,7 +19,7 @@ import { AdviceExtension } from './advice/advice-extension';
 
 import TrackChangeExtension from './diff/track-change-extension'
 import { MenuBar } from './menu-bar'
-import { CommandFunctions } from './action/command-functions'
+import { CommandFunctionsExtensions } from './action/command-functions-extensions'
 import { Sidebar } from './sidebar'
 
 import "./editor.css"
@@ -32,7 +32,7 @@ const md = new MarkdownIt()
 
 const extensions = [
 	// we define all commands here
-	CommandFunctions,
+	CommandFunctionsExtensions,
 	AdviceExtension.configure({
 		HTMLAttributes: {
 			class: "my-advice",
