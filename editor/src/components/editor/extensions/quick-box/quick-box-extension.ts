@@ -96,8 +96,6 @@ export const createQuickBox = () => {
 
 					return false;
 				},
-
-				// exit node on triple enter
 				Enter: ({ editor }): boolean => {
 					if (isEditInChild) return true;
 

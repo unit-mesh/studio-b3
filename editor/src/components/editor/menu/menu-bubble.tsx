@@ -5,7 +5,13 @@ import { Editor } from "@tiptap/core";
 import { CookieIcon } from "@radix-ui/react-icons";
 import { Button } from "@radix-ui/themes";
 import BounceLoader from "react-spinners/BounceLoader";
-import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from '@/components/editor/defs/custom-action.type'
+import {
+	ChangeForm,
+	DefinedVariable,
+	FacetType,
+	OutputForm,
+	PromptAction
+} from '@/components/editor/defs/custom-action.type'
 import { newAdvice } from '@/components/editor/extensions/advice/advice';
 
 export const MenuBubble = ({ editor }: {
@@ -21,19 +27,7 @@ export const MenuBubble = ({ editor }: {
 	useEffect(() => {
 		const { from, to, empty } = editor.state.selection;
 		const selection = editor.state.doc.textBetween(from, to, " ");
-		let selectLength = selection?.length ? selection.length : 0
-
 		const innerSmartMenus: PromptAction[] = []
-
-		// if (editor.isActive('heading', { level: 1 })) {
-		// 	innerSmartMenus.push({
-		// 		name: '优化子标题',
-		// 		template: `优化文章的子标题 ###{{${DefinedVariable.SELECTION}}}###`,
-		// 		facetType: FacetType.BUBBLE_MENU,
-		// 		changeForm: ChangeForm.DIFF,
-		// 		outputForm: OutputForm.TEXT,
-		// 	})
-		// }
 
 		innerSmartMenus.push({
 			name: '扩写',
@@ -66,37 +60,7 @@ export const MenuBubble = ({ editor }: {
 				</Button>
 			</div>
 			<div className="smart-menu">
-				{smartMenus && smartMenus.map((menu, index) => {
-					if (loading) {
-						return <BounceLoader
-							key={index}
-							loading={loading}
-							size={32}
-							aria-label="Loading Spinner"
-							data-testid="loader"
-						/>
-					}
 
-					return <Button
-						color="orange"
-						variant="outline"
-						key={index}
-						onClick={async () => {
-							setLoading(true)
-
-							const text = await editor.commands?.callLlm(menu);
-							setLoading(false)
-
-							const newComment = newAdvice(text || "")
-							editor.commands?.setAdvice(newComment.id)
-							editor.commands?.setAdviceCommand(newComment)
-							menu.action?.(editor)
-							editor.commands?.focus()
-						}}
-					>
-						{menu.i18Name ? t(menu.name) : menu.name}
-					</Button>
-				})}
 			</div>
 		</div>
 		<div className={'ask-ai-dropdown'}>
@@ -110,6 +74,29 @@ export const MenuBubble = ({ editor }: {
 								onClick={(event) => {
 									setIsOpen(false);
 									editor.chain().callLlm(menu);
+								}}
+							>
+								{menu.name}
+							</Button>
+						</li>
+					})}
+
+					{smartMenus?.map((menu, index) => {
+						return <li key={index}>
+							<Button
+								className="dropdown-item w-full"
+								variant={'soft'}
+								onClick={async () => {
+									setLoading(true)
+
+									const text = await editor.commands?.callLlm(menu);
+									setLoading(false)
+
+									const newComment = newAdvice(text || "")
+									editor.commands?.setAdvice(newComment.id)
+									editor.commands?.setAdviceCommand(newComment)
+									menu.action?.(editor)
+									editor.commands?.focus()
 								}}
 							>
 								{menu.name}
