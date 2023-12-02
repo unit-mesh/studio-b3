@@ -4,7 +4,7 @@ import { Transaction } from "prosemirror-state";
 import { DefinedVariable, FacetType, OutputForm, PromptAction, } from "@/components/editor/defs/custom-action.type";
 import { PromptsManager } from "@/components/editor/prompts/prompts-manager";
 import { ARTICLE_TYPE_OPTIONS, TypeOptions } from "@/components/editor/defs/type-options.type";
-import { AiActionHandler } from "@/components/editor/action/AiActionHandler";
+import { AiActionExecutor } from "@/components/editor/action/AiActionExecutor";
 
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
@@ -55,7 +55,7 @@ export const CustomEditorCommands = Extension.create({
 			callLlm:
 				(action: PromptAction) =>
 					async ({ tr, commands, editor }: { tr: Transaction; commands: Commands, editor: Editor }) => {
-						let actionHandler = new AiActionHandler(editor);
+						let actionHandler = new AiActionExecutor(editor);
 						return await actionHandler.execute(action)
 					},
 			getAiActions:

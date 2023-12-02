@@ -3,7 +3,7 @@ import { Editor, Range } from "@tiptap/core";
 import { Selection } from "prosemirror-state";
 import { PromptsManager } from "@/components/editor/prompts/prompts-manager";
 
-export class ActionExecutor {
+export class PromptCompiler {
 	private action: PromptAction;
 	private editor: Editor;
 
