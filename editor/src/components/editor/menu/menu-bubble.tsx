@@ -2,7 +2,7 @@ import { BubbleMenu } from '@tiptap/react'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Editor } from "@tiptap/core";
-import { CookieIcon } from "@radix-ui/react-icons";
+import { BookmarkIcon, CookieIcon } from "@radix-ui/react-icons";
 import { Button } from "@radix-ui/themes";
 import BounceLoader from "react-spinners/BounceLoader";
 import {
@@ -13,6 +13,8 @@ import {
 	PromptAction
 } from '@/components/editor/defs/custom-action.type'
 import { newAdvice } from '@/components/editor/extensions/advice/advice';
+import { Toolbar } from "@radix-ui/react-toolbar";
+import { ToolBar } from "@/components/editor/menu/tool-bar";
 
 export const MenuBubble = ({ editor }: {
 	editor: Editor
@@ -60,32 +62,16 @@ export const MenuBubble = ({ editor }: {
 				</Button>
 			</div>
 			<div className="smart-menu">
-
+				<ToolBar editor={editor} isBubbleMenu={true}/>
 			</div>
 		</div>
 		<div className={'ask-ai-dropdown'}>
-			{isOpen && (
-				<ul className="dropdown-menu">
-					{menus?.map((menu, index) => {
-						return <li key={index}>
-							<Button
-								className="dropdown-item w-full"
-								variant={'soft'}
-								onClick={(event) => {
-									setIsOpen(false);
-									editor.chain().callLlm(menu);
-								}}
-							>
-								{menu.name}
-							</Button>
-						</li>
-					})}
-
+			{isOpen && (<ul className="dropdown-menu">
 					{smartMenus?.map((menu, index) => {
 						return <li key={index}>
 							<Button
 								className="dropdown-item w-full"
-								variant={'soft'}
+								variant={'outline'}
 								onClick={async () => {
 									setLoading(true)
 
@@ -97,6 +83,21 @@ export const MenuBubble = ({ editor }: {
 									editor.commands?.setAdviceCommand(newComment)
 									menu.action?.(editor)
 									editor.commands?.focus()
+								}}
+							>
+								{menu.name} <BookmarkIcon/>
+							</Button>
+						</li>
+					})}
+
+					{menus?.map((menu, index) => {
+						return <li key={index}>
+							<Button
+								className="dropdown-item w-full"
+								variant={'outline'}
+								onClick={(event) => {
+									setIsOpen(false);
+									editor.chain().callLlm(menu);
 								}}
 							>
 								{menu.name}
