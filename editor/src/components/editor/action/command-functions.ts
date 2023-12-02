@@ -6,7 +6,7 @@ import {
 	FacetType, OutputForm,
 	PromptAction,
 } from "@/types/custom-action.type";
-import { PromptsManager } from "@/prompts/prompts-manager";
+import { PromptsManager } from "@/components/editor/prompts/prompts-manager";
 import { ActionExecutor } from "@/components/editor/action/ActionExecutor";
 import { ARTICLE_TYPE_OPTIONS, ArticleTypeOption } from "@/components/editor/data/ArticleTypeOption";
 

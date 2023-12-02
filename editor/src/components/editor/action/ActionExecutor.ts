@@ -1,7 +1,7 @@
 import { ChangeForm, DefinedVariable, PromptAction, SourceType } from "@/types/custom-action.type";
 import { Editor, Range } from "@tiptap/core";
 import { Selection } from "prosemirror-state";
-import { PromptsManager } from "@/prompts/prompts-manager";
+import { PromptsManager } from "@/components/editor/prompts/prompts-manager";
 
 export class ActionExecutor {
 	private action: PromptAction;

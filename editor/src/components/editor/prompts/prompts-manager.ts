@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars'
 import i18next from "i18next";
 import { DefinedVariable, FacetType, PromptAction } from "@/types/custom-action.type";
-import PrebuildPrompts from "@/prompts/prebuild-prompts";
+import PrebuildPrompts from "@/components/editor/prompts/prebuild-prompts";
 
 export class PromptsManager {
 	private backgroundContext: string = "";
