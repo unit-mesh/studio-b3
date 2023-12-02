@@ -49,7 +49,6 @@ export class AiActionHandler {
 		this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
 
 		const lastNode = this.editor.state.doc.lastChild;
-		console.log("lastNode: ", lastNode)
 
 		let markdownParser = new MarkdownParser(this.editor, {});
 		let markdownNode = markdownParser.parse(allText);
@@ -60,6 +59,7 @@ export class AiActionHandler {
 			from: originalSelection.from,
 			to: this.editor.state.selection.to
 		}).run();
+
 		this.editor.chain().insertContentAt(this.editor.state.selection, markdownNode).run();
 
 		this.editor.setEditable(true);

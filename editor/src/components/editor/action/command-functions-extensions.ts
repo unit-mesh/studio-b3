@@ -79,6 +79,7 @@ export const CommandFunctionsExtensions = Extension.create({
 							facetType: FacetType.QUICK_INSERT,
 							outputForm: OutputForm.STREAMING,
 						});
+
 						editor.setEditable(true);
 					},
 			replaceRange:
