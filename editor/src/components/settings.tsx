@@ -76,7 +76,7 @@ export const Settings = ({ editor }: { editor: Editor }) => {
 				<Select
 					defaultValue={articleType}
 					onChange={(value) => {
-
+						editor?.commands.setArticleType(value)
 						setArticleType(value)
 					}}
 					options={ARTICLE_TYPE_OPTIONS}

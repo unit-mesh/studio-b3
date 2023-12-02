@@ -15,15 +15,12 @@ declare module "@tiptap/core" {
 		callLlm: {
 			callLlm: (action: PromptAction) => string | undefined;
 		}
-
 		getAiActions: {
 			getAiActions: (facet: FacetType) => PromptAction[];
 		};
-
 		callQuickAction: {
 			callQuickAction: (text: string) => ReturnType;
 		}
-
 		runAiAction: {
 			runAiAction: (action: PromptAction) => ReturnType;
 		};
@@ -31,6 +28,12 @@ declare module "@tiptap/core" {
 			replaceRange: (text: string) => ReturnType;
 		}
 		setBackgroundContext: () => ReturnType,
+		getArticleType: {
+			getArticleType: () => ArticleTypeOption,
+		}
+		setArticleType: {
+			setArticleType: (articleType: ArticleTypeOption) => ReturnType
+		},
 	}
 }
 
@@ -43,6 +46,19 @@ export const CommandFunctions = Extension.create({
 	// @ts-ignore
 	addCommands: () => {
 		return {
+			getArticleType:
+				() =>
+					({ editor }: { editor: Editor }) => {
+						return editor.state.tr.getMeta("articleType") as ArticleTypeOption
+					},
+			setArticleType:
+				(articleType: ArticleTypeOption) =>
+					({ editor, tr, dispatch }: { editor: Editor, tr: Transaction, dispatch: Dispatch }) => {
+						tr.setMeta("articleType", articleType);
+						// @ts-ignore
+						dispatch(tr);
+					},
+
 			callLlm:
 				(action: PromptAction) =>
 					async ({ tr, commands, editor }: { tr: Transaction; commands: Commands, editor: Editor }) => {
