@@ -44,7 +44,10 @@ export const createSlashExtension = (name: string) => {
 					},
 					items: ({ query }) => {
 						let articleType = this.editor.commands.getArticleType();
-						return (PromptsManager.getInstance().getPrompt(FacetType.SLASH_COMMAND, articleType) || []) as any[];
+						console.log(articleType)
+						const promptActions = (PromptsManager.getInstance().getActions(FacetType.SLASH_COMMAND, articleType) || []);
+						console.log(promptActions)
+						return promptActions;
 					},
 					render: () => {
 						let component: ReactRenderer<unknown, {}>;

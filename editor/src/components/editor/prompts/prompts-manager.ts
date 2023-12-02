@@ -21,7 +21,7 @@ export class PromptsManager {
 		return PromptsManager.instance;
 	}
 
-	getPrompt(type: FacetType, articleType: ArticleTypeOption): PromptAction[] {
+	getActions(type: FacetType, articleType: ArticleTypeOption): PromptAction[] {
 		let typedPrompts: PromptAction[] = []
 
 		switch (articleType?.value) {

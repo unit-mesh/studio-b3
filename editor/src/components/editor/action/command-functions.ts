@@ -73,7 +73,7 @@ export const CommandFunctions = Extension.create({
 				(facet: FacetType) =>
 					({ editor }: { editor: Editor }) => {
 						let articleType = editor.commands.getArticleType();
-						return PromptsManager.getInstance().getPrompt(facet, articleType);
+						return PromptsManager.getInstance().getActions(facet, articleType);
 					},
 			runAiAction:
 				(action: PromptAction) =>
