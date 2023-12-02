@@ -63,12 +63,11 @@ export const MenuBubble = ({ editor }: {
 			</div>
 		</div>
 		<div className={'ask-ai-dropdown'}>
-			{isOpen && (<ul className="dropdown-menu">
+			{isOpen && (<ul>
 					{smartMenus?.map((menu, index) => {
 						return <li key={index}>
 							<Button
 								className="dropdown-item w-full"
-								variant={'outline'}
 								onClick={async () => {
 									setLoading(true)
 
@@ -91,7 +90,6 @@ export const MenuBubble = ({ editor }: {
 						return <li key={index}>
 							<Button
 								className="dropdown-item w-full"
-								variant={'outline'}
 								onClick={(event) => {
 									setIsOpen(false);
 									editor.chain().callLlm(menu);

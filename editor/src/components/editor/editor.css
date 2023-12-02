@@ -302,6 +302,37 @@
     background: var(--mauve-1);
     width: 160px;
     margin-top: 4px;
+    box-shadow: var(--black-a6) 0 3px 16px -5px, var(--black-a2) 0px 1px 3px;
+    border-radius: 4px;
+}
+
+.ask-ai-dropdown ul {
+    padding: 4px;
+}
+
+.ask-ai-dropdown .dropdown-item:hover {
+    background-color: var(--violet-9);
+    color: var(--violet-1);
+}
+
+.ask-ai-dropdown .dropdown-item svg {
+    position: absolute;
+    right: 8px;
+}
+
+.ask-ai-dropdown .dropdown-item {
+    font-size: 14px;
+    line-height: 1.4;
+    padding: 10px 5px;
+    color: var(--violet-11);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    user-select: none;
+    outline: none;
+    cursor: pointer;
+    background: #fff;
 }
 
 .toolbar-ai-button {
