@@ -96,7 +96,8 @@ export class AiActionExecutor {
 	public async execute(action: PromptAction) {
 		console.log("execute action", action)
 		if (action.builtinFunction) {
-			return new BuiltinFunctionExecutor(this.editor).execute(action);
+			let executor = new BuiltinFunctionExecutor(this.editor);
+			return await executor.execute(action);
 		}
 
 		const actionExecutor = new PromptCompiler(action, this.editor);

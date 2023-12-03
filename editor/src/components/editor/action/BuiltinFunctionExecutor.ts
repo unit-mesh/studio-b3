@@ -8,7 +8,7 @@ export class BuiltinFunctionExecutor {
 		this.editor = editor;
 	}
 
-	execute(action: PromptAction): Promise<string> | undefined {
+	async execute(action: PromptAction) {
 		switch (action.builtinFunction) {
 			case BuiltInFunc.GRAMMAR_CHECK:
 				break;
@@ -30,13 +30,13 @@ export class BuiltinFunctionExecutor {
 
 			const response = fetch(`http://127.0.0.1:8080/api/embedding-document/search?q=${query}`, {
 				method: "GET",
-			});
+			})
+				.then(res => res.json())
+				.then(data => {
+					console.log(data);
+				})
 
-			response.then((res) => {
-				res.json().then((data) => {
-					resolve(data);
-				});
-			});
+			return undefined;
 		});
 	}
 }
