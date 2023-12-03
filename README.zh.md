@@ -12,6 +12,8 @@
 
 在线演示：[https://editor.unitmesh.cc/](https://editor.unitmesh.cc/)
 
+演示视频: [开源 AI 原生编辑器 Studio B3](https://www.bilibili.com/video/BV1E64y1j7hJ/)
+
 ## 特点
 
 - 沉浸式生成。提供沉浸式的内容生成体验，支持各种格式，使用户能够全面创作内容。

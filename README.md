@@ -22,6 +22,8 @@ Roadmap: see [Roadmap](https://github.com/unit-mesh/3b/issues/1)
 
 Online Demo: [https://editor.unitmesh.cc/](https://editor.unitmesh.cc/)
 
+Demo Videos: [开源 AI 原生编辑器 Studio B3](https://www.bilibili.com/video/BV1E64y1j7hJ/)
+
 ## Features
 
 - Immersive generation. Provides an immersive content generation experience, supporting various formats to allow users
