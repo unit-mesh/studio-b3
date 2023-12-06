@@ -1,0 +1,37 @@
+{
+  "name": "@studio-b3/llmapi",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/index.mjs",
+  "types": "dist-types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist-types/index.d.ts",
+        "./dist-types/*"
+      ]
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "dist-types",
+    "src"
+  ],
+  "scripts": {
+    "watch": "vite build --watch",
+    "build": "vite build",
+    "lint": "eslint . --ext ts,tsx,.cjs --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext .ts,.cjs --fix --fix-type [problem,suggestion]"
+  },
+  "dependencies": {
+    "openai": "^4.20.0"
+  },
+  "devDependencies": {}
+}

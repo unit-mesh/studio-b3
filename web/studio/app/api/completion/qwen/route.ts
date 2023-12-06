@@ -1,6 +1,6 @@
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
-import QWenAI from "./qwen";
+import { QWenAI } from "@studio-b3/llmapi";
 
 const api = new QWenAI({
   // https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
   const { prompt } = await req.json();
 
   const response = await api.chat.completions.create({
-    model: "qwen-turbo",
+    model: "qwen-max",
     stream: true,
     temperature: 0.6,
     messages: [

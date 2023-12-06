@@ -22,6 +22,7 @@
     },
     "dependencies": {
         "@studio-b3/web-core": "workspace:^",
+        "@studio-b3/llmapi": "workspace:^",
         "ai": "^2.2.25",
         "next": "^14",
         "openai": "^4.20.0",

@@ -1,6 +1,6 @@
-import OpenAI, { APIError, OpenAIError } from "openai";
-import { APIClient, type Fetch } from "openai/core";
-import { Stream } from "openai/streaming";
+import OpenAI, { APIError, OpenAIError } from 'openai';
+import { APIClient, type Fetch } from 'openai/core';
+import { Stream } from 'openai/streaming';
 
 import {
   SSEDecoder,
@@ -8,7 +8,8 @@ import {
   LineDecoder,
   type ServerSentEvent,
   type Bytes,
-} from "./streaming";
+} from './streaming';
+import { APIResource } from './resource';
 
 export type QWenAIOptions = {
   baseURL?: string;
@@ -24,8 +25,8 @@ export class QWenAI extends APIClient {
 
   constructor(options?: QWenAIOptions) {
     const {
-      apiKey = process.env.QWEN_API_KEY || "",
-      baseURL = "https://dashscope.aliyuncs.com/api/v1",
+      apiKey = process.env.QWEN_API_KEY || '',
+      baseURL = 'https://dashscope.aliyuncs.com/api/v1',
       timeout = 30000,
       fetch = globalThis.fetch,
       httpAgent = undefined,
@@ -53,14 +54,6 @@ export class QWenAI extends APIClient {
 
   protected override defaultQuery() {
     return {};
-  }
-}
-
-export class APIResource {
-  protected _client: APIClient;
-
-  constructor(client: APIClient) {
-    this._client = client;
   }
 }
 
@@ -93,13 +86,13 @@ export class Completions extends APIResource {
     const headers = {
       ...options?.headers,
       // Note: 如果是 stream 的话，需要设置 Accept 为 text/event-stream
-      Accept: stream ? "text/event-stream" : "application/json",
+      Accept: stream ? 'text/event-stream' : 'application/json',
     };
 
     const body = this.buildCreateParams(rest);
 
     const response: Response = await this._client.post(
-      "/services/aigc/text-generation/generation",
+      '/services/aigc/text-generation/generation',
       {
         ...options,
         // @ts-expect-error 类型冲突？
@@ -115,7 +108,7 @@ export class Completions extends APIResource {
     if (stream) {
       const controller = new AbortController();
 
-      options?.signal?.addEventListener("abort", () => {
+      options?.signal?.addEventListener('abort', () => {
         controller.abort();
       });
 
@@ -138,11 +131,15 @@ export class Completions extends APIResource {
       },
       parameters: {
         ...rest,
-        result_format: "text", // 强制使用 text 格式
-        incremental_output: true,
+        result_format: 'text', // 强制使用 text 格式
         repetition_penalty: presence_penalty,
       },
     };
+
+    // 非 stream 不能启用这个
+    if (params.stream) {
+      data.parameters.incremental_output = true;
+    }
 
     return data;
   }
@@ -195,7 +192,7 @@ export class Completions extends APIResource {
     > {
       if (consumed) {
         throw new Error(
-          "Cannot iterate over a consumed stream, use `.tee()` to split the stream."
+          'Cannot iterate over a consumed stream, use `.tee()` to split the stream.'
         );
       }
       consumed = true;
@@ -204,12 +201,12 @@ export class Completions extends APIResource {
         for await (const sse of iterMessages()) {
           if (done) continue;
 
-          if (sse.data.startsWith("[DONE]")) {
+          if (sse.data.startsWith('[DONE]')) {
             done = true;
             continue;
           }
 
-          if (sse.event === "result") {
+          if (sse.event === 'result') {
             let data;
 
             try {
@@ -227,15 +224,15 @@ export class Completions extends APIResource {
             const choice: OpenAI.ChatCompletionChunk.Choice = {
               index: 0,
               delta: {
-                role: "assistant",
-                content: data.output.text || "",
+                role: 'assistant',
+                content: data.output.text || '',
               },
               finish_reason: null,
             };
 
             const finish_reason = data.output.finish_reason;
 
-            if (finish_reason !== "null") {
+            if (finish_reason !== 'null') {
               choice.finish_reason = finish_reason;
             }
 
@@ -243,7 +240,7 @@ export class Completions extends APIResource {
               id: data.request_id,
               model,
               choices: [choice],
-              object: "chat.completion.chunk",
+              object: 'chat.completion.chunk',
               created: Date.now() / 1000,
             };
           }
@@ -251,7 +248,7 @@ export class Completions extends APIResource {
         done = true;
       } catch (e) {
         // If the user calls `stream.controller.abort()`, we should exit without throwing.
-        if (e instanceof Error && e.name === "AbortError") return;
+        if (e instanceof Error && e.name === 'AbortError') return;
         throw e;
       } finally {
         // If the user `break`s, abort the ongoing request.
@@ -266,7 +263,7 @@ export class Completions extends APIResource {
     model: string,
     resp: QWenAI.APIResponse
   ): OpenAI.ChatCompletion {
-    if ("code" in resp) {
+    if ('code' in resp) {
       throw new APIError(undefined, resp, undefined, undefined);
     }
 
@@ -275,7 +272,7 @@ export class Completions extends APIResource {
     const choice: OpenAI.ChatCompletion.Choice = {
       index: 0,
       message: {
-        role: "assistant",
+        role: 'assistant',
         content: output.text,
       },
       finish_reason: output.finish_reason,
@@ -286,7 +283,7 @@ export class Completions extends APIResource {
       model: model,
       choices: [choice],
       created: Date.now() / 1000,
-      object: "chat.completion",
+      object: 'chat.completion',
       usage: {
         completion_tokens: usage.output_tokens,
         prompt_tokens: usage.input_tokens,
@@ -305,7 +302,11 @@ type OverrideOpenAIChatCompletionCreateParams = {
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace QWenAI {
-  export type ChatModel = 'qwen-turbo' | 'qwen-plus' | 'qwen-max';
+  export type ChatModel =
+    | 'qwen-turbo'
+    | 'qwen-plus'
+    | 'qwen-max'
+    | 'qwen-max-longcontext';
 
   /**
    * - text 旧版本的 text
