@@ -1,29 +1,45 @@
-module.exports = {
+// @ts-check
+const { defineConfig } = require('eslint-define-config')
+
+module.exports = defineConfig({
   root: true,
-  env: { browser: true, es2020: true },
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh'],
-  rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+  plugins: ['import'],
+  parserOptions: {
+    sourceType: 'module',
+    ecmaVersion: 'latest',
   },
+  ignorePatterns: ['dist', 'dist-types'],
   overrides: [
     {
-      "files": [
-        "*.*"
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:react-hooks/recommended',
       ],
-      "rules": {
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-unused-vars": "off"
-      }
+      plugins: ['@typescript-eslint', 'import', 'react-refresh'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+      files: ['*.ts'],
+      rules: {
+        'react-refresh/only-export-components': [
+          'warn',
+          { allowConstantExport: true },
+        ],
+      },
+    },
+    {
+      files: ['test', '__test__', '*.{spec,test}.ts'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+        "@typescript-eslint/no-unused-vars": "off",
+        'tsdoc/syntax': 'off',
+      },
     },
   ]
-}
+})

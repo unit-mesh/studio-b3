@@ -2,28 +2,43 @@
   "name": "@studio-b3/web-core",
   "private": true,
   "version": "0.0.1",
+  "type": "module",
   "main": "dist/main.js",
-  "types": "dist/main.d.ts",
+  "types": "dist-types/main.d.ts",
   "files": [
     "dist",
-    "lib"
+    "dist-types",
+    "src"
   ],
   "exports": {
     ".": {
       "import": "./dist/main.js"
     },
-    "./style.css": "./lib/editor/style.css"
+    "./package.json": "./package.json",
+    "./style.css": "./dist/assets/style.css"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist-types/main.d.ts",
+        "./dist-types/*"
+      ]
+    }
   },
   "sideEffects": [
     "**/*.css"
   ],
-  "type": "module",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "dev": "vite",
-    "build": "tsc -p ./tsconfig-build.json && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "watch": "vite build --watch",
+    "build": "vite build",
+    "lint": "eslint . --ext ts,tsx,.cjs --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext .ts,.cjs --fix --fix-type [problem,suggestion]",
+    "fmt": "prettier --write \"**/*.{ts,.cjs,json,,md}\" --log-level warn"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "dependencies": {
     "@radix-ui/colors": "^3.0.0",
@@ -38,7 +53,6 @@
     "@radix-ui/react-toggle": "^1.0.3",
     "@radix-ui/react-toggle-group": "^1.0.4",
     "@radix-ui/themes": "^2.0.1",
-    "@tailwindcss/typography": "^0.5.10",
     "@tiptap/core": "2.1.12",
     "@tiptap/extension-blockquote": "^2.1.12",
     "@tiptap/extension-bold": "^2.1.12",
@@ -76,19 +90,17 @@
     "@tiptap/extension-text": "^2.1.12",
     "@tiptap/extension-text-style": "^2.1.12",
     "@tiptap/extension-typography": "^2.1.12",
+    "@tiptap/pm": "^2.1.13",
     "@tiptap/react": "^2.1.12",
     "@tiptap/starter-kit": "^2.1.12",
     "@tiptap/suggestion": "^2.1.12",
-    "@types/prosemirror-keymap": "^1.2.0",
-    "@types/prosemirror-model": "^1.17.0",
-    "@types/prosemirror-view": "^1.24.0",
-    "prosemirror-changeset": "^2.2.1",
-    "prosemirror-keymap": "^1.2.2",
-    "prosemirror-view": "^1.32.4",
+    "handlebars": "^4.7.8",
     "i18next": "^23.7.6",
     "i18next-browser-languagedetector": "^7.2.0",
     "markdown-it": "^13.0.2",
-    "handlebars": "^4.7.8",
+    "prosemirror-changeset": "^2.2.1",
+    "prosemirror-keymap": "^1.2.2",
+    "prosemirror-view": "^1.32.4",
     "react-i18next": "^13.5.0",
     "react-select": "^5.8.0",
     "react-spinners": "^0.13.8",
@@ -96,28 +108,11 @@
     "tippy.js": "^6.3.7",
     "tiptap-markdown": "^0.8.7",
     "use-debounce": "^10.0.0",
-    "uuid": "^9.0.1",
-    "tailwindcss": "^3.3.0",
-    "postcss": "^8"
-  },
-  "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
-    "@typescript-eslint/eslint-plugin": "^6.10.0",
-    "@typescript-eslint/parser": "^6.10.0",
-    "@vitejs/plugin-react": "^4.2.0",
-    "eslint": "^8.53.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.4",
-    "typescript": "^5.2.2",
-    "vite": "^5.0.0",
-    "vite-plugin-dts": "^3.6.4",
-    "vite-plugin-lib-inject-css": "^1.3.0"
+    "@types/prosemirror-keymap": "^1.2.0",
+    "@types/prosemirror-model": "^1.17.0",
+    "@types/prosemirror-view": "^1.24.0"
   }
 }
