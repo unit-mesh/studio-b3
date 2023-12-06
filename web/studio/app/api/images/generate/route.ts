@@ -9,17 +9,9 @@ const api = new VYroAI({
 
 // export const runtime = 'edge';
 
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-
-  const prompt = searchParams.get('prompt')?.trim();
-
-  if (!prompt) {
-    return new Response('prompt must be required', {
-      status: 400,
-    });
-  }
-
+export async function POST(req: Request) {
+  const { prompt } = await req.json();
+  
   const response = await api.images.generate({
     model: 'imagine-v5',
     prompt: prompt,
