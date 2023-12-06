@@ -8,7 +8,7 @@
   "files": [
     "dist",
     "dist-types",
-    "src"
+    "lib"
   ],
   "exports": {
     ".": {
@@ -41,6 +41,8 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "@radix-ui/colors": "^3.0.0",
     "@radix-ui/popper": "^0.1.0",
     "@radix-ui/react-accordion": "^1.1.2",

@@ -8,7 +8,7 @@
   "scripts": {
     "serve-core": "pnpm -F @studio-b3/web-core watch",
     "build-core": "nx build @studio-b3/web-core",
-    "serve-studio": "nx serve @studio-b3/web-studio",
+    "serve-studio": "nx dev @studio-b3/web-studio",
     "build-studio": "nx build @studio-b3/web-studio"
   },
   "packageManager": "pnpm@8.0.0",
