@@ -6,3 +6,7 @@
 .next
 next-env.d.ts
 out
+dist
+dist-types
+
+.nx
