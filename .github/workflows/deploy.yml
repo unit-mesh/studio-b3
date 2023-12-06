@@ -44,7 +44,7 @@ jobs:
 
       - name: Build
         run: |
-          pnpm run build:studio
+          pnpm run build-studio
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
