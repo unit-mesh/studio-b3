@@ -33,5 +33,6 @@
   "dependencies": {
     "openai": "^4.20.0"
   },
+  "private": false,
   "devDependencies": {}
 }
