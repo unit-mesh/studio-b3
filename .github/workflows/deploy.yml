@@ -34,17 +34,19 @@ jobs:
 
       - name: Override config
         run: |
-          cp -f editor/next.config.ci.js editor/next.config.js       
+          cp -f web/studio/next.config.ci.js web/studio/next.config.js       
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: |
-          bash nx run --output-style=stream-without-prefixes editor:install
-          bash nx run --output-style=stream-without-prefixes editor:build
+          pnpm run build:studio
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./editor/out
+          path: ./dist/web/studio
 
   # Deployment job
   deploy:
