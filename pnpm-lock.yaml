@@ -322,6 +322,12 @@ importers:
         specifier: ^3.3.0
         version: 3.3.6(ts-node@10.9.1)
 
+  web/llmapi:
+    dependencies:
+      openai:
+        specifier: ^4.20.0
+        version: 4.20.1
+
   web/native-wrapper:
     dependencies:
       '@tauri-apps/api':
@@ -346,6 +352,9 @@ importers:
 
   web/studio:
     dependencies:
+      '@studio-b3/llmapi':
+        specifier: workspace:^
+        version: link:../llmapi
       '@studio-b3/web-core':
         specifier: workspace:^
         version: link:../core
