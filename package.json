@@ -9,7 +9,8 @@
     "serve-core": "pnpm -F @studio-b3/web-core watch",
     "build-core": "nx build @studio-b3/web-core",
     "serve-studio": "nx dev @studio-b3/web-studio",
-    "build-studio": "nx build @studio-b3/web-studio"
+    "build-studio": "nx build @studio-b3/web-studio",
+    "build-native": "nx tauri:build @studio-b3/web-native-wrapper"
   },
   "packageManager": "pnpm@8.0.0",
   "devDependencies": {
