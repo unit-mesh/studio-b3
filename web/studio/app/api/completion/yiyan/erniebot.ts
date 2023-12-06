@@ -359,12 +359,13 @@ type OverrideOpenAIChatCompletionCreateParams = {
   enable_citation?: boolean | null;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ErnieBot {
   export type ChatModel =
-    | "ernie-bot"
-    | "ernie-bot-turbo"
-    | "ernie-bot-4"
-    | "ernie-bot-8k";
+    | 'ernie-bot'
+    | 'ernie-bot-turbo'
+    | 'ernie-bot-4'
+    | 'ernie-bot-8k';
 
   export interface ChatCompletionCreateParams {
     /**
@@ -402,12 +403,12 @@ export namespace ErnieBot {
      *
      * @remarks 不支持 system 角色
      */
-    messages: OpenAI.ChatCompletionCreateParams["messages"];
+    messages: OpenAI.ChatCompletionCreateParams['messages'];
 
     /**
      * 一个可触发函数的描述列表
      */
-    functions?: OpenAI.ChatCompletionCreateParams["functions"];
+    functions?: OpenAI.ChatCompletionCreateParams['functions'];
 
     /**
      * 内容随机性

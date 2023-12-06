@@ -303,8 +303,9 @@ type OverrideOpenAIChatCompletionCreateParams = {
   top_k?: number | null;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace QWenAI {
-  export type ChatModel = "qwen-turbo" | "qwen-plus" | "qwen-max";
+  export type ChatModel = 'qwen-turbo' | 'qwen-plus' | 'qwen-max';
 
   /**
    * - text 旧版本的 text
@@ -312,13 +313,13 @@ export namespace QWenAI {
    *
    * @defaultValue "text"
    */
-  export type ResultFormat = "text" | "message";
+  export type ResultFormat = 'text' | 'message';
 
   export type ChatCompletionInputParam = {
     /**
      * 聊天上下文信息
      */
-    messages: OpenAI.ChatCompletionCreateParams["messages"];
+    messages: OpenAI.ChatCompletionCreateParams['messages'];
   };
 
   export type ChatCompletionParameters = {
@@ -414,7 +415,7 @@ export namespace QWenAI {
     request_id: string;
     output: {
       text: string;
-      finish_reason: "stop" | "length";
+      finish_reason: 'stop' | 'length';
     };
     usage: {
       output_tokens: number;
