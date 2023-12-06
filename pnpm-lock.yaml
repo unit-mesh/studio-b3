@@ -312,6 +312,15 @@ importers:
       '@types/prosemirror-view':
         specifier: ^1.24.0
         version: 1.24.0
+      autoprefixer:
+        specifier: ^10.0.1
+        version: 10.4.16(postcss@8.4.32)
+      postcss:
+        specifier: ^8
+        version: 8.4.32
+      tailwindcss:
+        specifier: ^3.3.0
+        version: 3.3.6(ts-node@10.9.1)
 
   web/studio:
     dependencies:
