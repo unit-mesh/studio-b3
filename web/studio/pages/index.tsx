@@ -1,7 +1,7 @@
 import Head from 'next/head'
 
 import styles from '../styles/Home.module.css'
-import LiveEditor from '@/components/editor/live-editor'
+import {LiveEditor} from '@studio-b3/web-core'
 import '@/i18n/i18n';
 import { Theme } from '@radix-ui/themes';
 
