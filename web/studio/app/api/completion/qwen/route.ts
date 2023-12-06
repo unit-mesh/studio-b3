@@ -13,7 +13,7 @@ export async function POST(req: Request) {
   const { prompt } = await req.json();
 
   const response = await api.chat.completions.create({
-    model: "qwen-turbo",
+    model: "qwen-max",
     stream: true,
     temperature: 0.6,
     messages: [

@@ -139,10 +139,14 @@ export class Completions extends APIResource {
       parameters: {
         ...rest,
         result_format: "text", // 强制使用 text 格式
-        incremental_output: true,
         repetition_penalty: presence_penalty,
       },
     };
+
+    // 非 stream 不能启用这个
+    if (params.stream) {
+      data.parameters.incremental_output = true;
+    }
 
     return data;
   }
@@ -305,7 +309,7 @@ type OverrideOpenAIChatCompletionCreateParams = {
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace QWenAI {
-  export type ChatModel = 'qwen-turbo' | 'qwen-plus' | 'qwen-max';
+  export type ChatModel = 'qwen-turbo' | 'qwen-plus' | 'qwen-max' | 'qwen-max-longcontext';
 
   /**
    * - text 旧版本的 text
