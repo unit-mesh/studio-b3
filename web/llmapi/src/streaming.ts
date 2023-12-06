@@ -1,11 +1,43 @@
-import { OpenAIError } from 'openai'
+import { OpenAIError } from 'openai';
 
-export type Bytes = string | ArrayBuffer | Uint8Array | Buffer | null | undefined
+export type Bytes =
+  | string
+  | ArrayBuffer
+  | Uint8Array
+  | Buffer
+  | null
+  | undefined;
 
 export type ServerSentEvent = {
-  event: string | null
-  data: string
-  raw: string[]
+  event: string | null;
+  data: string;
+  raw: string[];
+};
+
+export async function* iterMessages(
+  response: Response,
+  decoder: SSEDecoder,
+  controller: AbortController
+): AsyncGenerator<ServerSentEvent, void, unknown> {
+  if (!response.body) {
+    controller.abort();
+    throw new OpenAIError(`Attempted to iterate over a response with no body`);
+  }
+
+  const lineDecoder = new LineDecoder();
+
+  const iter = readableStreamAsyncIterable<Bytes>(response.body);
+  for await (const chunk of iter) {
+    for (const line of lineDecoder.decode(chunk)) {
+      const sse = decoder.decode(line);
+      if (sse) yield sse;
+    }
+  }
+
+  for (const line of lineDecoder.flush()) {
+    const sse = decoder.decode(line);
+    if (sse) yield sse;
+  }
 }
 
 export class SSEDecoder {
@@ -47,8 +79,8 @@ export class SSEDecoder {
       return null;
     }
 
-    // eslint-disable-next-line prefer-const
-    let [fieldname, , value] = partition(line, ':');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, prefer-const
+    let [fieldname, _, value] = partition(line, ':');
 
     if (value.startsWith(' ')) {
       value = value.substring(1);
@@ -73,7 +105,6 @@ export class SSEDecoder {
 export class LineDecoder {
   // prettier-ignore
   static NEWLINE_CHARS = new Set(['\n', '\r', '\x0b', '\x0c', '\x1c', '\x1d', '\x1e', '\x85', '\u2028', '\u2029']);
-  // eslint-disable-next-line no-control-regex
   static NEWLINE_REGEXP = /\r\n|[\n\r\x0b\x0c\x1c\x1d\x1e\x85\u2028\u2029]/g;
 
   buffer: string[];
@@ -173,12 +204,16 @@ export class LineDecoder {
 }
 
 function partition(str: string, delimiter: string): [string, string, string] {
-  const index = str.indexOf(delimiter)
+  const index = str.indexOf(delimiter);
   if (index !== -1) {
-    return [str.substring(0, index), delimiter, str.substring(index + delimiter.length)]
+    return [
+      str.substring(0, index),
+      delimiter,
+      str.substring(index + delimiter.length),
+    ];
   }
 
-  return [str, '', '']
+  return [str, '', ''];
 }
 
 /**
@@ -187,29 +222,31 @@ function partition(str: string, delimiter: string): [string, string, string] {
  *
  * This polyfill was pulled from https://github.com/MattiasBuelens/web-streams-polyfill/pull/122#issuecomment-1627354490
  */
-export function readableStreamAsyncIterable<T>(stream: any): AsyncIterableIterator<T> {
-  if (stream[Symbol.asyncIterator]) return stream
+export function readableStreamAsyncIterable<T>(
+  stream: any
+): AsyncIterableIterator<T> {
+  if (stream[Symbol.asyncIterator]) return stream;
 
-  const reader = stream.getReader()
+  const reader = stream.getReader();
   return {
     async next() {
       try {
-        const result = await reader.read()
-        if (result?.done) reader.releaseLock() // release lock when stream becomes closed
-        return result
+        const result = await reader.read();
+        if (result?.done) reader.releaseLock(); // release lock when stream becomes closed
+        return result;
       } catch (e) {
-        reader.releaseLock() // release lock when stream becomes errored
-        throw e
+        reader.releaseLock(); // release lock when stream becomes errored
+        throw e;
       }
     },
     async return() {
-      const cancelPromise = reader.cancel()
-      reader.releaseLock()
-      await cancelPromise
-      return { done: true, value: undefined }
+      const cancelPromise = reader.cancel();
+      reader.releaseLock();
+      await cancelPromise;
+      return { done: true, value: undefined };
     },
     [Symbol.asyncIterator]() {
-      return this
+      return this;
     },
-  }
+  };
 }

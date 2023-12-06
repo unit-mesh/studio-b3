@@ -1,6 +1,6 @@
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
-import QWenAI from "./qwen";
+import { QWenAI } from "@studio-b3/llmapi";
 
 const api = new QWenAI({
   // https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key

@@ -1,8 +1,11 @@
-import OpenAI, { APIError, OpenAIError } from "openai";
-import { APIClient, type Fetch } from "openai/core";
-import { Stream } from "openai/streaming";
+import OpenAI, { APIError, OpenAIError } from 'openai';
+import { APIClient, type Fetch } from 'openai/core';
+import { Stream } from 'openai/streaming';
 
-export type ErnieAPIOptions = {
+import { APIResource } from './resource';
+import { ensureArray } from './util';
+
+export type ErnieAIOptions = {
   baseURL?: string;
   token?: string;
   timeout?: number | undefined;
@@ -15,14 +18,14 @@ export type ErnieAPIOptions = {
 // 之前 AI Studio 的文档是有文档的，但现在不知道去哪了
 // 参考：
 // - https://cloud.baidu.com/doc/WENXINWORKSHOP/s/jlil56u11
-// - https://github.com/PaddlePaddle/ERNIE-Bot-SDK/blob/develop/erniebot/backends/aistudio.py
-export class ErnieAPI extends APIClient {
+// - https://github.com/PaddlePaddle/ERNIE-Bot-SDK/blob/develop/ErnieAI/backends/aistudio.py
+export class ErnieAI extends APIClient {
   protected token: string;
 
-  constructor(options?: ErnieAPIOptions) {
+  constructor(options?: ErnieAIOptions) {
     const {
-      token = process.env.AISTUDIO_ACCESS_TOKEN || "",
-      baseURL = "https://aistudio.baidu.com/llm/lmapi/v1",
+      token = process.env.AISTUDIO_ACCESS_TOKEN || '',
+      baseURL = 'https://aistudio.baidu.com/llm/lmapi/v1',
       timeout = 30000,
       fetch = globalThis.fetch,
       httpAgent = undefined,
@@ -36,8 +39,6 @@ export class ErnieAPI extends APIClient {
       httpAgent,
       ...rest,
     });
-
-    // ok(token, "token is required");
 
     this.token = token;
   }
@@ -55,14 +56,6 @@ export class ErnieAPI extends APIClient {
   }
 }
 
-export class APIResource {
-  protected _client: APIClient;
-
-  constructor(client: APIClient) {
-    this._client = client;
-  }
-}
-
 export class Chat extends APIResource {
   completions = new Completions(this._client);
 }
@@ -72,38 +65,38 @@ export class Completions extends APIResource {
   // 使用模型名称是为了和 OpenAI 的 API 保持一致
   // 同时也是为了方便使用
   protected resources: Map<
-    ErnieBot.ChatModel,
+    ErnieAI.ChatModel,
     {
-      id: ErnieBot.ChatModel;
+      id: ErnieAI.ChatModel;
       endpoint: string;
     }
   > = new Map([
     [
-      "ernie-bot",
+      'ernie-bot',
       {
-        id: "ernie-bot",
-        endpoint: "/chat/completions",
+        id: 'ernie-bot',
+        endpoint: '/chat/completions',
       },
     ],
     [
-      "ernie-bot-turbo",
+      'ernie-bot-turbo',
       {
-        id: "ernie-bot-turbo",
-        endpoint: "/chat/eb-instant",
+        id: 'ernie-bot-turbo',
+        endpoint: '/chat/eb-instant',
       },
     ],
     [
-      "ernie-bot-4",
+      'ernie-bot-4',
       {
-        id: "ernie-bot-4",
-        endpoint: "/chat/completions_pro",
+        id: 'ernie-bot-4',
+        endpoint: '/chat/completions_pro',
       },
     ],
     [
-      "ernie-bot-8k",
+      'ernie-bot-8k',
       {
-        id: "ernie-bot-8k",
-        endpoint: "/chat/ernie_bot_8k",
+        id: 'ernie-bot-8k',
+        endpoint: '/chat/ernie_bot_8k',
       },
     ],
   ]);
@@ -127,7 +120,7 @@ export class Completions extends APIResource {
       OverrideOpenAIChatCompletionCreateParams,
     options?: OpenAI.RequestOptions
   ) {
-    const { model = "ernie-bot", ...body } = this.buildCreateParams(params);
+    const { model = 'ernie-bot', ...body } = this.buildCreateParams(params);
     const resource = this.resources.get(model);
 
     if (!resource) {
@@ -139,7 +132,7 @@ export class Completions extends APIResource {
     const headers = {
       ...options?.headers,
       // Note: 如果是 stream 的话，需要设置 Accept 为 text/event-stream
-      Accept: stream ? "text/event-stream" : "application/json",
+      Accept: stream ? 'text/event-stream' : 'application/json',
     };
 
     const response: Response = await this._client.post(resource.endpoint, {
@@ -155,7 +148,7 @@ export class Completions extends APIResource {
     if (stream) {
       const controller = new AbortController();
 
-      options?.signal?.addEventListener("abort", () => {
+      options?.signal?.addEventListener('abort', () => {
         controller.abort();
       });
 
@@ -172,7 +165,7 @@ export class Completions extends APIResource {
   protected buildCreateParams(
     params: OpenAI.ChatCompletionCreateParams &
       OverrideOpenAIChatCompletionCreateParams
-  ): ErnieBot.ChatCompletionCreateParams {
+  ): ErnieAI.ChatCompletionCreateParams {
     const { messages = [], presence_penalty, user, stop, ...rest } = params;
 
     const head = messages[0];
@@ -180,14 +173,14 @@ export class Completions extends APIResource {
     // 文心一言的 system 是独立字段
     //（1）长度限制1024个字符
     //（2）如果使用functions参数，不支持设定人设system
-    const system = head && head.role === "system" ? head.content : undefined;
+    const system = head && head.role === 'system' ? head.content : undefined;
 
     // 移除 system 角色的消息
     if (system) {
       messages.splice(0, 1);
     }
 
-    const data: ErnieBot.ChatCompletionCreateParams = {
+    const data: ErnieAI.ChatCompletionCreateParams = {
       ...rest,
       system,
       messages,
@@ -207,10 +200,6 @@ export class Completions extends APIResource {
 
     return data;
   }
-}
-
-function ensureArray<T>(value: T | T[]): T[] {
-  return Array.isArray(value) ? value : [value];
 }
 
 /**
@@ -265,7 +254,7 @@ function makeAPIError(code: number, message: string) {
  */
 function fromOpenAIStream(
   model: string,
-  stream: Stream<ErnieBot.APIResponse>,
+  stream: Stream<ErnieAI.APIResponse>,
   controller: AbortController
 ): Stream<OpenAI.ChatCompletionChunk> {
   async function* iterator(): AsyncIterator<
@@ -282,7 +271,7 @@ function fromOpenAIStream(
       const choice: OpenAI.ChatCompletionChunk.Choice = {
         index: 0,
         delta: {
-          role: "assistant",
+          role: 'assistant',
           content: data.result || '',
         },
         finish_reason: null,
@@ -291,18 +280,18 @@ function fromOpenAIStream(
       // TODO 需要确认 is_truncated 是否和 is_end 互斥
       // TODO 需要确认 functions 是否响应式不一样
       if (data.is_end) {
-        choice.finish_reason = "stop";
+        choice.finish_reason = 'stop';
       } else if (data.is_truncated) {
-        choice.finish_reason = "length";
+        choice.finish_reason = 'length';
       } else if (data.need_clear_history) {
-        choice.finish_reason = "content_filter";
+        choice.finish_reason = 'content_filter';
       }
 
       yield {
         id: data.id,
         model,
         choices: [choice],
-        object: "chat.completion.chunk",
+        object: 'chat.completion.chunk',
         created: parseInt(data.created, 10),
       };
     }
@@ -317,7 +306,7 @@ function fromOpenAIStream(
  */
 function fromResponse(
   model: string,
-  data: ErnieBot.APIResponse
+  data: ErnieAI.APIResponse
 ): OpenAI.ChatCompletion {
   const { errorCode, errorMsg, result } = data;
 
@@ -326,20 +315,20 @@ function fromResponse(
   const choice: OpenAI.ChatCompletion.Choice = {
     index: 0,
     message: {
-      role: "assistant",
+      role: 'assistant',
       content: result.result,
     },
-    finish_reason: "stop",
+    finish_reason: 'stop',
   };
 
   // TODO 需要确认 is_truncated 是否和 is_end 互斥
   // TODO 需要确认 functions 是否响应式不一样
   if (result.is_end) {
-    choice.finish_reason = "stop";
+    choice.finish_reason = 'stop';
   } else if (result.is_truncated) {
-    choice.finish_reason = "length";
+    choice.finish_reason = 'length';
   } else if (result.need_clear_history) {
-    choice.finish_reason = "content_filter";
+    choice.finish_reason = 'content_filter';
   }
 
   return {
@@ -347,20 +336,20 @@ function fromResponse(
     model: model,
     choices: [choice],
     created: parseInt(result.created, 10),
-    object: "chat.completion",
+    object: 'chat.completion',
     usage: result.usage,
   };
 }
 
 // 用于覆盖 OpenAI.ChatCompletionCreateParams 的参数
 type OverrideOpenAIChatCompletionCreateParams = {
-  model: ErnieBot.ChatModel;
+  model: ErnieAI.ChatModel;
   disable_search?: boolean | null;
   enable_citation?: boolean | null;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
-export namespace ErnieBot {
+export namespace ErnieAI {
   export type ChatModel =
     | 'ernie-bot'
     | 'ernie-bot-turbo'
@@ -371,7 +360,7 @@ export namespace ErnieBot {
     /**
      * 模型名称
      */
-    model: ErnieBot.ChatModel;
+    model: ErnieAI.ChatModel;
 
     /**
      * 是否强制关闭实时搜索功能，默认 false，表示不关闭
@@ -478,3 +467,5 @@ export namespace ErnieBot {
     result: APIResult;
   };
 }
+
+export default ErnieAI;
