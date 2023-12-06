@@ -1,1 +1,1 @@
-export * from "./editor/live-editor";
+export * from "@/editor/live-editor";

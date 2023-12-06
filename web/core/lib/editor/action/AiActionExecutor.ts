@@ -3,7 +3,7 @@ import { ChangeForm, OutputForm, PromptAction } from "@/editor/defs/custom-actio
 import { actionPosition, PromptCompiler } from "@/editor/action/PromptCompiler";
 
 // @ts-ignore
-import { MarkdownParser } from "node_modules/tiptap-markdown/src/parse/MarkdownParser";
+import { MarkdownParser } from "@/../node_modules/tiptap-markdown/src/parse/MarkdownParser";
 import { BuiltinFunctionExecutor } from "@/editor/action/BuiltinFunctionExecutor";
 
 export class AiActionExecutor {

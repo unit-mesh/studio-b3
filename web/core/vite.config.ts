@@ -13,9 +13,6 @@ export default defineConfig({
       '@': resolve(__dirname, 'lib'),
     },
   },
-  optimizeDeps: {
-    include: ['tiptap-markdown'],
-  },
   plugins: [react(), libInjectCss(), dts({ include: ['lib'] })],
   build: {
     copyPublicDir: false,
@@ -29,9 +26,6 @@ export default defineConfig({
         assetFileNames: 'assets/[name][extname]',
         entryFileNames: '[name].js',
       }
-    },
-    commonjsOptions: {
-      include: [/node_modules/, /tiptap-markdown/]
     }
   }
 })
