@@ -3,8 +3,8 @@ import { VYroAI } from '@studio-b3/llmapi';
 // Imagine Art
 // see https://platform.imagine.art/dashboard
 const api = new VYroAI({
-  apiKey: process.env.VYRO_API_KEY,
-  apiType: process.env.VYRO_API_TYPE,
+  apiKey: process.env.VYRO_API_KEY || '',
+  apiType: process.env.VYRO_API_TYPE || '',
 });
 
 // export const runtime = 'edge';
