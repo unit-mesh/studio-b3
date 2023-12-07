@@ -18,7 +18,7 @@ export type ErnieAIOptions = {
 // 之前 AI Studio 的文档是有文档的，但现在不知道去哪了
 // 参考：
 // - https://cloud.baidu.com/doc/WENXINWORKSHOP/s/jlil56u11
-// - https://github.com/PaddlePaddle/ERNIE-Bot-SDK/blob/develop/ErnieAI/backends/aistudio.py
+// - https://github.com/PaddlePaddle/ERNIE-Bot-SDK/blob/develop/aistudio/backends/aistudio.py
 export class ErnieAI extends APIClient {
   protected token: string;
 
