@@ -251,6 +251,9 @@ importers:
       '@tiptap/suggestion':
         specifier: ^2.1.12
         version: 2.1.13(@tiptap/core@2.1.12)(@tiptap/pm@2.1.13)
+      clsx:
+        specifier: ^2.0.0
+        version: 2.0.0
       handlebars:
         specifier: ^4.7.8
         version: 4.7.8
@@ -9199,6 +9202,11 @@ packages:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
     dev: true
+
+  /clsx@2.0.0:
+    resolution: {integrity: sha512-rQ1+kcj+ttHG0MKVGBUXwayCCF1oh39BF5COIpRzuCEv8Mwjv0XucrI2ExNTOn9IlLifGClWQcU9BrZORvtw6Q==}
+    engines: {node: '>=6'}
+    dev: false
 
   /co@4.6.0:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
