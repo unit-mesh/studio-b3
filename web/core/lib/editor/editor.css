@@ -67,6 +67,35 @@
     box-shadow: 0 2px 2px var(--black-a7);
 }
 
+
+.b3-color-deep-blue {
+    color: #011c32;
+}
+
+.b3-color-blue {
+    color: #03467d;
+}
+
+.b3-color-red {
+    color: #da4167;
+}
+
+.b3-color-bg-red {
+    background-color: #da4167;
+}
+
+.b3-color-purple {
+    color: #8A4FFF;
+}
+
+.b3-color-yellow {
+    color: #fad35e;
+}
+
+.b3-color-bg-yellow {
+    background-color: #fad35e;
+}
+
 .ToggleGroup {
     display: flex;
     border-radius: 4px;

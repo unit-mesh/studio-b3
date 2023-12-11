@@ -54,8 +54,8 @@ export const MenuBubble = ({ editor }: {
 	return <BubbleMenu className={`bubble-menu-group w-64`} editor={editor} updateDelay={800}>
 		<div className={'bubble-menu-tier1'}>
 			<div className="bubble-dropdown">
-				{loading && <BounceLoader color={"#6E56CF"} size={38}/>}
-				{!loading && <Button variant="soft" onClick={handleToggle} className={'bg-pink-500 text-white'}>
+				{loading && <BounceLoader color={"#8A4FFF"} size={38}/>}
+				{!loading && <Button variant="soft" onClick={handleToggle} className={'b3-color-bg-red text-white'}>
           Ask AI
           <CookieIcon/>
         </Button>
