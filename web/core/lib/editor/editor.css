@@ -28,6 +28,156 @@
 
 .tiptap h1, .tiptap h2, .tiptap h3, .tiptap h4, .tiptap h5, .tiptap h6 {
     line-height: 1.1;
+    font-weight: 300;
+    margin-bottom: 2.0rem;
+    margin-top: 0;
+}
+
+.tiptap h1 {
+    font-size: 2.0rem;
+    line-height: 1.2;
+}
+
+.tiptap h2 {
+    font-size: 1.8rem;
+    line-height: 1.25;
+}
+
+.tiptap h3 {
+    font-size: 1.6rem;
+    line-height: 1.3;
+}
+
+.tiptap h4 {
+    font-size: 1.4rem;
+    line-height: 1.35;
+}
+
+.tiptap h5 {
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+.tiptap h6 {
+    font-size: 1.6rem;
+    line-height: 1.4;
+}
+
+.tiptap {
+    a {
+        color: #1abc9c;
+        text-decoration: none;
+    }
+
+    a:focus, a:hover {
+        color: #23B7F3;
+    }
+
+    dl,
+    ol,
+    ul {
+        list-style: none;
+        margin-top: 0;
+        padding-left: 0;
+    }
+
+    dl dl,
+    dl ol,
+    dl ul,
+    ol dl,
+    ol ol,
+    ol ul,
+    ul dl,
+    ul ol,
+    ul ul {
+        font-size: 90%;
+        margin: 1.5rem 0 1.5rem 3.0rem;
+    }
+
+    ol {
+        list-style: decimal;
+        padding: 0.3rem;
+    }
+
+    ul {
+        list-style: circle;
+        padding: 0.3rem;
+    }
+
+    li {
+        color: #384452;
+    }
+
+    .button,
+    button,
+    dd,
+    dt {
+        margin-bottom: 1.0rem;
+    }
+
+    fieldset,
+    input,
+    select,
+    textarea {
+        margin-bottom: 1.5rem;
+    }
+
+    blockquote,
+    dl,
+    figure,
+    form,
+    pre,
+    table {
+        margin-bottom: 2.5rem;
+    }
+
+    table {
+        border-spacing: 0;
+        width: 100%;
+    }
+
+    table thead th,
+    thead th {
+        border-top: 0.1rem solid #d1d8df;
+        background: #fdfdfd;
+    }
+
+    tbody tr:nth-child(even) {
+        background: #fdfdfd;
+    }
+
+    tbody tr:nth-child(odd) {
+        background: #eef1f5;
+    }
+
+    td,
+    th {
+        border-bottom: 0.1rem solid #d1d8df;
+        padding: 1.2rem 1.5rem;
+        text-align: left;
+    }
+
+    u {
+        text-decoration: none;
+        border-bottom: 1px dashed;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    u {
+        background: #ffff3a;
+    }
+
+    b,
+    strong {
+        font-weight: bold;
+    }
+
+    p {
+        margin-top: 0;
+    }
 }
 
 .tiptap code {

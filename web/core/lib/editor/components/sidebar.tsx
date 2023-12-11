@@ -21,15 +21,15 @@ export const Sidebar: React.FC<any> = ({ editor }) => {
 
 	return <aside className={'z-40 w-96 h-screen'} aria-label="Sidebar">
 		<div className={'h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800'}>
-			<Accordion.Root className={'AccordionRoot'} type="multiple" defaultValue={['similar', 'bg-context']}>
-				<Accordion.Item className={'AccordionItem'} value="item-6">
+			<Accordion.Root className={'accordion-root'} type="multiple" defaultValue={['similar', 'bg-context']}>
+				<Accordion.Item className={'accordion-item'} value="item-6">
 					<AccordionTrigger>{t('Custom Related Resource Link')}</AccordionTrigger>
 					<AccordionContent>
 						<input className={'w-full bg-white'}/>
 					</AccordionContent>
 				</Accordion.Item>
 
-				<Accordion.Item className={'AccordionItem'} value="bg-context">
+				<Accordion.Item className={'accordion-item'} value="bg-context">
 					<AccordionTrigger>{t('Article Context')}</AccordionTrigger>
 					<AccordionContent>
 						<textarea
@@ -44,41 +44,41 @@ export const Sidebar: React.FC<any> = ({ editor }) => {
 					</AccordionContent>
 				</Accordion.Item>
 
-				<Accordion.Item className={'AccordionItem'} value="item-1">
+				<Accordion.Item className={'accordion-item'} value="item-1">
 					<AccordionTrigger>{t('Grammarly')}</AccordionTrigger>
 					<AccordionContent>
 						TODO: use some model to check grammar
 					</AccordionContent>
 				</Accordion.Item>
 
-				<Accordion.Item className={'AccordionItem'} value="item-2">
+				<Accordion.Item className={'accordion-item'} value="item-2">
 					<AccordionTrigger>{t('Text Prediction')}</AccordionTrigger>
 					<AccordionContent>
 						TODO: use <a href="https://github.com/unit-mesh/edge-infer">EdgeInference</a> to predict text
 					</AccordionContent>
 				</Accordion.Item>
 
-				<Accordion.Item className={'AccordionItem'} value="similar">
+				<Accordion.Item className={'accordion-item'} value="similar">
 					<AccordionTrigger>{t('Text Similarity')}</AccordionTrigger>
-					<Accordion.Content className={'AccordionContent'}>
+					<Accordion.Content className={'accordion-content'}>
 						<div className={'AccordionContentText'}>
 							TODO: use <a href="https://github.com/unit-mesh/edge-infer">EdgeInference</a> to calculate similarity
 						</div>
 					</Accordion.Content>
 				</Accordion.Item>
 
-				<Accordion.Item className={'AccordionItem'} value="item-4">
+				<Accordion.Item className={'accordion-item'} value="item-4">
 					<AccordionTrigger>{t('Web Search')}</AccordionTrigger>
-					<Accordion.Content className={'AccordionContent'}>
+					<Accordion.Content className={'accordion-content'}>
 						<div className={'AccordionContentText'}>
 							TODO
 						</div>
 					</Accordion.Content>
 				</Accordion.Item>
 
-				<Accordion.Item className={'AccordionItem'} value="model-setting">
+				<Accordion.Item className={'accordion-item'} value="model-setting">
 					<AccordionTrigger>{t('Model Setting')}</AccordionTrigger>
-					<Accordion.Content className={'AccordionContent'}>
+					<Accordion.Content className={'accordion-content'}>
 						<div className="py-4 px-5">
 							<div className="grid gap-2 pt-2">
 								<div className="flex items-center justify-between">
@@ -206,21 +206,21 @@ export const Sidebar: React.FC<any> = ({ editor }) => {
 }
 
 const AccordionTrigger: React.FC<any> = React.forwardRef(({ children, className, ...props }, forwardedRef) => (
-	<Accordion.Header className="AccordionHeader">
+	<Accordion.Header className="accordion-header">
 		<Accordion.Trigger
-			className={'AccordionTrigger'}
+			className={'accordion-trigger'}
 			{...props}
 			ref={forwardedRef}
 		>
 			{children}
-			<ChevronDownIcon className="AccordionChevron" aria-hidden/>
+			<ChevronDownIcon className="accordion-chevron" aria-hidden/>
 		</Accordion.Trigger>
 	</Accordion.Header>
 ))
 
 const AccordionContent: React.FC<any> = React.forwardRef(({ children, className, ...props }, forwardedRef) => (
 	<Accordion.Content
-		className={'AccordionContent'}
+		className={'accordion-content'}
 		{...props}
 		ref={forwardedRef}
 	>
