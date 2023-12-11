@@ -1,14 +1,10 @@
-@import '@radix-ui/colors/black-alpha.css';
-@import '@radix-ui/colors/mauve.css';
-@import '@radix-ui/colors/violet.css';
+button.setting {
+    width: 48px;
+    height: 48px;
+    color: var(--gray-12);
+}
 
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
-@import "tailwindcss/screens";
-
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind screens;
+button.setting  svg {
+    height: 48px;
+    width: 48px;
+}
