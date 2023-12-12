@@ -31,7 +31,43 @@ export const TRACK_COMMAND_ACCEPT_ALL = 'accept-all';
 export const TRACK_COMMAND_REJECT = 'reject';
 export const TRACK_COMMAND_REJECT_ALL = 'reject-all';
 
-// export type TRACK_COMMAND_TYPE = 'accept' | 'accept-all' | 'reject' | 'reject-all'
+export type TRACK_COMMAND_TYPE = 'accept' | 'accept-all' | 'reject' | 'reject-all'
+
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    trackchange: {
+      /**
+       * change track change extension enabled status
+       * we don't use a external function instead，so we can use a editor.command anywhere without another variable
+       * @param enabled
+       * @returns
+       */
+      setTrackChangeStatus: (enabled: boolean) => ReturnType,
+      getTrackChangeStatus: () => ReturnType,
+      toggleTrackChangeStatus: () => ReturnType,
+      /**
+       * accept one change: auto recognize the selection or left near by cursor pos
+       */
+      acceptChange: () => ReturnType,
+      /**
+       * accept all changes: mark insertion as normal, and remove all the deletion nodes
+       */
+      acceptAllChanges: () => ReturnType,
+      /**
+       * same to accept
+       */
+      rejectChange: () => ReturnType,
+      /**
+       * same to acceptAll but: remove deletion mark and remove all insertion nodes
+       */
+      rejectAllChanges: () => ReturnType,
+      /**
+       *
+       */
+      updateOpUserOption: (opUserId: string, opUserNickname: string) => ReturnType
+    }
+  }
+}
 
 // insert mark
 export const InsertionMark = Mark.create({
@@ -122,7 +158,7 @@ const getMinuteTime = () =>
  * @returns null
  */
 // @ts-ignore
-const changeTrack = (opType, param) => {
+const changeTrack = (opType: TRACK_COMMAND_TYPE, param: CommandProps) => {
   /**
    * get the range to deal, use selection default
    */
@@ -261,7 +297,7 @@ const changeTrack = (opType, param) => {
  * 3. select two chars and inout a chinese char, the new char was input with wrong position. (fixed by stop input action)
  * 4. how to toggle to "hide" mode and can record the change ranges too, just look likes the office word
  */
-export const TrackChangeExtension = Extension.create({
+export const TrackChangeExtension = Extension.create<{ enabled: boolean, onStatusChange?: Function, dataOpUserId?: string, dataOpUserNickname?: string }>({
   name: EXTENSION_NAME,
   onCreate() {
     if (this.options.onStatusChange) {

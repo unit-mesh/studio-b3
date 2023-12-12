@@ -4,8 +4,10 @@ export async function POST(req: Request) {
   const responseData = {
     'choices': [
       {
+        'finish_reason': 'stop',
+        'index': 0,
         'message': {
-          'content': 'Hello, world',
+          'content': 'The 2020 World Series was played in Texas at Globe Life Field in Arlington.',
           'role': 'assistant'
         }
       }
