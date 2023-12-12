@@ -102,6 +102,10 @@ Editor:
 - [https://github.com/fantasticit/magic-editor](https://github.com/fantasticit/magic-editor)
 - [Think Editor's Tiptap extensions](https://github.com/fantasticit/think/tree/main/packages/client/src/tiptap/core/extensions)
 
+Similar project:
+
+- [JetBrains Grazie](https://lp.jetbrains.com/grazie-for-software-teams/)
+
 ## License
 
 TrackChange based on: [TrackChangeExtension](https://github.com/chenyuncai/tiptap-track-change-extension)
