@@ -1,13 +1,15 @@
 import OpenAI from 'openai';
-import { QWenAI } from '@studio-b3/llmapi';
+import { HunYuanAI } from '@studio-b3/llmapi';
 
-const api = new QWenAI({
-  // https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key
-  apiKey: process.env.QWEN_API_KEY || '',
+const api = new HunYuanAI({
+  // see https://console.cloud.tencent.com/cam/capi
+  appId: process.env.HUNYUAN_APP_ID,
+  secretId: process.env.HUNYUAN_SECRET_ID,
+  secretKey: process.env.HUNYUAN_SECRET_KEY
 });
 
 export type AskParams = {
-  model?: QWenAI.ChatModel;
+  model?: HunYuanAI.ChatModel;
   prompt: string;
   system?: string;
   temperature?: number;
@@ -16,7 +18,7 @@ export type AskParams = {
 };
 
 export function askAI({
-  model = 'qwen-max',
+  model = 'hunyuan',
   prompt,
   system,
   temperature = 0.9,

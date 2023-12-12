@@ -6,6 +6,7 @@
   },
   "version": "0.1.0",
   "scripts": {
+    "serve-llmapi": "pnpm -F @studio-b3/llmapi watch",
     "serve-core": "pnpm -F @studio-b3/web-core watch",
     "build-core": "nx build @studio-b3/web-core",
     "serve-studio": "nx dev @studio-b3/web-studio",

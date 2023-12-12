@@ -4,6 +4,7 @@ import * as minimax from './minimax/ai';
 import * as openai from './openai/ai';
 import * as qwen from './qwen/ai';
 import * as yiyan from './yiyan/ai';
+import * as hunyuan from './hunyuan/ai';
 
 export type AskParams =
   | minimax.AskParams
@@ -23,6 +24,10 @@ const handlers = [
   {
     match: /ernie/,
     handle: yiyan.askAI,
+  },
+  {
+    match: /hunyuan/,
+    handle: hunyuan.askAI,
   },
 ];
 
