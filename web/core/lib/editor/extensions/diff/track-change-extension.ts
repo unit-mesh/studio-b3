@@ -4,9 +4,9 @@
  * License: MIT
  * based on: https://github.com/chenyuncai/tiptap-track-change-extension
  */
-import { ReplaceStep, Step } from "@tiptap/pm/transform";
-import { TextSelection, Plugin, PluginKey } from "@tiptap/pm/state";
-import { Slice, Fragment } from "@tiptap/pm/model";
+import { ReplaceStep, Step } from '@tiptap/pm/transform';
+import { TextSelection, Plugin, PluginKey } from '@tiptap/pm/state';
+import { Slice, Fragment } from '@tiptap/pm/model';
 import {
   Extension,
   Mark,
@@ -14,22 +14,22 @@ import {
   getMarksBetween,
   isMarkActive,
   mergeAttributes,
-  Editor,
-} from "@tiptap/core";
-import type { CommandProps, Editor, MarkRange } from '@tiptap/core'
-import type { Transaction } from '@tiptap/pm/state'
+  Editor
+} from '@tiptap/core';
+import type { CommandProps, Editor, MarkRange } from '@tiptap/core';
+import type { Transaction } from '@tiptap/pm/state';
 
 const LOG_ENABLED = false;
 
-export const MARK_DELETION = "deletion";
-export const MARK_INSERTION = "insertion";
-export const EXTENSION_NAME = "trackchange";
+export const MARK_DELETION = 'deletion';
+export const MARK_INSERTION = 'insertion';
+export const EXTENSION_NAME = 'trackchange';
 
 // Track Change Operations
-export const TRACK_COMMAND_ACCEPT = "accept";
-export const TRACK_COMMAND_ACCEPT_ALL = "accept-all";
-export const TRACK_COMMAND_REJECT = "reject";
-export const TRACK_COMMAND_REJECT_ALL = "reject-all";
+export const TRACK_COMMAND_ACCEPT = 'accept';
+export const TRACK_COMMAND_ACCEPT_ALL = 'accept-all';
+export const TRACK_COMMAND_REJECT = 'reject';
+export const TRACK_COMMAND_REJECT_ALL = 'reject-all';
 
 // export type TRACK_COMMAND_TYPE = 'accept' | 'accept-all' | 'reject' | 'reject-all'
 
@@ -38,30 +38,30 @@ export const InsertionMark = Mark.create({
   name: MARK_INSERTION,
   addAttributes() {
     return {
-      "data-op-user-id": {
-        type: "string",
-        default: () => "",
+      'data-op-user-id': {
+        type: 'string',
+        default: () => ''
       },
-      "data-op-user-nickname": {
-        type: "string",
-        default: () => "",
+      'data-op-user-nickname': {
+        type: 'string',
+        default: () => ''
       },
-      "data-op-date": {
-        type: "string",
-        default: () => "",
-      },
+      'data-op-date': {
+        type: 'string',
+        default: () => ''
+      }
     };
   },
   parseHTML() {
-    return [{ tag: "insert" }];
+    return [{ tag: 'insert' }];
   },
   renderHTML({ HTMLAttributes }) {
     return [
-      "insert",
+      'insert',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      0,
+      0
     ];
-  },
+  }
 });
 
 // delete mark
@@ -69,30 +69,30 @@ export const DeletionMark = Mark.create({
   name: MARK_DELETION,
   addAttributes() {
     return {
-      "data-op-user-id": {
-        type: "string",
-        default: () => "",
+      'data-op-user-id': {
+        type: 'string',
+        default: () => ''
       },
-      "data-op-user-nickname": {
-        type: "string",
-        default: () => "",
+      'data-op-user-nickname': {
+        type: 'string',
+        default: () => ''
       },
-      "data-op-date": {
-        type: "string",
-        default: () => "",
-      },
+      'data-op-date': {
+        type: 'string',
+        default: () => ''
+      }
     };
   },
   parseHTML() {
-    return [{ tag: "delete" }];
+    return [{ tag: 'delete' }];
   },
   renderHTML({ HTMLAttributes }) {
     return [
-      "delete",
+      'delete',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      0,
+      0
     ];
-  },
+  }
 });
 
 // save the ime-mode status, when input chinese char, the extension needs to deal the change with a special strategy
@@ -108,7 +108,7 @@ let isStartChineseInput = false;
 // get self extension instance by name
 const getSelfExt = (editor: Editor) =>
   editor.extensionManager.extensions.find(
-    (item) => item.type === "extension" && item.name === EXTENSION_NAME,
+    (item) => item.type === 'extension' && item.name === EXTENSION_NAME
   );
 
 // get the current minute time, avoid two char with different time splitted with too many marks
@@ -144,29 +144,29 @@ const changeTrack = (opType, param) => {
     // detect left mark
     const isInsertBeforeCursor = isMarkActive(
       param.editor.state,
-      MARK_INSERTION,
+      MARK_INSERTION
     );
     const isDeleteBeforeCursor = isMarkActive(
       param.editor.state,
-      MARK_DELETION,
+      MARK_DELETION
     );
     let leftRange;
     if (isInsertBeforeCursor) {
       leftRange = getMarkRange(
         param.editor.state.selection.$from,
-        param.editor.state.doc.type.schema.marks.insertion,
+        param.editor.state.doc.type.schema.marks.insertion
       );
     } else if (isDeleteBeforeCursor) {
       leftRange = getMarkRange(
         param.editor.state.selection.$from,
-        param.editor.state.doc.type.schema.marks.deletion,
+        param.editor.state.doc.type.schema.marks.deletion
       );
     }
     if (leftRange) {
       markRanges = getMarksBetween(
         leftRange.from,
         leftRange.to,
-        param.editor.state.doc,
+        param.editor.state.doc
       );
     }
   } else if (
@@ -177,7 +177,7 @@ const changeTrack = (opType, param) => {
     markRanges = getMarksBetween(
       0,
       param.editor.state.doc.content.size,
-      param.editor.state.doc,
+      param.editor.state.doc
     );
     // change the opType to normal
     opType =
@@ -192,7 +192,7 @@ const changeTrack = (opType, param) => {
   markRanges = markRanges.filter(
     (markRange) =>
       markRange.mark.type.name === MARK_DELETION ||
-      markRange.mark.type.name === MARK_INSERTION,
+      markRange.mark.type.name === MARK_INSERTION
   );
   if (!markRanges.length) {
     return false;
@@ -209,7 +209,7 @@ const changeTrack = (opType, param) => {
    * 1 and 4 need to remove mark
    * 2 and 3 need to remove content
    */
-  // record offset when delete some content to find the correct pos for next range
+    // record offset when delete some content to find the correct pos for next range
   let offset = 0;
   const removeInsertMark =
     param.editor.state.doc.type.schema.marks.insertion.create();
@@ -227,12 +227,12 @@ const changeTrack = (opType, param) => {
       currentTr.removeMark(
         markRange.from - offset,
         markRange.to - offset,
-        removeInsertMark.type,
+        removeInsertMark.type
       );
       currentTr.removeMark(
         markRange.from - offset,
         markRange.to - offset,
-        removeDeleteMark.type,
+        removeDeleteMark.type
       );
     } else {
       // 2 and 3 remove content
@@ -244,7 +244,7 @@ const changeTrack = (opType, param) => {
   if (currentTr.steps.length) {
     // set a custom meta to tail Our TrackChangeExtension to ignore this change
     // TODO: is there any official field to do this?
-    currentTr.setMeta("trackManualChanged", true);
+    currentTr.setMeta('trackManualChanged', true);
     // apply to current editor state and get a new state
     const newState = param.editor.state.apply(currentTr);
     // update the new state to editor to render new content
@@ -294,19 +294,19 @@ export const TrackChangeExtension = Extension.create({
         return thisExtension.options.enabled;
       },
       acceptChange: () => (param) => {
-        changeTrack("accept", param);
+        changeTrack('accept', param);
         return false;
       },
       acceptAllChanges: () => (param) => {
-        changeTrack("accept-all", param);
+        changeTrack('accept-all', param);
         return false;
       },
       rejectChange: () => (param) => {
-        changeTrack("reject", param);
+        changeTrack('reject', param);
         return false;
       },
       rejectAllChanges: () => (param) => {
-        changeTrack("reject-all", param);
+        changeTrack('reject-all', param);
         return false;
       },
       updateOpUserOption: (opUserId, opUserNickname) => (param) => {
@@ -314,39 +314,39 @@ export const TrackChangeExtension = Extension.create({
         thisExtension.options.dataOpUserId = opUserId;
         thisExtension.options.dataOpUserNickname = opUserNickname;
         return false;
-      },
+      }
     };
   },
   // @ts-ignore
   onSelectionUpdate(p) {
     // log the status for debug
     LOG_ENABLED &&
-      console.log(
-        "selection and input status",
-        p.transaction.selection.from,
-        p.transaction.selection.to,
-        p.editor.view.composing,
-      );
+    console.log(
+      'selection and input status',
+      p.transaction.selection.from,
+      p.transaction.selection.to,
+      p.editor.view.composing
+    );
   },
   // @ts-ignore
   addProseMirrorPlugins() {
     return [
       new Plugin({
-        key: new PluginKey("composing-check"),
+        key: new PluginKey('composing-check'),
         props: {
           handleDOMEvents: {
             compositionstart: (_event) => {
-              LOG_ENABLED && console.log("start chinese input");
+              LOG_ENABLED && console.log('start chinese input');
               // start and update will fire same time
               isStartChineseInput = true;
             },
             compositionupdate: (_event) => {
-              LOG_ENABLED && console.log("chinese input continue");
+              LOG_ENABLED && console.log('chinese input continue');
               composingStatus = IME_STATUS_CONTINUE;
-            },
-          },
-        },
-      }),
+            }
+          }
+        }
+      })
     ];
   },
   // @ts-ignore
@@ -368,22 +368,22 @@ export const TrackChangeExtension = Extension.create({
       return;
     }
     // check if it is change by accept or reject
-    if (transaction.getMeta("trackManualChanged")) {
+    if (transaction.getMeta('trackManualChanged')) {
       return;
     }
     // if this is a redo or undo, ignore it.
-    if (transaction.getMeta("history$")) {
+    if (transaction.getMeta('history$')) {
       return;
     }
     // check if it is synced by another client or the server, need to ignore too
-    const syncMeta = transaction.getMeta("y-sync$");
+    const syncMeta = transaction.getMeta('y-sync$');
     if (syncMeta && syncMeta.isChangeOrigin) {
-      LOG_ENABLED && console.log("sync from origin", syncMeta);
+      LOG_ENABLED && console.log('sync from origin', syncMeta);
       return;
     }
     // has no real step
     if (!transaction.steps.length) {
-      LOG_ENABLED && console.log("none content change");
+      LOG_ENABLED && console.log('none content change');
       return;
     }
     // check if this tr was applied to editor: vue2 and vue3 have different result
@@ -391,11 +391,11 @@ export const TrackChangeExtension = Extension.create({
     const thisExtension = getSelfExt(editor);
     const trackChangeEnabled = thisExtension.options.enabled;
     LOG_ENABLED &&
-      console.warn(
-        "内容变化，执行跟踪修订相关逻辑",
-        transaction.steps.length,
-        transaction,
-      );
+    console.warn(
+      '内容变化，执行跟踪修订相关逻辑',
+      transaction.steps.length,
+      transaction
+    );
     /**
      * Two main process
      *
@@ -438,15 +438,15 @@ export const TrackChangeExtension = Extension.create({
      * 2. disabled: input after insert char
      * 2. disabled: input after delete char
      */
-    // copy the step, avoid the change the origin step info
+      // copy the step, avoid the change the origin step info
     const allSteps = transaction.steps.map((step) =>
-      Step.fromJSON(editor.state.doc.type.schema, step.toJSON()),
-    );
-    LOG_ENABLED && console.log("allSteps", allSteps);
+        Step.fromJSON(editor.state.doc.type.schema, step.toJSON())
+      );
+    LOG_ENABLED && console.log('allSteps', allSteps);
     // latest cursor pos
     // TODO: recognize selection direction and backspace/delete to get calculate new cursor pos
     const currentNewPos = transaction.selection.from;
-    LOG_ENABLED && console.log("currentNewPos", currentNewPos);
+    LOG_ENABLED && console.log('currentNewPos', currentNewPos);
 
     // cursor offset, try to reset the pos in the end process
     let posOffset = 0;
@@ -463,7 +463,7 @@ export const TrackChangeExtension = Extension.create({
           const slice = transaction.docs[_index].slice(step.from, step.to);
           slice.content.forEach((node) => {
             const isInsertNode = node.marks.find(
-              (m) => m.type.name === MARK_INSERTION,
+              (m) => m.type.name === MARK_INSERTION
             );
             if (!isInsertNode) {
               // sum the none-insert mark size
@@ -506,13 +506,13 @@ export const TrackChangeExtension = Extension.create({
     }
     // TODO: if there has multiple replace steps,we can ignore the cursor
     LOG_ENABLED &&
-      console.table({
-        hasAddAndDelete,
-        isNormalInput,
-        isChineseStart,
-        isChineseInputting,
-        posOffset,
-      });
+    console.table({
+      hasAddAndDelete,
+      isNormalInput,
+      isChineseStart,
+      isChineseInputting,
+      posOffset
+    });
 
     // get the correct tr to manipulate
     // tr had been applied in vue2, and not in vue3
@@ -529,38 +529,43 @@ export const TrackChangeExtension = Extension.create({
         if (step.slice.size) {
           const insertionMark =
             editor.state.doc.type.schema.marks.insertion.create({
-              "data-op-user-id": thisExtension.options.dataOpUserId,
-              "data-op-user-nickname": thisExtension.options.dataOpUserNickname,
-              "data-op-date": getMinuteTime(),
+              'data-op-user-id': thisExtension.options.dataOpUserId,
+              'data-op-user-nickname': thisExtension.options.dataOpUserNickname,
+              'data-op-date': getMinuteTime()
             });
           const deletionMark =
             editor.state.doc.type.schema.marks.deletion.create();
           const from = step.from + reAddOffset;
           const to = step.from + reAddOffset + step.slice.size;
-          if (trackChangeEnabled) {
-            // add insert mark to new content
-            newChangeTr.addMark(from, to, insertionMark);
-          } else {
-            // if disabled this extension, remove auto-used track mark for new content
-            newChangeTr.removeMark(from, to, insertionMark.type);
+          try {
+            if (trackChangeEnabled) {
+              // add insert mark to new content
+              newChangeTr.addMark(from, to, insertionMark);
+            } else {
+              // if disabled this extension, remove auto-used track mark for new content
+              newChangeTr.removeMark(from, to, insertionMark.type);
+            }
+            // remove auto-used delete mark for new content anyway
+            newChangeTr.removeMark(from, to, deletionMark.type);
+          } catch (e) {
+            // console.log('error', e, step, invertedStep);
           }
-          // remove auto-used delete mark for new content anyway
-          newChangeTr.removeMark(from, to, deletionMark.type);
         }
+
         if (step.from !== step.to && trackChangeEnabled) {
-          LOG_ENABLED && console.log("find content to readd", step);
+          LOG_ENABLED && console.log('find content to readd', step);
           // get the reverted step, so we can know what content is deleted in this step and readd then
           // make sure use related doc in transaction. every step has the new doc with same order
           // TODO: is there difference between vue2 and vue3
           const skipSteps = [];
           // collect the content we need to ignore readd, because some content is insert mark before, there data need to be allowed delete
-          LOG_ENABLED && console.log("invertedStep", invertedStep);
+          LOG_ENABLED && console.log('invertedStep', invertedStep);
           const reAddStep = new ReplaceStep(
             invertedStep.from + reAddOffset,
             invertedStep.from + reAddOffset,
             invertedStep.slice,
             // @ts-ignore: what is internal means
-            invertedStep.structure,
+            invertedStep.structure
           );
           // make a empty step to replace the original "INSERT" mark, because these content don't need to readd
           // the slice content maybe a TextNode or other node with any child content
@@ -581,8 +586,8 @@ export const TrackChangeExtension = Extension.create({
                     new ReplaceStep(
                       start - addedEmptyOffset,
                       end - addedEmptyOffset,
-                      Slice.empty,
-                    ),
+                      Slice.empty
+                    )
                   );
                   addedEmptyOffset += node.nodeSize;
                   reAddOffset -= node.nodeSize;
@@ -601,10 +606,10 @@ export const TrackChangeExtension = Extension.create({
             from,
             to,
             newChangeTr.doc.type.schema.marks.deletion.create({
-              "data-op-user-id": thisExtension.options.dataOpUserId,
-              "data-op-user-nickname": thisExtension.options.dataOpUserNickname,
-              "data-op-date": getMinuteTime(),
-            }),
+              'data-op-user-id': thisExtension.options.dataOpUserId,
+              'data-op-user-nickname': thisExtension.options.dataOpUserNickname,
+              'data-op-date': getMinuteTime()
+            })
           );
           skipSteps.forEach((step) => {
             // delete the content if it is already with insert mark
@@ -624,10 +629,10 @@ export const TrackChangeExtension = Extension.create({
     if (trackChangeEnabled) {
       const trWithChange = editor.view.state.tr;
       trWithChange.setSelection(
-        TextSelection.create(editor.view.state.doc, finalNewPos),
+        TextSelection.create(editor.view.state.doc, finalNewPos)
       );
       const newStateWithNewSelection = editor.view.state.apply(trWithChange);
-      LOG_ENABLED && console.log("update cursor", finalNewPos);
+      LOG_ENABLED && console.log('update cursor', finalNewPos);
       editor.view.updateState(newStateWithNewSelection);
     }
     if (isChineseStart && hasAddAndDelete && trackChangeEnabled) {
@@ -641,7 +646,7 @@ export const TrackChangeExtension = Extension.create({
         editor.commands.focus();
       }, 100);
     }
-  },
+  }
 });
 
 export default TrackChangeExtension;
