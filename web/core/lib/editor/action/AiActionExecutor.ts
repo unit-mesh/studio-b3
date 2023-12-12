@@ -1,133 +1,142 @@
-import { Editor } from "@tiptap/core";
-import { ChangeForm, OutputForm, PromptAction } from "@/editor/defs/custom-action.type";
-import { actionPosition, PromptCompiler } from "@/editor/action/PromptCompiler";
+import { Editor } from '@tiptap/core';
+import { ChangeForm, OutputForm, PromptAction } from '@/editor/defs/custom-action.type';
+import { actionPosition, PromptCompiler } from '@/editor/action/PromptCompiler';
 
 // @ts-ignore
-import { MarkdownParser } from "@/../node_modules/tiptap-markdown/src/parse/MarkdownParser";
-import { BuiltinFunctionExecutor } from "@/editor/action/BuiltinFunctionExecutor";
+import { MarkdownParser } from '@/../node_modules/tiptap-markdown/src/parse/MarkdownParser';
+import { BuiltinFunctionExecutor } from '@/editor/action/BuiltinFunctionExecutor';
 
 export class AiActionExecutor {
-	private readonly editor: Editor;
+  private readonly editor: Editor;
 
-	constructor(editor: Editor) {
-		this.editor = editor;
-	}
+  constructor(editor: Editor) {
+    this.editor = editor;
+  }
 
-	private async handleStreaming(action: PromptAction, prompt: string) {
-		this.editor.setEditable(false);
-		const originalSelection = this.editor.state.selection;
+  /**
+   * TODO: will according the {@link PromptAction.useModel} to return the endpoint in future
+   * @param action
+   */
+  endpoint(action: PromptAction) {
+    const endpoint = '/api/completion/mock';
+    return endpoint;
+  }
 
-		const response = await fetch("/api/completion/yiyan", {
-			method: "POST",
-			body: JSON.stringify({ prompt: prompt }),
-		});
+  private async handleStreaming(action: PromptAction, prompt: string) {
+    this.editor.setEditable(false);
+    const originalSelection = this.editor.state.selection;
 
-		let allText = "";
-		let buffer = "";
-		await response.body?.pipeThrough(new TextDecoderStream()).pipeTo(
-			new WritableStream({
-				write: (chunk) => {
-					allText += chunk;
-					buffer = buffer.concat(chunk);
+    const response = await fetch(this.endpoint(action), {
+      method: 'POST',
+      body: JSON.stringify({ prompt: prompt })
+    });
 
-					if (buffer.includes("\n")) {
-						const pos = actionPosition(action, this.editor.state.selection);
-						this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
+    let allText = '';
+    let buffer = '';
+    await response.body?.pipeThrough(new TextDecoderStream()).pipeTo(
+      new WritableStream({
+        write: (chunk) => {
+          allText += chunk;
+          buffer = buffer.concat(chunk);
 
-						// insert new line
-						const posInfo = actionPosition(action, this.editor.state.selection);
-						this.editor.chain().focus()?.insertContentAt(posInfo, "\n").run();
+          if (buffer.includes('\n')) {
+            const pos = actionPosition(action, this.editor.state.selection);
+            this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
 
-						buffer = "";
-					}
-				},
-			})
-		);
+            // insert new line
+            const posInfo = actionPosition(action, this.editor.state.selection);
+            this.editor.chain().focus()?.insertContentAt(posInfo, '\n').run();
 
-		const pos = actionPosition(action, this.editor.state.selection);
-		this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
+            buffer = '';
+          }
+        }
+      })
+    );
 
-		let markdownParser = new MarkdownParser(this.editor, {});
-		let markdownNode = markdownParser.parse(allText);
+    const pos = actionPosition(action, this.editor.state.selection);
+    this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
 
-		this.editor.chain().focus()?.deleteRange({
-			from: originalSelection.from,
-			to: this.editor.state.selection.to
-		}).run();
+    let markdownParser = new MarkdownParser(this.editor, {});
+    let markdownNode = markdownParser.parse(allText);
 
-		this.editor.chain().insertContentAt(this.editor.state.selection, markdownNode).run();
+    this.editor.chain().focus()?.deleteRange({
+      from: originalSelection.from,
+      to: this.editor.state.selection.to
+    }).run();
 
-		this.editor.setEditable(true);
-	}
+    this.editor.chain().insertContentAt(this.editor.state.selection, markdownNode).run();
 
-	private async handleTextOrDiff(_action: PromptAction, prompt: string): Promise<string | undefined> {
-		// @ts-ignore
-		this.editor.commands?.setTrackChangeStatus(true);
+    this.editor.setEditable(true);
+  }
 
-		this.editor.setEditable(false);
+  private async handleTextOrDiff(action: PromptAction, prompt: string): Promise<string | undefined> {
+    // @ts-ignore
+    this.editor.commands?.setTrackChangeStatus(true);
 
-		const response = await fetch("/api/completion/yiyan", {
-			method: "POST",
-			body: JSON.stringify({ prompt: prompt }),
-		});
+    this.editor.setEditable(false);
 
-		const text = await response.text();
-		this.editor.setEditable(true);
+    const response = await fetch(this.endpoint(action), {
+      method: 'POST',
+      body: JSON.stringify({ prompt: prompt })
+    });
 
-		// @ts-ignore
-		this.editor.commands?.setTrackChangeStatus(false);
-		return text;
-	}
+    const text = await response.text();
+    this.editor.setEditable(true);
 
-	private async handleDefault(action: PromptAction, prompt: string) {
-		this.editor.setEditable(false);
-		const response = await fetch("/api/completion/yiyan", {
-			method: "POST",
-			body: JSON.stringify({ prompt: prompt }),
-		});
+    // @ts-ignore
+    this.editor.commands?.setTrackChangeStatus(false);
+    return text;
+  }
 
-		const msg = await response.text();
-		const posInfo = actionPosition(action, this.editor.state.selection);
-		this.editor.chain().focus()?.insertContentAt(posInfo, msg).run();
+  private async handleDefault(action: PromptAction, prompt: string) {
+    this.editor.setEditable(false);
+    const response = await fetch(this.endpoint(action), {
+      method: 'POST',
+      body: JSON.stringify({ prompt: prompt })
+    });
 
-		this.editor.setEditable(true);
-	}
+    const msg = await response.text();
+    const posInfo = actionPosition(action, this.editor.state.selection);
+    this.editor.chain().focus()?.insertContentAt(posInfo, msg).run();
 
-	public async execute(action: PromptAction) {
-		console.log("execute action", action)
-		if (action.builtinFunction) {
-			let executor = new BuiltinFunctionExecutor(this.editor);
-			return await executor.execute(action);
-		}
+    this.editor.setEditable(true);
+  }
 
-		const actionExecutor = new PromptCompiler(action, this.editor);
-		actionExecutor.compile();
+  public async execute(action: PromptAction) {
+    console.log('execute action', action);
+    if (action.builtinFunction) {
+      let executor = new BuiltinFunctionExecutor(this.editor);
+      return await executor.execute(action);
+    }
 
-		let prompt = action.compiledTemplate;
+    const actionExecutor = new PromptCompiler(action, this.editor);
+    actionExecutor.compile();
 
-		if (prompt == null) {
-			throw Error("template is not been compiled yet! compile it first");
-		}
+    let prompt = action.compiledTemplate;
 
-		console.info("compiledTemplate: \n\n", prompt);
+    if (prompt == null) {
+      throw Error('template is not been compiled yet! compile it first');
+    }
 
-		if (action.changeForm == ChangeForm.DIFF) {
-			// @ts-ignore
-			this.editor.commands?.setTrackChangeStatus(true);
-		}
+    console.info('compiledTemplate: \n\n', prompt);
 
-		switch (action.outputForm) {
-			case OutputForm.STREAMING:
-				await this.handleStreaming(action, prompt);
-				return undefined;
+    if (action.changeForm == ChangeForm.DIFF) {
+      // @ts-ignore
+      this.editor.commands?.setTrackChangeStatus(true);
+    }
 
-			case OutputForm.DIFF:
-			case OutputForm.TEXT:
-				return await this.handleTextOrDiff(action, prompt);
+    switch (action.outputForm) {
+      case OutputForm.STREAMING:
+        await this.handleStreaming(action, prompt);
+        return undefined;
 
-			default:
-				await this.handleDefault(action, prompt);
-				return undefined;
-		}
-	}
+      case OutputForm.DIFF:
+      case OutputForm.TEXT:
+        return await this.handleTextOrDiff(action, prompt);
+
+      default:
+        await this.handleDefault(action, prompt);
+        return undefined;
+    }
+  }
 }
