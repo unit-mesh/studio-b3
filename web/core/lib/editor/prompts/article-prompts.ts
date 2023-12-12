@@ -88,6 +88,13 @@ const SlashCommands: PromptAction[] = [
 		facetType: FacetType.SLASH_COMMAND,
 		outputForm: OutputForm.STREAMING,
 	},
+	{
+		name: 'Look up',
+		i18Name: true,
+		template: `You are an assistant helping a user look up a word. Output in markdown format. ###{{${DefinedVariable.BEFORE_CURSOR}}}###`,
+		facetType: FacetType.SLASH_COMMAND,
+		outputForm: OutputForm.STREAMING
+	}
 ]
 
 const ArticlePrompts: PromptAction[] = [

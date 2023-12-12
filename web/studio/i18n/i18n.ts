@@ -83,6 +83,7 @@ const resources = {
       'Simplify Content': 'Simplify Content',
       'Translate': 'Translate',
       'Generate Outline': 'Generate Outline',
+      'Look up': 'Look up',
     }
   },
   zh: {
@@ -104,6 +105,7 @@ const resources = {
       'Simplify Content': '精简内容',
       'Translate': '翻译',
       'Generate Outline': '生成大纲',
+      'Look up': '检索',
     }
   }
 }
