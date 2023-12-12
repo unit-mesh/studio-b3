@@ -64,42 +64,12 @@ export class Completions extends APIResource {
   // Note: 文心一言不是通过模型，而是通过 endpoint 区分的
   // 使用模型名称是为了和 OpenAI 的 API 保持一致
   // 同时也是为了方便使用
-  protected resources: Map<
-    ErnieAI.ChatModel,
-    {
-      id: ErnieAI.ChatModel;
-      endpoint: string;
-    }
-  > = new Map([
-    [
-      'ernie-bot',
-      {
-        id: 'ernie-bot',
-        endpoint: '/chat/completions',
-      },
-    ],
-    [
-      'ernie-bot-turbo',
-      {
-        id: 'ernie-bot-turbo',
-        endpoint: '/chat/eb-instant',
-      },
-    ],
-    [
-      'ernie-bot-4',
-      {
-        id: 'ernie-bot-4',
-        endpoint: '/chat/completions_pro',
-      },
-    ],
-    [
-      'ernie-bot-8k',
-      {
-        id: 'ernie-bot-8k',
-        endpoint: '/chat/ernie_bot_8k',
-      },
-    ],
-  ]);
+  protected endpoints: Record<ErnieAI.ChatModel, string> = {
+    'ernie-bot': '/chat/completions',
+    'ernie-bot-turbo': '/chat/eb-instant',
+    'ernie-bot-4': '/chat/completions_pro',
+    'ernie-bot-8k': '/chat/ernie_bot_8k',
+  };
 
   /**
    * Creates a model response for the given chat conversation.
@@ -121,9 +91,9 @@ export class Completions extends APIResource {
     options?: OpenAI.RequestOptions
   ) {
     const { model = 'ernie-bot', ...body } = this.buildCreateParams(params);
-    const resource = this.resources.get(model);
+    const endpoint = this.endpoints[model]
 
-    if (!resource) {
+    if (!endpoint) {
       throw new OpenAIError(`Invalid model: ${model}`);
     }
 
@@ -135,7 +105,7 @@ export class Completions extends APIResource {
       Accept: stream ? 'text/event-stream' : 'application/json',
     };
 
-    const response: Response = await this._client.post(resource.endpoint, {
+    const response: Response = await this._client.post(endpoint, {
       ...options,
       body,
       headers,

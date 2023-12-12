@@ -1,23 +1,5 @@
-import OpenAI from 'openai';
-
-import ErnieAI, { ErnieAIOptions } from './ernie';
-import MinimaxAI, { MinimaxAIOptions } from './minimax';
-import QWenAI, { QWenAIOptions } from './qwen';
-import VYroAI, { VYroAIOptions } from './vyro';
-
 export {
-  ErnieAI,
-  type ErnieAIOptions,
-  MinimaxAI,
-  type MinimaxAIOptions,
   OpenAI,
-  QWenAI,
-  type QWenAIOptions,
-  VYroAI,
-  type VYroAIOptions,
-};
-
-export {
   OpenAIError,
   APIError,
   APIConnectionError,
@@ -32,6 +14,12 @@ export {
   PermissionDeniedError,
   UnprocessableEntityError,
 } from 'openai';
+
+export { ErnieAI, type ErnieAIOptions } from './ernie';
+export { HunYuanAI, type HunYuanAIOptions } from './hunyuan';
+export { MinimaxAI, type MinimaxAIOptions } from './minimax';
+export { QWenAI, type QWenAIOptions } from './qwen';
+export { VYroAI, type VYroAIOptions } from './vyro';
 
 export * from './resource';
 export * from './streaming';

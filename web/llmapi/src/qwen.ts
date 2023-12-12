@@ -1,13 +1,10 @@
 import OpenAI, { APIError, OpenAIError } from 'openai';
-import { APIClient, type Fetch } from 'openai/core';
+import { APIClient, type Fetch, type Headers, type RequestOptions } from 'openai/core';
 import { Stream } from 'openai/streaming';
 
 import {
   SSEDecoder,
-  readableStreamAsyncIterable,
-  LineDecoder,
-  type ServerSentEvent,
-  type Bytes,
+  iterMessages,
 } from './streaming';
 import { APIResource } from './resource';
 
@@ -44,7 +41,9 @@ export class QWenAI extends APIClient {
     this.apiKey = apiKey;
   }
 
-  chat = new Chat(this);
+  chat = new QWenChat(this);
+
+  images = new QWenImages(this);
 
   protected override authHeaders() {
     return {
@@ -55,44 +54,58 @@ export class QWenAI extends APIClient {
   protected override defaultQuery() {
     return {};
   }
+
+  protected override makeStatusError(
+    status: number | undefined,
+    error: Object | undefined,
+    message: string | undefined,
+    headers: Headers | undefined,
+  ) {
+    return APIError.generate(status, { error }, message, headers);
+  }
 }
 
-export class Chat extends APIResource {
-  completions = new Completions(this._client);
+export class QWenChat extends APIResource {
+  completions = new QWenCompletions(this._client);
 }
 
-export class Completions extends APIResource {
+export class QWenCompletions extends APIResource {
   /**
    * Creates a model response for the given chat conversation.
    */
   create(
-    body: OpenAI.ChatCompletionCreateParamsNonStreaming &
-      OverrideOpenAIChatCompletionCreateParams,
-    options?: OpenAI.RequestOptions
+    body: QWenAI.ChatCompletionCreateParamsNonStreaming,
+    options?: RequestOptions
   ): Promise<OpenAI.ChatCompletion>;
   create(
-    body: OpenAI.ChatCompletionCreateParamsStreaming &
-      OverrideOpenAIChatCompletionCreateParams,
-    options?: OpenAI.RequestOptions
+    body: QWenAI.ChatCompletionCreateParamsStreaming,
+    options?: RequestOptions
   ): Promise<Stream<OpenAI.ChatCompletionChunk>>;
 
   async create(
-    params: OpenAI.ChatCompletionCreateParams &
-      OverrideOpenAIChatCompletionCreateParams,
-    options?: OpenAI.RequestOptions
+    params: OpenAI.ChatCompletionCreateParams,
+    options?: RequestOptions
   ) {
     const { stream, ...rest } = params;
 
     const headers = {
       ...options?.headers,
-      // Note: 如果是 stream 的话，需要设置 Accept 为 text/event-stream
-      Accept: stream ? 'text/event-stream' : 'application/json',
     };
+
+    // Note: 如果是 stream 的话，需要设置 Accept 为 text/event-stream
+    if (params.stream) {
+      headers['Accept'] = 'text/event-stream';
+    }
 
     const body = this.buildCreateParams(rest);
 
+    // See https://help.aliyun.com/zh/dashscope/developer-reference/tongyi-qianwen-vl-api/
+    const path = isMultiModal(params.model)
+      ? '/services/aigc/multimodal-generation/generation'
+      : '/services/aigc/text-generation/generation';
+
     const response: Response = await this._client.post(
-      '/services/aigc/text-generation/generation',
+      path,
       {
         ...options,
         // @ts-expect-error 类型冲突？
@@ -119,26 +132,51 @@ export class Completions extends APIResource {
   }
 
   protected buildCreateParams(
-    params: OpenAI.ChatCompletionCreateParams &
-      OverrideOpenAIChatCompletionCreateParams
-  ): QWenAI.ChatCompletionCreateParams {
-    const { model, messages, presence_penalty, ...rest } = params;
+    params: QWenAI.ChatCompletionCreateParams
+  ): QWenChat.ChatCompletionCreateParams {
+    const { model, messages, presence_penalty, ...parameters } = params;
 
-    const data: QWenAI.ChatCompletionCreateParams = {
+
+    const data: QWenChat.ChatCompletionCreateParams = {
       model,
       input: {
         messages,
       },
-      parameters: {
-        ...rest,
-        result_format: 'text', // 强制使用 text 格式
-        repetition_penalty: presence_penalty,
-      },
+      parameters,
     };
 
-    // 非 stream 不能启用这个
-    if (params.stream) {
-      data.parameters.incremental_output = true;
+    // 多模型支持图片与视频
+    if (isMultiModal(model)) {
+      // 修复与 OpenAI 的兼容性问题
+      data.input.messages.forEach(message => {
+        if (Array.isArray(message.content)) {
+          message.content.forEach(part => {
+            if (part.type === 'image_url') {
+              // @ts-expect-error
+              part.image = part.image_url.url;
+
+              delete part.image_url;
+            }
+
+            // 不支持 type 字段
+            delete part.type;
+          });
+        } else {
+          message.content = [
+            // @ts-expect-error 不支持 type 字段
+            { text: message.content! },
+          ];
+        }
+
+        return message;
+      });
+    } else {
+      data.parameters.result_format = 'text';
+      data.parameters.repetition_penalty = presence_penalty;
+
+      if (params.stream) {
+        data.parameters.incremental_output = true;
+      }
     }
 
     return data;
@@ -157,48 +195,46 @@ export class Completions extends APIResource {
     let consumed = false;
     const decoder = new SSEDecoder();
 
-    async function* iterMessages(): AsyncGenerator<
-      ServerSentEvent,
-      void,
-      unknown
-    > {
-      if (!response.body) {
-        controller.abort();
-        throw new OpenAIError(
-          `Attempted to iterate over a response with no body`
-        );
+    function transform(data: QWenChat.ChatCompletionChunk): OpenAI.ChatCompletionChunk {
+      const choice: OpenAI.ChatCompletionChunk.Choice = {
+        index: 0,
+        delta: {
+          role: 'assistant',
+          content: data.output.text || '',
+        },
+        finish_reason: null,
+      };
+
+
+      if (isMultiModal(model)) {
+        const { message } = data.output.choices[0]
+
+        // @ts-expect-error
+        choice.delta = message;
       }
 
-      const lineDecoder = new LineDecoder();
-
-      const iter = readableStreamAsyncIterable<Bytes>(response.body);
-      for await (const chunk of iter) {
-        for (const line of lineDecoder.decode(chunk)) {
-          const sse = decoder.decode(line);
-          if (sse) yield sse;
-        }
+      const finish_reason = data.output.finish_reason;
+      if (finish_reason !== 'null') {
+        choice.finish_reason = finish_reason;
       }
 
-      for (const line of lineDecoder.flush()) {
-        const sse = decoder.decode(line);
-        if (sse) yield sse;
-      }
+      return {
+        id: data.request_id,
+        model,
+        choices: [choice],
+        object: 'chat.completion.chunk',
+        created: Date.now() / 1000,
+      };
     }
 
-    async function* iterator(): AsyncIterator<
-      OpenAI.ChatCompletionChunk,
-      any,
-      undefined
-    > {
+    async function* iterator(): AsyncIterator<OpenAI.ChatCompletionChunk, any, undefined> {
       if (consumed) {
-        throw new Error(
-          'Cannot iterate over a consumed stream, use `.tee()` to split the stream.'
-        );
+        throw new Error('Cannot iterate over a consumed stream, use `.tee()` to split the stream.');
       }
       consumed = true;
       let done = false;
       try {
-        for await (const sse of iterMessages()) {
+        for await (const sse of iterMessages(response, decoder, controller)) {
           if (done) continue;
 
           if (sse.data.startsWith('[DONE]')) {
@@ -221,28 +257,7 @@ export class Completions extends APIResource {
               throw new APIError(undefined, data, undefined, undefined);
             }
 
-            const choice: OpenAI.ChatCompletionChunk.Choice = {
-              index: 0,
-              delta: {
-                role: 'assistant',
-                content: data.output.text || '',
-              },
-              finish_reason: null,
-            };
-
-            const finish_reason = data.output.finish_reason;
-
-            if (finish_reason !== 'null') {
-              choice.finish_reason = finish_reason;
-            }
-
-            yield {
-              id: data.request_id,
-              model,
-              choices: [choice],
-              object: 'chat.completion.chunk',
-              created: Date.now() / 1000,
-            };
+            yield transform(data);
           }
         }
         done = true;
@@ -261,13 +276,9 @@ export class Completions extends APIResource {
 
   protected fromResponse(
     model: string,
-    resp: QWenAI.APIResponse
+    response: QWenChat.ChatCompletion
   ): OpenAI.ChatCompletion {
-    if ('code' in resp) {
-      throw new APIError(undefined, resp, undefined, undefined);
-    }
-
-    const { output, usage } = resp;
+    const { output, usage } = response;
 
     const choice: OpenAI.ChatCompletion.Choice = {
       index: 0,
@@ -275,11 +286,22 @@ export class Completions extends APIResource {
         role: 'assistant',
         content: output.text,
       },
-      finish_reason: output.finish_reason,
+      finish_reason: output.finish_reason || 'stop',
     };
 
+    if (isMultiModal(model)) {
+      const { message } = output.choices[0];
+
+      const content = message.content;
+
+      choice.message = {
+        role: 'assistant',
+        content: Array.isArray(content) ? content[0].text : content,
+      };
+    }
+
     return {
-      id: resp.request_id,
+      id: response.request_id,
       model: model,
       choices: [choice],
       created: Date.now() / 1000,
@@ -293,20 +315,40 @@ export class Completions extends APIResource {
   }
 }
 
-// 用于覆盖 OpenAI.ChatCompletionCreateParams 的参数
-type OverrideOpenAIChatCompletionCreateParams = {
-  model: QWenAI.ChatModel;
-  enable_search?: boolean | null;
-  top_k?: number | null;
-};
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-export namespace QWenAI {
-  export type ChatModel =
-    | 'qwen-turbo'
-    | 'qwen-plus'
-    | 'qwen-max'
-    | 'qwen-max-longcontext';
+function isMultiModal(model: QWenAI.ChatModel): boolean {
+  return model.startsWith('qwen-vl');
+}
+
+export namespace QWenChat {
+  export type QWenCompletionUsage = {
+    output_tokens: number;
+    input_tokens: number;
+    total_tokens: number;
+  }
+
+  export type ChatCompletion = {
+    request_id: string;
+    usage: QWenCompletionUsage;
+    output: {
+      text: string;
+      finish_reason: 'stop' | 'length';
+      // Note: 仅多模型支持
+      choices: OpenAI.ChatCompletion.Choice[];
+    };
+  }
+
+  export interface ChatCompletionChunk {
+    request_id: string;
+    usage: QWenCompletionUsage;
+    output: {
+      text: string;
+      finish_reason: 'stop' | 'length' | 'null';
+
+      // Note: 仅多模型支持
+      choices: OpenAI.ChatCompletion['choices'];
+    };
+  }
 
   /**
    * - text 旧版本的 text
@@ -408,30 +450,330 @@ export namespace QWenAI {
     input: ChatCompletionInputParam;
     parameters: ChatCompletionParameters;
   }
+}
 
+export class QWenImages extends APIResource {
   /**
-   * result_format 为 text 时的响应
+   * Creates an image given a prompt.
    */
-  export interface APITextResponse {
+  async generate(params: QWenAI.ImageGenerateParams, options: RequestOptions = {}): Promise<OpenAI.ImagesResponse> {
+    const client = this._client;
+
+    const { headers, ...config } = options;
+    const { model = 'wanx-v1', prompt, n = 1, size, cfg, ...rest } = params;
+
+    const taskId = await client
+      .post<any, Response>('/services/aigc/text2image/image-synthesis', {
+        ...config,
+        headers: { 'X-DashScope-Async': 'enable', ...headers },
+        body: {
+          model,
+          input: {
+            prompt,
+          },
+          parameters: {
+            ...rest,
+            // Note: 修正 OpenAI 与通义万象的兼容性问题
+            ...(size ? { size: size.replace('x', '*',) } : {}),
+            scale: cfg,
+            n,
+          },
+        },
+        __binaryResponse: true,
+      })
+      .then<QWenImages.ImageCreateTaskResponse>(res => res.json())
+      .then(res => res.output.task_id);
+
+    return this.waitTask(taskId, options).then(images => {
+      return {
+        created: Date.now() / 1000,
+        data: images,
+      };
+    });
+  }
+
+  protected async waitTask(taskId: string, options?: RequestOptions): Promise<QwenImageTask.Image[]> {
+    const response = await this._client
+      .get<any, Response>(`/tasks/${taskId}`, {
+        ...options,
+        __binaryResponse: true,
+      })
+      .then<QWenImages.ImageTaskQueryResponse>(response => response.json());
+
+    const { task_status } = response.output;
+
+    if (task_status === 'PENDING' || task_status === 'RUNNING') {
+      return new Promise<QwenImageTask.Image[]>(resolve => {
+        setTimeout(() => resolve(this.waitTask(taskId, options)), 5000);
+      });
+    }
+
+    if (task_status === 'SUCCEEDED') {
+      return response.output.results.filter(result => 'url' in result) as QwenImageTask.Image[];
+    }
+
+    if (task_status === 'FAILED') {
+      throw new OpenAIError((response as QWenImages.ImageTaskFailedResponse).message);
+    }
+
+    throw new OpenAIError('Unknown task status');
+  }
+}
+
+export namespace QWenImages {
+  export type ImageCreateTaskResponse = {
     request_id: string;
     output: {
-      text: string;
-      finish_reason: 'stop' | 'length';
+      task_id: string;
+      task_status: QwenImageTask.Status;
+    };
+  };
+
+  export type ImageTaskQueryResponse =
+    | ImageTaskPendingResponse
+    | ImageTaskRunningResponse
+    | ImageTaskFinishedResponse
+    | ImageTaskFailedResponse
+    | ImageTaskUnknownResponse;
+
+  export type ImageTaskPendingResponse = {
+    request_id: string;
+    output: {
+      task_id: string;
+      task_status: 'PENDING';
+      task_metrics: QwenImageTask.Metrics;
+      submit_time: string;
+      scheduled_time: string;
+    };
+  };
+
+  export type ImageTaskRunningResponse = {
+    request_id: string;
+    output: {
+      task_id: string;
+      task_status: 'RUNNING';
+      task_metrics: QwenImageTask.Metrics;
+      submit_time: string;
+      scheduled_time: string;
+    };
+  };
+
+  export type ImageTaskFinishedResponse = {
+    request_id: string;
+    output: {
+      task_id: string;
+      task_status: 'SUCCEEDED';
+      task_metrics: QwenImageTask.Metrics;
+      results: (QwenImageTask.Image | QwenImageTask.FailedError)[];
+      submit_time: string;
+      scheduled_time: string;
+      end_time: string;
     };
     usage: {
-      output_tokens: number;
-      input_tokens: number;
-      total_tokens: number;
+      image_count: number;
     };
-  }
+  };
 
-  export interface APIErrorResponse {
+  export type ImageTaskFailedResponse = {
+    request_id: string;
     code: string;
     message: string;
+    output: {
+      task_status: 'FAILED';
+      task_metrics: QwenImageTask.Metrics;
+      submit_time: string;
+      scheduled_time: string;
+    };
+  };
+
+  export type ImageTaskUnknownResponse = {
     request_id: string;
+    output: {
+      task_status: 'UNKNOWN';
+      task_metrics: QwenImageTask.Metrics;
+    };
+  };
+}
+
+export namespace QwenImageTask {
+  export type Image = {
+    url: string;
+  };
+
+  export type FailedError = {
+    code: string;
+    message: string;
+  };
+
+  export type Status = 'PENDING' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'UNKNOWN';
+
+  export type Metrics = {
+    TOTAL: number;
+    SUCCEEDED: number;
+    FAILED: number;
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace QWenAI {
+  export type ChatModel =
+    | (string & NonNullable<unknown>)
+    // 通义千问
+    | 'qwen-turbo'
+    | 'qwen-plus'
+    | 'qwen-max'
+    | 'qwen-max-1201'
+    | 'qwen-max-longcontext'
+    // 通义千问开源系列
+    | 'qwen-7b-chat'
+    | 'qwen-14b-chat'
+    | 'qwen-72b-chat'
+    // 多模型
+    | 'qwen-vl-v1'
+    | 'qwen-vl-chat-v1'
+    | 'qwen-vl-plus'
+    // LLAMA2
+    | 'llama2-7b-chat-v2'
+    | 'llama2-13b-chat-v2'
+    // 百川
+    | 'baichuan-7b-v1'
+    | 'baichuan2-13b-chat-v1'
+    | 'baichuan2-7b-chat-v1'
+    // ChatGLM
+    | 'chatglm3-6b'
+    | 'chatglm-6b-v2';
+
+  export interface ChatCompletionCreateParamsNonStreaming extends OpenAI.ChatCompletionCreateParamsNonStreaming {
+    model: ChatModel;
   }
 
-  export type APIResponse = APIErrorResponse | APITextResponse;
+  export interface ChatCompletionCreateParamsStreaming extends OpenAI.ChatCompletionCreateParamsStreaming {
+    model: ChatModel;
+  }
+
+  export type ChatCompletionCreateParams = ChatCompletionCreateParamsNonStreaming | ChatCompletionCreateParamsStreaming;
+
+  export type ImageModel =
+    | (string & NonNullable<unknown>)
+    // 通义万相
+    | 'wanx-v1'
+    // Stable Diffusion
+    | 'stable-diffusion-v1.5'
+    | 'stable-diffusion-xl';
+
+  export interface ImageGenerateParams {
+    /**
+     * The model to use for image generation.
+     *
+     * @defaultValue wanx-v1
+     */
+    model?: ImageModel | null;
+
+    /**
+     * A prompt is the text input that guides the AI in generating visual content.
+     * It defines the textual description or concept for the image you wish to generate.
+     * Think of it as the creative vision you want the AI to bring to life.
+     * Crafting clear and creative prompts is crucial for achieving the desired results with Imagine's API.
+     * For example, A serene forest with a river under the moonlight, can be a prompt.
+     */
+    prompt: string;
+
+    /**
+     * The negative_prompt parameter empowers you to provide additional
+     * guidance to the AI by specifying what you don't want in the image.
+     * It helps refine the creative direction, ensuring that the generated
+     * content aligns with your intentions.
+     */
+    negative_prompt?: string | null;
+
+    /**
+     * The size of the generated images.
+     * 
+     * 通义万象目前仅支持 '1024*1024', '720*1280', '1280*720'三种分辨率，默认为1024*1024像素。
+     *
+     * @defaultValue 1024x1024
+     */
+    size?: (string & NonNullable<unknown>) | '1024x1024' | '720x1280' | '1280x720' | null;
+
+    /**
+     * The style of the generated images.
+     *
+     * - \<photography\> 摄影
+     * - \<portrait\> 人像写真
+     * - \<3d cartoon\> 3D卡通
+     * - \<anime\> 动画
+     * - \<oil painting\> 油画
+     * - \<watercolor\>水彩
+     * - \<sketch\> 素描
+     * - \<chinese painting\> 中国画
+     * - \<flat illustration\> 扁平插画
+     * - \<auto\> 默认
+     *
+     * 仅 wanx-v1 模型支持
+     *
+     * @defaultValue <auto>
+     */
+    style?:
+    | '<photography>'
+    | '<portrait>'
+    | '<3d cartoon>'
+    | '<anime>'
+    | '<oil painting>'
+    | '<watercolor>'
+    | '<sketch>'
+    | '<chinese painting>'
+    | '<flat illustration>'
+    | '<auto>'
+    | null;
+
+    /**
+     * The number of images to generate. Must be between 1 and 4.
+     *
+     * 通义万象目前支持1~4张，默认为1。
+     * 
+     * @defaultValue 1
+     */
+    n?: number | null;
+
+    /**
+     * The steps parameter defines the number of operations or iterations that the
+     * generator will perform during image creation. It can impact the complexity
+     * and detail of the generated image.
+     *
+     * Range: 30-50
+     *
+     * 仅 StableDiffusion 模型支持
+     *
+     * @defaultValue 40
+     */
+    steps?: number | null;
+
+    /**
+     * The cfg parameter acts as a creative control knob.
+     * You can adjust it to fine-tune the level of artistic innovation in the image.
+     * Lower values encourage faithful execution of the prompt,
+     * while higher values introduce more creative and imaginative variations.
+     *
+     * Range: 1 - 15
+     *
+     * @defaultValue 10
+     */
+    cfg?: number | null;
+
+    /**
+     * The seed parameter serves as the initial value for the random number generator.
+     * By setting a specific seed value, you can ensure that the AI generates the same
+     * image or outcome each time you use that exact seed.
+     *
+     * range: 1-Infinity
+     */
+    seed?: number | null;
+
+    /**
+     * The format in which the generated images are returned.
+     */
+    response_format?: 'url' | null;
+  }
 }
 
 export default QWenAI;
