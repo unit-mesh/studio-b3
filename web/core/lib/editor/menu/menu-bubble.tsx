@@ -25,8 +25,6 @@ export const MenuBubble = ({ editor }: {
 	const [menus, setMenus] = React.useState<any[]>([]);
 
 	useEffect(() => {
-		const { from, to, empty } = editor.state.selection;
-		const selection = editor.state.doc.textBetween(from, to, " ");
 		const innerSmartMenus: PromptAction[] = []
 
 		innerSmartMenus.push({
