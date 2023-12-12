@@ -15,7 +15,7 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 
 	const focusAdviceWithActiveId = (id: string) => {
 		if (!advicesSectionRef.current) return
-		const adviceInput = advicesSectionRef.current.querySelector<HTMLInputElement>(`input#${id}`)
+		const adviceInput = advicesSectionRef.current.querySelector<HTMLInputElement>(`p#${id}`)
 		if (!adviceInput) return
 		adviceInput.scrollIntoView({
 			behavior: 'smooth',
@@ -28,7 +28,9 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 		AdviceManager.getInstance().on('add', (advice) => {
 			setAdvices(AdviceManager.getInstance().getAdvices());
 			setActiveId(advice.id);
-			setTimeout(focusAdviceWithActiveId);
+			setTimeout(() => {
+				focusAdviceWithActiveId(advice.id);
+			});
 		});
 
 		AdviceManager.getInstance().on('remove', (advice) => {
@@ -37,7 +39,9 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 
 		AdviceManager.getInstance().onActiveIdChange((id) => {
 			setActiveId(id);
-			setTimeout(focusAdviceWithActiveId);
+			setTimeout(() => {
+				focusAdviceWithActiveId(id);
+			});
 		});
 	}, []);
 
@@ -50,10 +54,7 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 					className={`flex flex-col gap-4 p-2 border border-slate-400 ${advice.id === activeCommentId ? 'bg-slate-300 border-2' : ''} box-border`}
 				>
           <span className='flex items-end gap-2'>
-            <a href='https://github.com/unit-mesh/b3' className='font-semibold border-b border-blue-200'>
-              Studio B3 AI
-            </a>
-
+						AI Assistant
             <span className='text-xs text-slate-400'>
               {advice.createdAt.toLocaleDateString()}
             </span>
