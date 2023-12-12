@@ -1,16 +1,26 @@
 import { OpenAIStream, StreamingTextResponse } from 'ai';
-
+// import { Response } from 'openai/src/core';
 
 export async function POST(req: Request) {
-  const response = new ReadableStream({
-    start(controller) {
-      controller.enqueue('Hello World, this is from mock api');
-      controller.close();
-    }
+  const responseData = {
+    "choices": [
+      {
+        "message": {
+          "content": "Hello, world",
+          "role": "assistant"
+        }
+      }
+    ],
+    "created": 1677664795,
+    "id": "chatcmpl-7QyqpwdfhqwajicIEznoc6Q47XAyW",
+    "model": "gpt-3.5-turbo-0613",
+    "object": "chat.completion",
+  }
+
+  const response = new Response(JSON.stringify(responseData), {
+    headers: { 'Content-Type': 'application/json' },
   });
 
-  // Convert the response into a friendly text-stream
-  const stream = OpenAIStream(new Response(response));
-  // Respond with the stream
+  const stream = OpenAIStream(response);
   return new StreamingTextResponse(stream);
 }
