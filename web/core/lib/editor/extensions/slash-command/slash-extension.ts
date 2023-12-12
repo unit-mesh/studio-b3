@@ -1,6 +1,7 @@
 import { ReactRenderer } from "@tiptap/react";
 import { Node } from "@tiptap/core";
 import { Suggestion } from "@tiptap/suggestion";
+// @ts-ignore
 import tippy, { Instance, Props } from "tippy.js";
 import SlashView from "./slash-view";
 import { PluginKey } from "@tiptap/pm/state";
