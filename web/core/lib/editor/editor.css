@@ -186,7 +186,7 @@
     }
 
     pre {
-        background: #0d0d0d;
+        background: #011c32;
         color: #fff;
         font-family: 'JetBrainsMono', monospace;
         padding: 0.75rem 1rem;
@@ -219,6 +219,17 @@
     button {
         all: unset;
     }
+}
+
+.node-inline-completion {
+    display: inline-block;
+    background: var(--violet-3);
+    padding: 0 8px;
+    border-radius: 4px;
+}
+
+.node-inline-completion svg {
+    display: inline-block;
 }
 
 .toolbar-menu {

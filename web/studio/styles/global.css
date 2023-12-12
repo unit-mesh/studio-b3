@@ -611,7 +611,7 @@ input {
 }
 
 .inline-completion-tip {
-    margin-left: 1em;
+    margin-left: 0.2em;
     background: #fff;
     font-weight: 500;
     border-radius: 0.2em;

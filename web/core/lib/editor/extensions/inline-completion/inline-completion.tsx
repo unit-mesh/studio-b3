@@ -1,4 +1,4 @@
-import { Node, NodeViewWrapper, ReactNodeViewRenderer } from "@tiptap/react";
+import { findChildren, Node, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
 import { Editor } from "@tiptap/core";
 import React, { useEffect, useRef } from "react";
 import { KeyboardIcon } from "@radix-ui/react-icons";
@@ -13,35 +13,52 @@ declare module '@tiptap/core' {
 	}
 }
 
-const extensionName = "inline-completion-completion";
+const extensionName = "inline-completion";
 export const InlineCompletion = Node.create({
 	name: extensionName,
 	group: "block",
 	defining: true,
 	isolating: true,
+	hasTrigger: false,
 	content: "text*",
 	addOptions() {
 		return {
 			HTMLAttributes: {
-				class: "inline-completion-completion",
+				class: "inline-completion",
 			},
 		}
 	},
 	addKeyboardShortcuts() {
 		return {
 			"Mod-\\": (): boolean => {
+				// @ts-ignore
+				this.hasTrigger = true
 				this.editor.commands.triggerInlineCompletion()
 				return true
 			},
 			"Tab": (): boolean => {
+				// @ts-ignore
+				this.hasTrigger = false
 				this.editor.commands.completeInlineCompletion()
 				return true
 			},
 			"`": (): boolean => {
+				// @ts-ignore
+				if (!this.hasTrigger) {
+					return false
+				}
+				// @ts-ignore
+				this.hasTrigger = false
 				this.editor.commands.completeInlineCompletion()
 				return true
 			},
 			Escape: (): boolean => {
+				// @ts-ignore
+				if (!this.hasTrigger) {
+					return false
+				}
+				// @ts-ignore
+				this.hasTrigger = false
 				this.editor.commands.cancelInlineCompletion();
 				return true
 			},
@@ -56,10 +73,21 @@ export const InlineCompletion = Node.create({
 					attrs: options,
 				})
 			},
-			completeInlineCompletion: (options: any) => ({ commands }: { commands: any }) => {
+			completeInlineCompletion: (options: any) => ({ commands, tr }: { commands: any, tr: any }) => {
 				const pos = this.editor.view.state.selection.$anchor.pos;
-				commands.deleteNode(this.name)
+				// commands.deleteNode(this.name)
 				commands.insertContentAt(pos, "done completion")
+
+				try {
+					tr.doc.descendants((node, pos) => {
+						if (node.type.name == this.name) {
+							commands.deleteRange({ from: pos, to: pos + node.nodeSize })
+							return false;
+						}
+					})
+				} catch (e) {
+					console.log(e)
+				}
 			},
 			cancelInlineCompletion: (options: any) => ({ commands }: { commands: any }) => {
 				commands.deleteNode(this.name)
@@ -91,7 +119,7 @@ const InlineCompletionView = (props?: { editor: Editor }) => {
 
 	return (
 		<NodeViewWrapper ref={$container}>
-			<span>show inline completion <span className={'inline-completion-tip'}><KeyboardIcon/>`</span></span>
+			<span><KeyboardIcon/> type <span className={'inline-completion-tip'}>`</span> to completion</span>
 		</NodeViewWrapper>
 	);
 };
