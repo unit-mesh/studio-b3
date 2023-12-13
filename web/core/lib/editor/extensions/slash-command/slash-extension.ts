@@ -43,11 +43,9 @@ export const createSlashExtension = (name: string) => {
 						editor.commands.runAiAction(props);
 						editor?.view?.focus();
 					},
-					items: ({ query }) => {
+					items: () => {
 						let articleType = this.editor.commands.getArticleType();
-						console.log(articleType)
 						const promptActions = (PromptsManager.getInstance().getActions(FacetType.SLASH_COMMAND, articleType) || []);
-						console.log(promptActions)
 						return promptActions;
 					},
 					render: () => {
