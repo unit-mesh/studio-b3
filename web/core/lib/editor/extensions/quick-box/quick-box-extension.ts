@@ -16,10 +16,10 @@ const extensionName = "quick-command";
 declare module "@tiptap/core" {
 	interface Commands<ReturnType> {
 		setAiBlock: {
-			setAiBlock: (attributes: Record<string, any>) => ReturnType;
+			setAiBlock: (attributes: Record<string, never>) => ReturnType;
 		};
 		toggleAiBlock: {
-			toggleAiBlock: (attributes: Record<string, any>) => ReturnType;
+			toggleAiBlock: (attributes: Record<string, never>) => ReturnType;
 		};
 		enableEnter: {
 			enableEnter: () => ReturnType;

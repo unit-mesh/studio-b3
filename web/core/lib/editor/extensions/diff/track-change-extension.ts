@@ -6,7 +6,7 @@
  */
 import { ReplaceStep, Step } from '@tiptap/pm/transform';
 import { TextSelection, Plugin, PluginKey } from '@tiptap/pm/state';
-import { Slice, Fragment } from '@tiptap/pm/model';
+import { Slice } from '@tiptap/pm/model';
 import {
   Extension,
   Mark,
@@ -16,8 +16,8 @@ import {
   mergeAttributes,
   Editor
 } from '@tiptap/core';
-import type { CommandProps, Editor, MarkRange } from '@tiptap/core';
-import type { Transaction } from '@tiptap/pm/state';
+import { MarkRange } from '@tiptap/core/src/types.ts';
+import { CommandProps } from '@tiptap/react';
 
 const LOG_ENABLED = false;
 
@@ -61,6 +61,7 @@ declare module '@tiptap/core' {
        * same to acceptAll but: remove deletion mark and remove all insertion nodes
        */
       rejectAllChanges: () => ReturnType,
+      hasTrackChange: () => ReturnType,
       /**
        *
        */
@@ -157,7 +158,6 @@ const getMinuteTime = () =>
  * @param param a command props, so we can get the editor, tr prop
  * @returns null
  */
-// @ts-ignore
 const changeTrack = (opType: TRACK_COMMAND_TYPE, param: CommandProps) => {
   /**
    * get the range to deal, use selection default
@@ -169,14 +169,11 @@ const changeTrack = (opType: TRACK_COMMAND_TYPE, param: CommandProps) => {
    * if got accept all or reject all, just set 'from' to 0 and 'to' to content size
    * if got just a part range,
    */
-  let markRanges: any[] = [];
+  let markRanges: MarkRange[] = [];
   /**
    * deal a part and no selection contents, need to recognize the left mark nearby cursor
    */
-  if (
-    (opType === TRACK_COMMAND_ACCEPT || opType === TRACK_COMMAND_REJECT) &&
-    from === to
-  ) {
+  if ((opType === TRACK_COMMAND_ACCEPT || opType === TRACK_COMMAND_REJECT) && from === to) {
     // detect left mark
     const isInsertBeforeCursor = isMarkActive(
       param.editor.state,
@@ -205,10 +202,7 @@ const changeTrack = (opType: TRACK_COMMAND_TYPE, param: CommandProps) => {
         param.editor.state.doc
       );
     }
-  } else if (
-    opType === TRACK_COMMAND_ACCEPT_ALL ||
-    opType === TRACK_COMMAND_REJECT_ALL
-  ) {
+  } else if (opType === TRACK_COMMAND_ACCEPT_ALL || opType === TRACK_COMMAND_REJECT_ALL) {
     // all editor content
     markRanges = getMarksBetween(
       0,
@@ -226,10 +220,9 @@ const changeTrack = (opType: TRACK_COMMAND_TYPE, param: CommandProps) => {
   }
   // just deal the track change nodes
   markRanges = markRanges.filter(
-    (markRange) =>
-      markRange.mark.type.name === MARK_DELETION ||
-      markRange.mark.type.name === MARK_INSERTION
+    (markRange) => markRange.mark.type.name === MARK_DELETION || markRange.mark.type.name === MARK_INSERTION
   );
+
   if (!markRanges.length) {
     return false;
   }
@@ -289,7 +282,6 @@ const changeTrack = (opType: TRACK_COMMAND_TYPE, param: CommandProps) => {
   return false;
 };
 
-// @ts-ignore
 /**
  * TODO: some problems to fix or feature to implement
  * 1. when delete content includes two and more paragraphs, cannot mark the new paragraph as insert mark, because the mark is inline-completion, can we add global attrs?
@@ -297,7 +289,7 @@ const changeTrack = (opType: TRACK_COMMAND_TYPE, param: CommandProps) => {
  * 3. select two chars and inout a chinese char, the new char was input with wrong position. (fixed by stop input action)
  * 4. how to toggle to "hide" mode and can record the change ranges too, just look likes the office word
  */
-export const TrackChangeExtension = Extension.create<{ enabled: boolean, onStatusChange?: Function, dataOpUserId?: string, dataOpUserNickname?: string }>({
+export const TrackChangeExtension = Extension.create<{ enabled: boolean, onStatusChange?, dataOpUserId?: string, dataOpUserNickname?: string }>({
   name: EXTENSION_NAME,
   onCreate() {
     if (this.options.onStatusChange) {
@@ -329,6 +321,20 @@ export const TrackChangeExtension = Extension.create<{ enabled: boolean, onStatu
         const thisExtension = getSelfExt(param.editor);
         return thisExtension.options.enabled;
       },
+      hasTrackChange: () => (param) => {
+        const markRanges = getMarksBetween(
+          0,
+          param.editor.state.doc.content.size,
+          param.editor.state.doc
+        );
+        console.log(markRanges);
+        const hasChange = markRanges.some(
+          (markRange) =>
+            markRange.mark.type.name === MARK_DELETION ||
+            markRange.mark.type.name === MARK_INSERTION
+        );
+        return hasChange;
+      },
       acceptChange: () => (param) => {
         changeTrack('accept', param);
         return false;
@@ -353,7 +359,6 @@ export const TrackChangeExtension = Extension.create<{ enabled: boolean, onStatu
       }
     };
   },
-  // @ts-ignore
   onSelectionUpdate(p) {
     // log the status for debug
     LOG_ENABLED &&
@@ -364,19 +369,18 @@ export const TrackChangeExtension = Extension.create<{ enabled: boolean, onStatu
       p.editor.view.composing
     );
   },
-  // @ts-ignore
   addProseMirrorPlugins() {
     return [
       new Plugin({
         key: new PluginKey('composing-check'),
         props: {
           handleDOMEvents: {
-            compositionstart: (_event) => {
+            compositionstart: () => {
               LOG_ENABLED && console.log('start chinese input');
               // start and update will fire same time
               isStartChineseInput = true;
             },
-            compositionupdate: (_event) => {
+            compositionupdate: () => {
               LOG_ENABLED && console.log('chinese input continue');
               composingStatus = IME_STATUS_CONTINUE;
             }
@@ -385,7 +389,6 @@ export const TrackChangeExtension = Extension.create<{ enabled: boolean, onStatu
       })
     ];
   },
-  // @ts-ignore
   onTransaction: ({ editor, transaction }) => {
     // chinese input status check
     const isChineseStart =
@@ -487,7 +490,7 @@ export const TrackChangeExtension = Extension.create<{ enabled: boolean, onStatu
     // cursor offset, try to reset the pos in the end process
     let posOffset = 0;
     let hasAddAndDelete = false;
-    allSteps.forEach((step, _index, _arr) => {
+    allSteps.forEach((step, _index) => {
       if (step instanceof ReplaceStep) {
         // loss chars
         let delCount = 0;
