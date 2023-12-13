@@ -1,16 +1,13 @@
-import { ReactRenderer } from "@tiptap/react";
-import { Node } from "@tiptap/core";
-import { Suggestion } from "@tiptap/suggestion";
-// @ts-ignore
-import tippy, { Instance, Props } from "tippy.js";
-import SlashView from "./slash-view";
-import { PluginKey } from "@tiptap/pm/state";
-import { FacetType } from "@/editor/defs/custom-action.type";
-import { PromptsManager } from "@/editor/prompts/prompts-manager";
+import { ReactRenderer } from '@tiptap/react';
+import { Node } from '@tiptap/core';
+import { Suggestion } from '@tiptap/suggestion';
+import tippy, { Instance } from 'tippy.js';
+import SlashView from './slash-view';
+import { PluginKey } from '@tiptap/pm/state';
+import { FacetType } from '@/editor/defs/custom-action.type';
+import { PromptsManager } from '@/editor/prompts/prompts-manager';
 
-export const createSlashExtension = (name: string) => {
-	const extensionName = `ai-insert`;
-
+export const createSlashExtension = (extensionName: string) => {
 	return Node.create({
 		name: "slash-command",
 		addOptions() {
@@ -44,13 +41,12 @@ export const createSlashExtension = (name: string) => {
 						editor?.view?.focus();
 					},
 					items: () => {
-						let articleType = this.editor.commands.getArticleType();
-						const promptActions = (PromptsManager.getInstance().getActions(FacetType.SLASH_COMMAND, articleType) || []);
-						return promptActions;
+						const articleType = this.editor.commands.getArticleType();
+						return (PromptsManager.getInstance().getActions(FacetType.SLASH_COMMAND, articleType) || []);
 					},
 					render: () => {
-						let component: ReactRenderer<unknown, {}>;
-						let popup: Instance<Props>[];
+						let component: ReactRenderer<unknown, SlashView>;
+						let popup: Instance[];
 						let isEditable: boolean;
 
 						return {
@@ -82,7 +78,7 @@ export const createSlashExtension = (name: string) => {
 								component.updateProps(props);
 								props.editor.storage[extensionName].rect = props.clientRect!();
 								popup[0].setProps({
-									getReferenceClientRect: props.clientRect as any,
+									getReferenceClientRect: props.clientRect,
 								});
 							},
 
@@ -93,7 +89,7 @@ export const createSlashExtension = (name: string) => {
 									popup[0].hide();
 									return true;
 								}
-								return (component.ref as any).onKeyDown(props);
+								return (component.ref as SlashView).onKeyDown(props);
 							},
 
 							onExit() {
