@@ -5,17 +5,9 @@
  * based on: https://github.com/chenyuncai/tiptap-track-change-extension
  */
 import { ReplaceStep, Step } from '@tiptap/pm/transform';
-import { TextSelection, Plugin, PluginKey } from '@tiptap/pm/state';
+import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state';
 import { Slice } from '@tiptap/pm/model';
-import {
-  Extension,
-  Mark,
-  getMarkRange,
-  getMarksBetween,
-  isMarkActive,
-  mergeAttributes,
-  Editor
-} from '@tiptap/core';
+import { Editor, Extension, getMarkRange, getMarksBetween, isMarkActive, Mark, mergeAttributes } from '@tiptap/core';
 import { MarkRange } from '@tiptap/core/src/types.ts';
 import { CommandProps } from '@tiptap/react';
 
@@ -327,13 +319,11 @@ export const TrackChangeExtension = Extension.create<{ enabled: boolean, onStatu
           param.editor.state.doc.content.size,
           param.editor.state.doc
         );
-        console.log(markRanges);
-        const hasChange = markRanges.some(
+        return markRanges.some(
           (markRange) =>
             markRange.mark.type.name === MARK_DELETION ||
             markRange.mark.type.name === MARK_INSERTION
         );
-        return hasChange;
       },
       acceptChange: () => (param) => {
         changeTrack('accept', param);

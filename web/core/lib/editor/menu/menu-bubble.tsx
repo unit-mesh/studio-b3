@@ -55,14 +55,14 @@ export const MenuBubble = ({ editor } : {
 	return <BubbleMenu className={`bubble-menu-group w-64`} editor={editor} updateDelay={800}>
 		{isShowAccept && <div className={'change-buttons'}>
 			<button
-				className={'accept-change'}
+				className='rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 				onClick={() => {
 					editor?.commands?.acceptChange();
 				}}
 			>Accept
 			</button>
 			<button
-				className={'reject-change'}
+				className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 				onClick={() => {
 					editor?.commands?.rejectChange();
 				}}
