@@ -86,9 +86,22 @@ const LiveEditor = () => {
 	const [debouncedEditor] = useDebounce(editor?.state.doc.content, 2000);
 	useEffect(() => {
 		if (debouncedEditor) {
-			console.info('todo: add save logic', debouncedEditor)
+			// @ts-ignore
+			localStorage.setItem('editor', JSON.stringify(editor.getJSON()))
 		}
 	}, [debouncedEditor]);
+
+	useEffect(() => {
+		const content = localStorage.getItem('editor');
+		if (content) {
+			try {
+				editor?.commands?.setContent(JSON.parse(content));
+			} catch (e) {
+				editor?.commands?.setContent(md.render(t('Editor Placeholder')));
+				console.error(e);
+			}
+		}
+	}, [editor]);
 
 	return <div className={'w-full flex editor-block'}>
 		{editor && <div className={'lg:flex md:hidden sm:hidden hidden'}><Sidebar eidtor={editor}/></div>}
