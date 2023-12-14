@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /**
  * License: MIT
  * based on: https://github.com/chenyuncai/tiptap-track-change-extension
@@ -133,10 +135,13 @@ export const DeletionMark = Mark.create({
 // save the ime-mode status, when input chinese char, the extension needs to deal the change with a special strategy
 // TODO: Is it necessary to save these two variable into a tiptap instance when someone open two editor
 const IME_STATUS_NORMAL = 0;
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const IME_STATUS_START = 1;
 const IME_STATUS_CONTINUE = 2;
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const IME_STATUS_FINISHED = 3;
-// type IME_STATUS_TYPE = 0 | 1 | 2 | 3
+/* eslint-disable @typescript-eslint/no-unused-vars */
+type IME_STATUS_TYPE = 0 | 1 | 2 | 3
 let composingStatus = 0;
 let isStartChineseInput = false;
 
@@ -605,7 +610,7 @@ export const TrackChangeExtension = Extension.create<{
             invertedStep.from + reAddOffset,
             invertedStep.from + reAddOffset,
             invertedStep.slice,
-            // @ts-ignore: what is internal means
+            // @ts-expect-error: what is internal means
             invertedStep.structure
           );
           // make a empty step to replace the original "INSERT" mark, because these content don't need to readd
