@@ -1,6 +1,6 @@
 import { BubbleMenu } from '@tiptap/react';
-import React, { useEffect, useRef } from 'react';
-import { Editor, isTextSelection } from '@tiptap/core';
+import React, { useEffect } from 'react';
+import { Editor } from '@tiptap/core';
 import { BookmarkIcon, CookieIcon } from '@radix-ui/react-icons';
 import { Button } from '@radix-ui/themes';
 import {
@@ -22,7 +22,6 @@ export const MenuBubble = ({ editor }: {
 
   const [smartMenus, setSmartMenus] = React.useState<PromptAction[]>([]);
   const [menus, setMenus] = React.useState<any[]>([]);
-  const [isShowAccept, setIsShowAccept] = React.useState(false);
 
   useEffect(() => {
     const innerSmartMenus: PromptAction[] = [];
@@ -45,7 +44,6 @@ export const MenuBubble = ({ editor }: {
 
     setSmartMenus(innerSmartMenus);
     setMenus(editor?.commands?.getAiActions(FacetType.BUBBLE_MENU) || []);
-    setIsShowAccept(editor?.commands?.hasTrackChange() || false);
   }, [editor, isOpen]);
 
   const handleToggle = React.useCallback(() => {
@@ -54,23 +52,6 @@ export const MenuBubble = ({ editor }: {
 
   return <BubbleMenu className={`bubble-menu-group w-64`} editor={editor} updateDelay={800}>
     <div className={'bubble-menu-tier1'}>
-      {isShowAccept && <>
-        <button
-          className="rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black"
-          onClick={() => {
-            editor?.commands?.acceptChange();
-          }}
-        >Accept
-        </button>
-        <button
-          className="rounded-md bg-blue-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black"
-          onClick={() => {
-            editor?.commands?.rejectChange();
-          }}
-        >Reject
-        </button>
-      </>
-      }
       <div className="bubble-dropdown">
         {loading && <BounceLoader color={'#8A4FFF'} size={38} />}
         {!loading && <Button variant="soft" onClick={handleToggle} className={'b3-color-bg-red text-white'}>
