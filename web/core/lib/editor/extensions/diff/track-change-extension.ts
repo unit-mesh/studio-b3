@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 /**
  * License: MIT
  * based on: https://github.com/chenyuncai/tiptap-track-change-extension
@@ -7,8 +5,16 @@
 import { ReplaceStep, Step } from '@tiptap/pm/transform';
 import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state';
 import { Slice } from '@tiptap/pm/model';
-import { Editor, Extension, getMarkRange, getMarksBetween, isMarkActive, Mark, mergeAttributes } from '@tiptap/core';
-import { MarkRange } from '@tiptap/core/src/types.ts';
+import {
+  Editor,
+  Extension,
+  getMarkRange,
+  getMarksBetween,
+  isMarkActive,
+  Mark,
+  MarkRange,
+  mergeAttributes
+} from '@tiptap/core';
 import { CommandProps } from '@tiptap/react';
 
 const LOG_ENABLED = false;
@@ -53,12 +59,12 @@ declare module '@tiptap/core' {
        * same to acceptAll but: remove deletion mark and remove all insertion nodes
        */
       rejectAllChanges: () => ReturnType,
-      hasTrackChange: () => ReturnType,
+      hasTrackChange: (editor: Editor) => ReturnType,
       /**
        *
        */
       updateOpUserOption: (opUserId: string, opUserNickname: string) => ReturnType
-    }
+    };
   }
 }
 
@@ -281,7 +287,12 @@ const changeTrack = (opType: TRACK_COMMAND_TYPE, param: CommandProps) => {
  * 3. select two chars and inout a chinese char, the new char was input with wrong position. (fixed by stop input action)
  * 4. how to toggle to "hide" mode and can record the change ranges too, just look likes the office word
  */
-export const TrackChangeExtension = Extension.create<{ enabled: boolean, onStatusChange?, dataOpUserId?: string, dataOpUserNickname?: string }>({
+export const TrackChangeExtension = Extension.create<{
+  enabled: boolean,
+  onStatusChange?,
+  dataOpUserId?: string,
+  dataOpUserNickname?: string
+}>({
   name: EXTENSION_NAME,
   onCreate() {
     if (this.options.onStatusChange) {
@@ -319,6 +330,7 @@ export const TrackChangeExtension = Extension.create<{ enabled: boolean, onStatu
           param.editor.state.doc.content.size,
           param.editor.state.doc
         );
+
         return markRanges.some(
           (markRange) =>
             markRange.mark.type.name === MARK_DELETION ||
