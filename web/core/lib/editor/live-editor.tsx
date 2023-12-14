@@ -71,7 +71,7 @@ const extensions: any = [
 ]
 
 const LiveEditor = () => {
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
 
 	const editor = useEditor({
 		extensions,

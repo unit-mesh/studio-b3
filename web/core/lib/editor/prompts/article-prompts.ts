@@ -7,9 +7,7 @@ import {
 	PromptAction, 
 } from "@/editor/defs/custom-action.type";
 
-
 const ToolbarMenu: PromptAction[] = [
-	// 生成大纲
 	{
 		name: 'Generate Outline',
 		i18Name: true,
