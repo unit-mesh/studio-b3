@@ -56,8 +56,8 @@ export class AiActionExecutor {
     const pos = actionPosition(action, this.editor.state.selection);
     this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
 
-    let markdownParser = new MarkdownParser(this.editor, {});
-    let markdownNode = markdownParser.parse(allText);
+    const markdownParser = new MarkdownParser(this.editor, {});
+    const markdownNode = markdownParser.parse(allText);
 
     this.editor.chain().focus()?.deleteRange({
       from: originalSelection.from,
@@ -70,7 +70,6 @@ export class AiActionExecutor {
   }
 
   private async handleTextOrDiff(action: PromptAction, prompt: string): Promise<string | undefined> {
-    // @ts-ignore
     this.editor.commands?.setTrackChangeStatus(true);
 
     this.editor.setEditable(false);
@@ -83,7 +82,6 @@ export class AiActionExecutor {
     const text = await response.text();
     this.editor.setEditable(true);
 
-    // @ts-ignore
     this.editor.commands?.setTrackChangeStatus(false);
     return text;
   }
@@ -105,14 +103,14 @@ export class AiActionExecutor {
   public async execute(action: PromptAction) {
     console.log('execute action', action);
     if (action.builtinFunction) {
-      let executor = new BuiltinFunctionExecutor(this.editor);
+      const executor = new BuiltinFunctionExecutor(this.editor);
       return await executor.execute(action);
     }
 
     const actionExecutor = new PromptCompiler(action, this.editor);
     actionExecutor.compile();
 
-    let prompt = action.compiledTemplate;
+    const prompt = action.compiledTemplate;
 
     if (prompt == null) {
       throw Error('template is not been compiled yet! compile it first');
@@ -121,7 +119,6 @@ export class AiActionExecutor {
     console.info('compiledTemplate: \n\n', prompt);
 
     if (action.changeForm == ChangeForm.DIFF) {
-      // @ts-ignore
       this.editor.commands?.setTrackChangeStatus(true);
     }
 
