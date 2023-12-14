@@ -70,10 +70,6 @@ export class AiActionExecutor {
   }
 
   private async handleTextOrDiff(action: PromptAction, prompt: string): Promise<string | undefined> {
-    if (action.changeForm == ChangeForm.DIFF) {
-      this.editor.commands?.setTrackChangeStatus(true);
-    }
-
     this.editor.setEditable(false);
 
     const response = await fetch(this.endpoint(action), {
@@ -83,10 +79,6 @@ export class AiActionExecutor {
 
     const text = await response.text();
     this.editor.setEditable(true);
-
-    if (action.changeForm == ChangeForm.DIFF) {
-      this.editor.commands?.setTrackChangeStatus(true);
-    }
 
     return text;
   }

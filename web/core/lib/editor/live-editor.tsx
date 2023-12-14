@@ -17,7 +17,6 @@ import { createSlashExtension } from './extensions/slash-command/slash-extension
 import { createQuickBox } from '@/editor/extensions/quick-box/quick-box-extension'
 import { AdviceExtension } from '@/editor/extensions/advice/advice-extension';
 
-import TrackChangeExtension from '@/editor/extensions/diff/track-change-extension'
 import { ToolbarMenu } from './menu/toolbar-menu'
 import { CustomEditorCommands } from './action/custom-editor-commands'
 import { Sidebar } from './components/sidebar'
@@ -47,9 +46,6 @@ const extensions: any = [
 		onAdviceActivated: (adviceId) => {
 			if (adviceId) AdviceManager.getInstance().setActiveId(adviceId);
 		},
-	}),
-	TrackChangeExtension.configure({
-		enabled: false,
 	}),
 	InlineCompletion,
 	StarterKit.configure({
