@@ -61,7 +61,7 @@ declare module '@tiptap/core' {
        * same to acceptAll but: remove deletion mark and remove all insertion nodes
        */
       rejectAllChanges: () => ReturnType,
-      hasTrackChange: (editor: Editor) => ReturnType,
+      hasTrackChange: () => ReturnType,
       /**
        *
        */

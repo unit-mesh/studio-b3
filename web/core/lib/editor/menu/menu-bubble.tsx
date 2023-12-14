@@ -45,57 +45,32 @@ export const MenuBubble = ({ editor }: {
 
     setSmartMenus(innerSmartMenus);
     setMenus(editor?.commands?.getAiActions(FacetType.BUBBLE_MENU) || []);
+    setIsShowAccept(editor?.commands?.hasTrackChange() || false);
   }, [editor, isOpen]);
-
-  const element = useRef();
 
   const handleToggle = React.useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen]);
 
-  // const shouldShow = React.useCallback(({ view, state, from, to }) => {
-  //     const { doc, selection } = state;
-  //     const { empty } = selection;
-  //
-  //     // Sometime check for `empty` is not enough.
-  //     // Doubleclick an empty paragraph returns a node size of 2.
-  //     // So we check also for an empty text size.
-  //     const isEmptyTextBlock = !doc.textBetween(from, to).length && isTextSelection(state.selection);
-  //
-  //     // When clicking on a element inside the bubble menu the editor "blur" event
-  //     // is called and the bubble menu item is focussed. In this case we should
-  //     // consider the menu as part of the editor and keep showing the menu
-  //     const isChildOfMenu = element.current!!.contains(document.activeElement);
-  //
-  //     const hasEditorFocus = view.hasFocus() || isChildOfMenu;
-  //
-  //     if (!hasEditorFocus || empty || isEmptyTextBlock || !editor.isEditable) {
-  //       return false;
-  //     }
-  //
-  //     return true;
-  //   }
-  //   , [editor]);
-
   return <BubbleMenu className={`bubble-menu-group w-64`} editor={editor} updateDelay={800}>
-    {isShowAccept && <div className={'change-buttons'}>
-      <button
-        className="rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
-        onClick={() => {
-          editor?.commands?.acceptChange();
-        }}
-      >Accept
-      </button>
-      <button
-        className="rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
-        onClick={() => {
-          editor?.commands?.rejectChange();
-        }}
-      >Reject
-      </button>
-    </div>
-    }
     <div className={'bubble-menu-tier1'}>
+      {isShowAccept && <>
+        <button
+          className="rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black"
+          onClick={() => {
+            editor?.commands?.acceptChange();
+          }}
+        >Accept
+        </button>
+        <button
+          className="rounded-md bg-blue-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black"
+          onClick={() => {
+            editor?.commands?.rejectChange();
+          }}
+        >Reject
+        </button>
+      </>
+      }
       <div className="bubble-dropdown">
         {loading && <BounceLoader color={'#8A4FFF'} size={38} />}
         {!loading && <Button variant="soft" onClick={handleToggle} className={'b3-color-bg-red text-white'}>
