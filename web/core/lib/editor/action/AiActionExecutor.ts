@@ -70,7 +70,9 @@ export class AiActionExecutor {
   }
 
   private async handleTextOrDiff(action: PromptAction, prompt: string): Promise<string | undefined> {
-    this.editor.commands?.setTrackChangeStatus(true);
+    if (action.changeForm == ChangeForm.DIFF) {
+      this.editor.commands?.setTrackChangeStatus(true);
+    }
 
     this.editor.setEditable(false);
 
@@ -82,7 +84,10 @@ export class AiActionExecutor {
     const text = await response.text();
     this.editor.setEditable(true);
 
-    this.editor.commands?.setTrackChangeStatus(false);
+    if (action.changeForm == ChangeForm.DIFF) {
+      this.editor.commands?.setTrackChangeStatus(true);
+    }
+
     return text;
   }
 
@@ -101,7 +106,7 @@ export class AiActionExecutor {
   }
 
   public async execute(action: PromptAction) {
-    console.log('execute action', action);
+    console.info('execute action', action);
     if (action.builtinFunction) {
       const executor = new BuiltinFunctionExecutor(this.editor);
       return await executor.execute(action);
@@ -117,10 +122,6 @@ export class AiActionExecutor {
     }
 
     console.info('compiledTemplate: \n\n', prompt);
-
-    if (action.changeForm == ChangeForm.DIFF) {
-      this.editor.commands?.setTrackChangeStatus(true);
-    }
 
     switch (action.outputForm) {
       case OutputForm.STREAMING:
