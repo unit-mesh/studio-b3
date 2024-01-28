@@ -1,8 +1,19 @@
-# Studio B3
+<p align="center">
+  <img src="docs/logo.svg" width="160px" height="160px"  alt="logo" />
+</p>
+<h1 align="center">Studio B3</h1>
 
-[![Deploy](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg)](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml)
-![npm](https://img.shields.io/npm/v/b3-editor)
-![GitHub release (with filter)](https://img.shields.io/github/v/release/unit-mesh/b3)
+<p align="center">
+    <a href="https://github.com/unit-mesh/3b/actions/workflows/deploy.yml">
+        <img src="https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg" alt="Deploy">
+    </a>
+    <a href="https://www.npmjs.com/package/b3-editor">
+        <img src="https://img.shields.io/npm/v/b3-editor" alt="npm">
+    </a>
+    <a href="https://github.com/unit-mesh/b3/releases">
+        <img src="https://img.shields.io/github/v/release/unit-mesh/b3" alt="GitHub release (with filter)">
+    </a>
+</p>
 
 > Studio B3 是一个为内容创作设计的高级编辑器，适用于各种格式，如博客、文章、用户故事等。
 

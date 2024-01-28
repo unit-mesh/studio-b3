@@ -3,11 +3,19 @@
 </p>
 <h1 align="center">Studio B3</h1>
 
-Chinese version: [中文版](./README.zh.md)
+<p align="center">
+    <a href="https://github.com/unit-mesh/3b/actions/workflows/deploy.yml">
+        <img src="https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg" alt="Deploy">
+    </a>
+    <a href="https://www.npmjs.com/package/b3-editor">
+        <img src="https://img.shields.io/npm/v/b3-editor" alt="npm">
+    </a>
+    <a href="https://github.com/unit-mesh/b3/releases">
+        <img src="https://img.shields.io/github/v/release/unit-mesh/b3" alt="GitHub release (with filter)">
+    </a>
+</p>
 
-[![Deploy](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml/badge.svg)](https://github.com/unit-mesh/3b/actions/workflows/deploy.yml)
-[![npm](https://img.shields.io/npm/v/b3-editor)](https://www.npmjs.com/package/b3-editor)
-![GitHub release (with filter)](https://img.shields.io/github/v/release/unit-mesh/b3)
+Chinese version: [中文版](./README.zh.md)
 
 > Studio B3 (B-3 Bomber) is a sophisticated editor designed for content creation, catering to various formats such as
 > blogs, articles, user stories, and more.
