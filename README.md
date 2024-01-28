@@ -1,4 +1,7 @@
-# Studio B3
+<p align="center">
+  <img src="docs/logo.svg" width="160px" height="160px"  alt="logo" />
+</p>
+<h1 align="center">Studio B3</h1>
 
 Chinese version: [中文版](./README.zh.md)
 
