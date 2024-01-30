@@ -29,6 +29,10 @@ About name: In the documentary "10 Years with Hayao Miyazaki"  the esteemed arti
 pencil,
 deeming conventional ones too inflexible for his creative process. Let us pay homage to his lofty ideals.
 
+<p align="center">
+  <img src="docs/architecture.svg" alt="architecture diagram" />
+</p>
+
 Roadmap: see [Roadmap](https://github.com/unit-mesh/3b/issues/1)
 
 Online Demo: [https://editor.unitmesh.cc/](https://editor.unitmesh.cc/)

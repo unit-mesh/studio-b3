@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="616px" height="284px" viewBox="0 0 616 284" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
+    <title>b3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="192" height="48"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="192" height="48" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="b3">
+            <g id="Group-3" transform="translate(1.000000, 236.000000)">
+                <rect id="Rectangle" stroke="#011C32" fill="#CC850A" x="0.5" y="0.5" width="191" height="47"></rect>
+                <text id="Tiptap-（ProseMirror）" font-family="Monaco" font-size="18" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="63.5947266" y="22">Tiptap</tspan>
+                    <tspan x="51.168" y="45" font-family="PingFangSC-Regular, PingFang SC" font-size="12">（ProseMirror）</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(213.000000, 236.000000)">
+                <rect id="Rectangle" stroke="#011C32" fill="#CC850A" x="0.5" y="0.5" width="190" height="47"></rect>
+                <text id="EdgeInfer" font-family="Monaco" font-size="18" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="46.8920898" y="31">EdgeInfer</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(213.000000, 136.000000)">
+                <rect id="Rectangle" stroke="#011C32" fill="#013D4F" x="0.5" y="0.5" width="190" height="31"></rect>
+                <text id="Intelligence" font-family="Monaco" font-size="14" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="45.0917969" y="21">Intelligence</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(423.000000, 136.000000)">
+                <rect id="Rectangle" stroke="#011C32" fill="#6B9E78" x="0.5" y="0.5" width="191" height="31"></rect>
+                <text id="Context-API" font-family="Monaco" font-size="14" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="50.2924805" y="21">Context API</tspan>
+                </text>
+            </g>
+            <g id="Group-4">
+                <g id="Group-2">
+                    <rect id="Rectangle" stroke="#011C32" fill="#DA4167" x="0.5" y="0.5" width="191" height="167"></rect>
+                    <text id="UI" font-family="Monaco" font-size="18" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="13.1982422" y="91">UI</tspan>
+                    </text>
+                </g>
+                <rect id="Rectangle" stroke="#011C32" fill="#FFFFFF" x="49.5" y="7.5" width="135" height="26" rx="4"></rect>
+                <rect id="Rectangle" stroke="#011C32" fill="#FFFFFF" x="49.5" y="39.5" width="135" height="26" rx="4"></rect>
+                <rect id="Rectangle" stroke="#011C32" fill="#FFFFFF" x="49.5" y="70.5" width="135" height="27" rx="4"></rect>
+                <rect id="Rectangle" stroke="#011C32" fill="#FFFFFF" x="49.5" y="102.5" width="135" height="26" rx="4"></rect>
+                <rect id="Rectangle" stroke="#011C32" fill="#FFFFFF" x="49.5" y="134.5" width="135" height="26" rx="4"></rect>
+                <text id="Toolbar" font-family="Monaco" font-size="12" font-weight="normal" fill="#011C32">
+                    <tspan x="92.2958984" y="25">Toolbar</tspan>
+                </text>
+                <text id="/Slash-Command" fill="#011C32" font-family="Monaco" font-size="12" font-weight="normal">
+                    <tspan x="67.0917969" y="57">/</tspan>
+                    <tspan x="74.2929688" y="57">Slash Command</tspan>
+                </text>
+                <text id="BubbleMenu" fill="#011C32" font-family="Monaco" font-size="12" font-weight="normal">
+                    <tspan x="81.4941406" y="88">BubbleMenu</tspan>
+                </text>
+                <text id="Quick-Insert" font-family="Monaco" font-size="12" font-weight="normal" fill="#011C32">
+                    <tspan x="74.2929688" y="119">Quick Insert</tspan>
+                </text>
+                <text id="Inline-Completion" font-family="Monaco" font-size="12" font-weight="normal" fill="#011C32">
+                    <tspan x="56.2900391" y="152">Inline Completion</tspan>
+                </text>
+            </g>
+            <g id="Group" transform="translate(1.000000, 178.000000)">
+                <rect id="Rectangle" stroke="#011C32" fill="#48A178" x="0.5" y="0.5" width="613" height="47"></rect>
+                <text id="Abstract-API" font-family="Monaco" font-size="18" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="242.689453" y="31">Abstract API</tspan>
+                </text>
+            </g>
+            <g id="Group-5" transform="translate(424.000000, 236.000000)">
+                <use id="Rectangle" stroke="#011C32" mask="url(#mask-2)" stroke-width="2" fill="#CCCCCC" stroke-dasharray="8,8" xlink:href="#path-1"></use>
+                <text id="ExtTool-API" font-family="Monaco" font-size="18" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="36.590332" y="31">ExtTool API</tspan>
+                </text>
+            </g>
+            <rect id="Rectangle" stroke="#011C32" fill="#013D4F" x="213.5" y="0.5" width="42" height="128"></rect>
+            <rect id="Rectangle" stroke="#011C32" fill="#D8D8D8" x="262.5" y="0.5" width="42" height="128"></rect>
+            <rect id="Rectangle" stroke="#011C32" fill="#D8D8D8" x="312.5" y="0.5" width="42" height="128"></rect>
+            <rect id="Rectangle" stroke="#011C32" fill="#D8D8D8" x="361.5" y="0.5" width="42" height="128"></rect>
+            <text id="Similarity" transform="translate(234.500000, 65.000000) rotate(90.000000) translate(-234.500000, -65.000000) " font-family="Monaco" font-size="14" font-weight="normal" fill="#FFFFFF">
+                <tspan x="192.493164" y="70">Similarity</tspan>
+            </text>
+            <text id="Prediction" transform="translate(283.500000, 65.000000) rotate(90.000000) translate(-283.500000, -65.000000) " font-family="Monaco" font-size="14" font-weight="normal" fill="#011C32">
+                <tspan x="241.493164" y="70">Prediction</tspan>
+            </text>
+            <text id="Grammar" transform="translate(333.500000, 65.000000) rotate(90.000000) translate(-333.500000, -65.000000) " font-family="Monaco" font-size="14" font-weight="normal" fill="#011C32">
+                <tspan x="304.095215" y="70">Grammar</tspan>
+            </text>
+            <text id="MML" transform="translate(382.500000, 65.000000) rotate(90.000000) translate(-382.500000, -65.000000) " font-family="Monaco" font-size="14" font-weight="normal" fill="#011C32">
+                <tspan x="369.897949" y="70">MML</tspan>
+            </text>
+            <rect id="Rectangle" stroke="#011C32" fill="#6B9E78" x="424.5" y="0.5" width="57" height="128"></rect>
+            <text id="Variable" transform="translate(453.000000, 65.000000) rotate(90.000000) translate(-453.000000, -65.000000) " font-family="Monaco" font-size="14" font-weight="normal" fill="#FFFFFF">
+                <tspan x="419.394531" y="67">Variable</tspan>
+            </text>
+            <rect id="Rectangle" stroke="#011C32" fill="#6B9E78" x="490.5" y="0.5" width="58" height="128"></rect>
+            <text id="Custom-Context" transform="translate(519.500000, 65.000000) rotate(90.000000) translate(-519.500000, -65.000000) " font-family="Monaco" font-size="14" font-weight="normal" fill="#FFFFFF">
+                <tspan x="460.69043" y="66.5">Custom Context</tspan>
+            </text>
+            <rect id="Rectangle" stroke="#011C32" fill="#6B9E78" x="557.5" y="0.5" width="57" height="128"></rect>
+            <text id="Ext-Context" transform="translate(586.000000, 65.500000) rotate(90.000000) translate(-586.000000, -65.500000) " font-family="Monaco" font-size="14" font-weight="normal" fill="#FFFFFF">
+                <tspan x="539.79248" y="67.5">Ext Context</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
