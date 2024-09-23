@@ -6,7 +6,7 @@ import { BuiltinFunctionExecutor } from '@/editor/action/BuiltinFunctionExecutor
 
 export class AiActionExecutor {
   editor: Editor;
-  endpointUrl: string = '/api/completion/mock';
+  endpointUrl: string = '/api/completion';
 
   constructor() {
   }
@@ -38,11 +38,13 @@ export class AiActionExecutor {
 
     const response = await fetch(this.endpoint(action), {
       method: 'POST',
-      body: JSON.stringify({ prompt: prompt })
+      body: JSON.stringify({ prompt: prompt }),
+      headers: { Accept: 'text/event-stream' }
     });
 
     let allText = '';
     let buffer = '';
+    console.info(response.body)
     await response.body?.pipeThrough(new TextDecoderStream()).pipeTo(
       new WritableStream({
         write: (chunk) => {
