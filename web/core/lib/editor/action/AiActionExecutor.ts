@@ -84,7 +84,7 @@ export class AiActionExecutor {
     this.editor.setEditable(true);
   }
 
-  private async handleTextOrDiff(action: PromptAction, prompt: string): Promise<string | undefined> {
+  async handleTextOrDiff(action: PromptAction, prompt: string): Promise<string | undefined> {
     this.editor.setEditable(false);
 
     const response = await fetch(this.endpoint(action), {
@@ -98,7 +98,7 @@ export class AiActionExecutor {
     return text;
   }
 
-  private async handleDefault(action: PromptAction, prompt: string) {
+  async handleDefault(action: PromptAction, prompt: string) {
     this.editor.setEditable(false);
     const response = await fetch(this.endpoint(action), {
       method: 'POST',
