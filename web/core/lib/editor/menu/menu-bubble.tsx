@@ -74,7 +74,7 @@ export const MenuBubble = ({ editor }: {
                   setIsOpen(false);
                   setLoading(true);
 
-                  const text = editor.commands?.callLlm(menu);
+                  const text = await editor.commands?.callLlm(menu)
                   setLoading(false);
 
                   const newComment = newAdvice(text || '');
@@ -93,10 +93,10 @@ export const MenuBubble = ({ editor }: {
             return <li key={index}>
               <Button
                 className="dropdown-item w-full"
-                onClick={(event) => {
+                onClick={async (event) => {
                   event.preventDefault();
                   setIsOpen(false);
-                  editor.chain().callLlm(menu);
+                  await editor.chain().callLlm(menu);
                   editor.view?.focus();
                 }}
               >

@@ -8,6 +8,10 @@ export interface Advice {
 }
 
 export const newAdvice = (content: string): Advice => {
+	if (typeof content !== "string") {
+		console.log("content is: typeof content", typeof content);
+	}
+
 	return {
 		id: `a${v4()}a`,
 		content,
