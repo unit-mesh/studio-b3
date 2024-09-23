@@ -5,8 +5,8 @@ import { MarkdownParser } from '@/../node_modules/tiptap-markdown/src/parse/Mark
 import { BuiltinFunctionExecutor } from '@/editor/action/BuiltinFunctionExecutor';
 
 export class AiActionExecutor {
-  private editor: Editor;
-  private endpointUrl: string = '/api/completion/mock';
+  editor: Editor;
+  endpointUrl: string = '/api/completion/mock';
 
   constructor() {
   }
@@ -28,11 +28,11 @@ export class AiActionExecutor {
    * TODO: will according the {@link PromptAction.useModel} to return the endpoint in future
    * @param action
    */
-  endpoint(_action: PromptAction) {
+  endpoint(action: PromptAction) {
     return this.endpointUrl;
   }
 
-  private async handleStreaming(action: PromptAction, prompt: string) {
+  async handleStreaming(action: PromptAction, prompt: string) {
     this.editor.setEditable(false);
     const originalSelection = this.editor.state.selection;
 
@@ -112,7 +112,7 @@ export class AiActionExecutor {
     this.editor.setEditable(true);
   }
 
-  public async execute(action: PromptAction) {
+  async execute(action: PromptAction) {
     console.info('execute action', action);
     if (action.builtinFunction) {
       const executor = new BuiltinFunctionExecutor(this.editor);
