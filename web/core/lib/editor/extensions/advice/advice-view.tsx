@@ -46,7 +46,7 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 	}, []);
 
 	return <section
-		className='flex flex-col border w-96 h-screen border-slate-200 bg-gray-50 dark:bg-gray-400 lg:flex md:hidden sm:hidden hidden'
+		className='flex flex-col border w-96 h-screen border-slate-200 lg:flex md:hidden sm:hidden hidden'
 		ref={advicesSectionRef}>
 		{advices.length ? (advices.map(advice => (
 				<div
@@ -78,7 +78,6 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 						<button
 							className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 							onClick={() => {
-								console.log(advice.content)
 								editor.commands?.replaceRange(advice.content)
 								setActiveId(null)
 								editor.commands.unsetAdvice(advice.id)
