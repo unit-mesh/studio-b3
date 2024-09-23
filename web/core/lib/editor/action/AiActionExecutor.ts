@@ -98,7 +98,7 @@ export class AiActionExecutor {
 
     const response = await fetch(this.endpoint(action), {
       method: 'POST',
-      body: JSON.stringify({ prompt: prompt })
+      body: JSON.stringify({ prompt: prompt, stream: false })
     });
 
     const text = await response.text();
@@ -119,6 +119,8 @@ export class AiActionExecutor {
     this.editor.chain().focus()?.insertContentAt(posInfo, msg).run();
 
     this.editor.setEditable(true);
+
+    return msg;
   }
 
   async execute(action: PromptAction) {
@@ -149,8 +151,7 @@ export class AiActionExecutor {
         return await this.handleTextOrDiff(action, prompt);
 
       default:
-        await this.handleDefault(action, prompt);
-        return undefined;
+        return this.handleDefault(action, prompt);
     }
   }
 }
