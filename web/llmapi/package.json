@@ -1,6 +1,6 @@
 {
   "name": "@studio-b3/llmapi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "main": "dist/index.mjs",
   "types": "dist-types/index.d.ts",
