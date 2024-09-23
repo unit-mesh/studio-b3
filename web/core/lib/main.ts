@@ -15,3 +15,6 @@ export { AdviceManager } from '@/editor/extensions/advice/advice-manager';
 export { AdviceView } from '@/editor/extensions/advice/advice-view';
 export { Settings } from '@/editor/components/settings';
 export { AiActionExecutor } from '@/editor/action/AiActionExecutor.ts';
+export { OutputForm } from '@/editor/defs/custom-action.type';
+export { actionPosition, PromptCompiler } from '@/editor/action/PromptCompiler';
+export { BuiltinFunctionExecutor } from '@/editor/action/BuiltinFunctionExecutor';

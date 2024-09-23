@@ -28,7 +28,7 @@ export class AiActionExecutor {
    * TODO: will according the {@link PromptAction.useModel} to return the endpoint in future
    * @param action
    */
-  endpoint(action: PromptAction) {
+  endpoint(_action: PromptAction) {
     return this.endpointUrl;
   }
 
@@ -62,6 +62,11 @@ export class AiActionExecutor {
         }
       })
     );
+
+    if (this.editor == null) {
+      console.error('editor is not, can not insert content');
+      return;
+    }
 
     const pos = actionPosition(action, this.editor.state.selection);
     this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
