@@ -11,27 +11,25 @@ import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
 
-import { useTranslation } from "react-i18next";
 import MarkdownIt from 'markdown-it'
+import { useTranslation } from "react-i18next";
 import { useDebounce } from 'use-debounce';
 
 import "./editor.css"
 
 import { InlineCompletion } from "@/editor/extensions/inline-completion/inline-completion";
 import { MenuBubble } from '@/editor/menu/menu-bubble'
-import { createSlashExtension } from './extensions/slash-command/slash-extension'
+import { createSlashExtension } from '@/editor/extensions/slash-command/slash-extension.ts'
 import { createQuickBox } from '@/editor/extensions/quick-box/quick-box-extension'
 import { AdviceExtension } from '@/editor/extensions/advice/advice-extension';
-
-import { ToolbarMenu } from './menu/toolbar-menu'
-import { CustomEditorCommands } from './action/custom-editor-commands'
-import { Sidebar } from './components/sidebar'
+import { ToolbarMenu } from '@/editor/menu/toolbar-menu.tsx'
+import { CustomEditorCommands } from '@/editor/action/custom-editor-commands.ts'
+import { Sidebar } from '@/editor/components/sidebar.tsx'
 import { Advice } from "@/editor/extensions/advice/advice";
 import { AdviceManager } from "@/editor/extensions/advice/advice-manager";
 import { AdviceView } from "@/editor/extensions/advice/advice-view";
 import { Settings } from "@/editor/components/settings";
 import { PromptsManager } from '@/editor/prompts/prompts-manager.ts';
-
 
 const md = new MarkdownIt()
 
@@ -61,7 +59,7 @@ export const setupExtensions = (promptsManager: PromptsManager = PromptsManager.
 				keepAttributes: false,
 			},
 		}),
-		createSlashExtension('ai-slash', promptsManager),
+		createSlashExtension(promptsManager),
 		createQuickBox(),
 		CharacterCount.configure({}),
 		Color.configure({ types: [TextStyle.name, ListItem.name] }),

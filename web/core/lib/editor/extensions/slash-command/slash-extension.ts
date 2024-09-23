@@ -7,7 +7,9 @@ import { PluginKey } from '@tiptap/pm/state';
 import { FacetType } from '@/editor/defs/custom-action.type';
 import { PromptsManager } from '@/editor/prompts/prompts-manager';
 
-export const createSlashExtension = (extensionName: string, promptsManager: PromptsManager = PromptsManager.getInstance()) => {
+export const createSlashExtension = (promptsManager: PromptsManager = PromptsManager.getInstance()) => {
+	const extensionName = 'ai-slash';
+
 	return Node.create({
 		name: "slash-command",
 		addOptions() {
