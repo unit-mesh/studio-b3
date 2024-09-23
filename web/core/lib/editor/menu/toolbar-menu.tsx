@@ -25,7 +25,7 @@ export interface ToolbarProps {
 }
 
 export const ToolbarMenu = ({ editor, isBubbleMenu = false, className }: ToolbarProps) => {
-	return (
+	return <Theme>
 		<ToggleGroup.Root
 			className={`${className} toggle-group`}
 			type="single"
@@ -140,5 +140,5 @@ export const ToolbarMenu = ({ editor, isBubbleMenu = false, className }: Toolbar
 				<ToolbarAiDropdown editor={editor}/>
 			</> }
 		</ToggleGroup.Root>
-	)
+	</Theme>
 }
