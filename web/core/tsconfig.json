@@ -20,9 +20,7 @@
     // "strict": true,
     // "noUnusedLocals": true,
     // "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    // no-unused-vars
-    "noUnusedVars": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["lib"],
   "references": [
