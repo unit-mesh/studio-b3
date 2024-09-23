@@ -63,6 +63,11 @@ export class AiActionExecutor {
       })
     );
 
+    if (buffer.length > 0) {
+      const pos = actionPosition(action, this.editor.state.selection);
+      this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
+    }
+
     if (this.editor == null) {
       console.error('editor is not, can not insert content');
       return;
