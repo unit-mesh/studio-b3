@@ -49,6 +49,8 @@ export class AiActionExecutor {
           allText += chunk;
           buffer = buffer.concat(chunk);
 
+          console.info('buffer', buffer);
+
           if (buffer.includes('\n')) {
             const pos = actionPosition(action, this.editor.state.selection);
             this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
