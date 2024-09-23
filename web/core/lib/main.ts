@@ -18,3 +18,6 @@ export { AiActionExecutor } from '@/editor/action/AiActionExecutor.ts';
 export { OutputForm } from '@/editor/defs/custom-action.type';
 export { actionPosition, PromptCompiler } from '@/editor/action/PromptCompiler';
 export { BuiltinFunctionExecutor } from '@/editor/action/BuiltinFunctionExecutor';
+export {
+  default as ArticlePrompts, ToolbarMenuPrompts, BubbleMenuPrompts, SlashCommandsPrompts
+} from '@/editor/prompts/article-prompts';

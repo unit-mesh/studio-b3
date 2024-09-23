@@ -7,7 +7,7 @@ import {
 	PromptAction, 
 } from "@/editor/defs/custom-action.type";
 
-const ToolbarMenu: PromptAction[] = [
+export const ToolbarMenuPrompts: PromptAction[] = [
 	{
 		name: 'Generate Outline',
 		i18Name: true,
@@ -38,7 +38,7 @@ const ToolbarMenu: PromptAction[] = [
 	},
 ];
 
-const BubbleMenu: PromptAction[] = [
+export const BubbleMenuPrompts: PromptAction[] = [
 	{
 		name: 'Polish',
 		i18Name: true,
@@ -71,7 +71,7 @@ const BubbleMenu: PromptAction[] = [
 	}
 ];
 
-const SlashCommands: PromptAction[] = [
+export const SlashCommandsPrompts: PromptAction[] = [
 	{
 		name: 'Summarize',
 		i18Name: true,
@@ -96,9 +96,9 @@ const SlashCommands: PromptAction[] = [
 ]
 
 const ArticlePrompts: PromptAction[] = [
-	ToolbarMenu,
-	BubbleMenu,
-	SlashCommands
+	ToolbarMenuPrompts,
+	BubbleMenuPrompts,
+	SlashCommandsPrompts
 ].flat();
 
 export default ArticlePrompts;
