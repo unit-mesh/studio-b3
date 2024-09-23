@@ -135,10 +135,10 @@ export const ToolbarMenu = ({ editor, isBubbleMenu = false, className }: Toolbar
 				<DividerHorizontalIcon/>
 			</ToggleGroup.Item>
 
-      { !isBubbleMenu && <>
-        <div className="empty-separator" />
-        <ToolbarAiDropdown editor={editor}/>
-      </> }
+			{ !isBubbleMenu && <>
+				<div className="empty-separator" />
+				<ToolbarAiDropdown editor={editor}/>
+			</> }
 		</ToggleGroup.Root>
 	)
 }

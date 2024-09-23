@@ -6,10 +6,16 @@ import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
 import { CharacterCount } from "@tiptap/extension-character-count";
-import { useTranslation } from "react-i18next";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
 
+import { useTranslation } from "react-i18next";
 import MarkdownIt from 'markdown-it'
 import { useDebounce } from 'use-debounce';
+
+import "./editor.css"
 
 import { InlineCompletion } from "@/editor/extensions/inline-completion/inline-completion";
 import { MenuBubble } from '@/editor/menu/menu-bubble'
@@ -20,20 +26,15 @@ import { AdviceExtension } from '@/editor/extensions/advice/advice-extension';
 import { ToolbarMenu } from './menu/toolbar-menu'
 import { CustomEditorCommands } from './action/custom-editor-commands'
 import { Sidebar } from './components/sidebar'
-
-import "./editor.css"
 import { Advice } from "@/editor/extensions/advice/advice";
 import { AdviceManager } from "@/editor/extensions/advice/advice-manager";
 import { AdviceView } from "@/editor/extensions/advice/advice-view";
 import { Settings } from "@/editor/components/settings";
-import { Table } from "@tiptap/extension-table";
-import { TableRow } from "@tiptap/extension-table-row";
-import { TableCell } from "@tiptap/extension-table-cell";
-import { TableHeader } from "@tiptap/extension-table-header";
+
 
 const md = new MarkdownIt()
 
-const extensions: any = [
+export const extensions = [
 	// we define all commands here
 	CustomEditorCommands,
 	AdviceExtension.configure({
@@ -86,7 +87,6 @@ const LiveEditor = () => {
 	const [debouncedEditor] = useDebounce(editor?.state.doc.content, 2000);
 	useEffect(() => {
 		if (debouncedEditor) {
-			// @ts-ignore
 			localStorage.setItem('editor', JSON.stringify(editor.getJSON()))
 		}
 	}, [debouncedEditor]);
