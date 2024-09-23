@@ -14,8 +14,8 @@ import {
 } from '@radix-ui/react-icons'
 import React from 'react'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
-import { Editor } from "@tiptap/core";
-
+import { Editor } from "@tiptap/core"
+import { Theme } from '@radix-ui/themes'
 import { ToolbarAiDropdown } from '@/editor/menu/toolbar-ai-dropdown'
 
 export interface ToolbarProps {
