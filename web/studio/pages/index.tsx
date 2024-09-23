@@ -4,7 +4,6 @@ import "../styles/editor-styles.css"
 import styles from '../styles/Home.module.css'
 import {LiveEditor} from '@studio-b3/web-core'
 import '@/i18n/i18n';
-import { Theme } from '@radix-ui/themes';
 
 export default function Home() {
   return (
@@ -16,9 +15,7 @@ export default function Home() {
 
       <main>
         <div>
-          <Theme>
-            <LiveEditor />
-          </Theme>
+          <LiveEditor />
         </div>
       </main>
     </div>
