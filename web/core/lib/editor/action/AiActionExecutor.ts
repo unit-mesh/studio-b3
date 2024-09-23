@@ -12,6 +12,10 @@ export class AiActionExecutor {
   }
 
   setEditor(editor: Editor) {
+    if (editor == null) {
+      console.error('editor is null, will not set it');
+      return;
+    }
     this.editor = editor;
   }
 
