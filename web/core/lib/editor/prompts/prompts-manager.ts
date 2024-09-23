@@ -6,8 +6,6 @@ import { TypeOptions } from "@/editor/defs/type-options.type";
 import RequirementsPrompts from "@/editor/prompts/requirements-prompts";
 
 export class PromptsManager {
-	private backgroundContext: string = "";
-
 	private constructor() {
 	}
 

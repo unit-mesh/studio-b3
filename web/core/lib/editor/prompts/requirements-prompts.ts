@@ -1,6 +1,6 @@
 import { ChangeForm, DefinedVariable, FacetType, OutputForm, PromptAction } from "@/editor/defs/custom-action.type";
 
-const ToolbarMenu: PromptAction[] = [
+const ToolbarMenuPrompts: PromptAction[] = [
 	{
 		name: 'Generate Requirements',
 		i18Name: true,
@@ -10,7 +10,7 @@ const ToolbarMenu: PromptAction[] = [
 	}
 ];
 
-const BubbleMenu: PromptAction[] = [
+const BubbleMenuPrompts: PromptAction[] = [
 	{
 		name: '细化需求',
 		i18Name: true,
@@ -28,7 +28,7 @@ const BubbleMenu: PromptAction[] = [
 	}
 ];
 
-const SlashCommands: PromptAction[] = [
+const SlashCommandsPrompts: PromptAction[] = [
 	{
 		name: '需求细化',
 		i18Name: true,
@@ -70,9 +70,9 @@ const SlashCommands: PromptAction[] = [
 ]
 
 const RequirementsPrompts: PromptAction[] = [
-	ToolbarMenu,
-	BubbleMenu,
-	SlashCommands
+	ToolbarMenuPrompts,
+	BubbleMenuPrompts,
+	SlashCommandsPrompts
 ].flat();
 
 export default RequirementsPrompts;
