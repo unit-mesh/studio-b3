@@ -35,10 +35,10 @@ import { AiActionExecutor } from '@/editor/action/AiActionExecutor.ts';
 
 const md = new MarkdownIt();
 
-export const setupExtensions = (promptsManager: PromptsManager) => {
+export const setupExtensions = (promptsManager: PromptsManager, actionExecutor: AiActionExecutor) => {
   return [
     // we define all commands here
-    CustomEditorCommands(new AiActionExecutor(), promptsManager,),
+    CustomEditorCommands(actionExecutor, promptsManager,),
     AdviceExtension.configure({
       HTMLAttributes: {
         class: 'my-advice'
@@ -77,8 +77,9 @@ export const setupExtensions = (promptsManager: PromptsManager) => {
 const LiveEditor = () => {
   const { t } = useTranslation();
 
+  const actionExecutor = new AiActionExecutor();
   const editor = useEditor({
-    extensions: setupExtensions(PromptsManager.getInstance()),
+    extensions: setupExtensions(PromptsManager.getInstance(), actionExecutor),
     content: md.render(t('Editor Placeholder')),
     editorProps: {
       attributes: {
