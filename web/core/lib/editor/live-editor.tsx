@@ -31,13 +31,14 @@ import { AdviceManager } from '@/editor/extensions/advice/advice-manager';
 import { AdviceView } from '@/editor/extensions/advice/advice-view';
 import { Settings } from '@/editor/components/settings';
 import { PromptsManager } from '@/editor/prompts/prompts-manager.ts';
+import { AiActionExecutor } from '@/editor/action/AiActionExecutor.ts';
 
 const md = new MarkdownIt();
 
-export const setupExtensions = (promptsManager: PromptsManager = PromptsManager.getInstance()) => {
+export const setupExtensions = (promptsManager: PromptsManager) => {
   return [
     // we define all commands here
-    CustomEditorCommands(promptsManager),
+    CustomEditorCommands(new AiActionExecutor(), promptsManager,),
     AdviceExtension.configure({
       HTMLAttributes: {
         class: 'my-advice'

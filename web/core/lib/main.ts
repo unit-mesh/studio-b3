@@ -14,3 +14,4 @@ export { Sidebar } from '@/editor/components/sidebar.tsx';
 export { AdviceManager } from '@/editor/extensions/advice/advice-manager';
 export { AdviceView } from '@/editor/extensions/advice/advice-view';
 export { Settings } from '@/editor/components/settings';
+export { AiActionExecutor } from '@/editor/action/AiActionExecutor.ts';

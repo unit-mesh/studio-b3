@@ -1,25 +1,31 @@
 import { Editor } from '@tiptap/core';
-import { ChangeForm, OutputForm, PromptAction } from '@/editor/defs/custom-action.type';
+import { OutputForm, PromptAction } from '@/editor/defs/custom-action.type';
 import { actionPosition, PromptCompiler } from '@/editor/action/PromptCompiler';
-
-// @ts-ignore
 import { MarkdownParser } from '@/../node_modules/tiptap-markdown/src/parse/MarkdownParser';
 import { BuiltinFunctionExecutor } from '@/editor/action/BuiltinFunctionExecutor';
 
 export class AiActionExecutor {
-  private readonly editor: Editor;
+  private editor: Editor;
+  private endpointUrl: string = '/api/completion/mock';
 
-  constructor(editor: Editor) {
+  constructor() {
+  }
+
+  setEditor(editor: Editor) {
     this.editor = editor;
   }
+
+  setEndpointUrl(url: string) {
+    this.endpointUrl = url;
+  }
+
 
   /**
    * TODO: will according the {@link PromptAction.useModel} to return the endpoint in future
    * @param action
    */
   endpoint(action: PromptAction) {
-    const endpoint = '/api/completion/mock';
-    return endpoint;
+    return this.endpointUrl;
   }
 
   private async handleStreaming(action: PromptAction, prompt: string) {

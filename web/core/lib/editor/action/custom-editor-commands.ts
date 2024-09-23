@@ -35,7 +35,10 @@ declare module '@tiptap/core' {
 
 let articleType = ARTICLE_TYPE_OPTIONS[0];
 
-export const CustomEditorCommands = (promptsManager: PromptsManager = PromptsManager.getInstance()) => {
+export const CustomEditorCommands = (
+  actionHandler: AiActionExecutor,
+  promptsManager: PromptsManager = PromptsManager.getInstance()
+) => {
   return Extension.create({
     name: 'commandFunctions',
 
@@ -56,7 +59,7 @@ export const CustomEditorCommands = (promptsManager: PromptsManager = PromptsMan
         callLlm:
           (action: PromptAction) =>
             async ({ tr, commands, editor }: { tr: Transaction; commands: Commands, editor: Editor }) => {
-              const actionHandler = new AiActionExecutor(editor);
+              actionHandler.setEditor(editor);
               return await actionHandler.execute(action);
             },
         getAiActions:
