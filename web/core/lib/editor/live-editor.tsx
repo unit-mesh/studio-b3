@@ -30,52 +30,55 @@ import { Advice } from "@/editor/extensions/advice/advice";
 import { AdviceManager } from "@/editor/extensions/advice/advice-manager";
 import { AdviceView } from "@/editor/extensions/advice/advice-view";
 import { Settings } from "@/editor/components/settings";
+import { PromptsManager } from '@/editor/prompts/prompts-manager.ts';
 
 
 const md = new MarkdownIt()
 
-export const extensions = [
-	// we define all commands here
-	CustomEditorCommands,
-	AdviceExtension.configure({
-		HTMLAttributes: {
-			class: "my-advice",
-		},
-		setAdviceCommand: (advice: Advice) => {
-			AdviceManager.getInstance().addAdvice(advice);
-		},
-		onAdviceActivated: (adviceId) => {
-			if (adviceId) AdviceManager.getInstance().setActiveId(adviceId);
-		},
-	}),
-	InlineCompletion,
-	StarterKit.configure({
-		bulletList: {
-			keepMarks: true,
-			keepAttributes: false,
-		},
-		orderedList: {
-			keepMarks: true,
-			keepAttributes: false,
-		},
-	}),
-	createSlashExtension('ai-slash'),
-	createQuickBox(),
-	CharacterCount.configure({}),
-	Color.configure({ types: [TextStyle.name, ListItem.name] }),
-	// @ts-ignore
-	TextStyle.configure({ types: [ListItem.name] }),
-	Table,
-	TableRow,
-	TableCell,
-	TableHeader
-]
+export const setupExtensions = (promptsManager: PromptsManager = PromptsManager.getInstance()) => {
+	return [
+		// we define all commands here
+		CustomEditorCommands(promptsManager),
+		AdviceExtension.configure({
+			HTMLAttributes: {
+				class: "my-advice",
+			},
+			setAdviceCommand: (advice: Advice) => {
+				AdviceManager.getInstance().addAdvice(advice);
+			},
+			onAdviceActivated: (adviceId) => {
+				if (adviceId) AdviceManager.getInstance().setActiveId(adviceId);
+			},
+		}),
+		InlineCompletion,
+		StarterKit.configure({
+			bulletList: {
+				keepMarks: true,
+				keepAttributes: false,
+			},
+			orderedList: {
+				keepMarks: true,
+				keepAttributes: false,
+			},
+		}),
+		createSlashExtension('ai-slash', promptsManager),
+		createQuickBox(),
+		CharacterCount.configure({}),
+		Color.configure({ types: [TextStyle.name, ListItem.name] }),
+		// @ts-ignore
+		TextStyle.configure({ types: [ListItem.name] }),
+		Table,
+		TableRow,
+		TableCell,
+		TableHeader
+	]
+}
 
 const LiveEditor = () => {
 	const { t } = useTranslation();
 
 	const editor = useEditor({
-		extensions,
+		extensions: setupExtensions(PromptsManager.getInstance()),
 		content: md.render(t('Editor Placeholder')),
 		editorProps: {
 			attributes: {

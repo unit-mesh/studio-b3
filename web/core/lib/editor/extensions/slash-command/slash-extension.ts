@@ -7,7 +7,7 @@ import { PluginKey } from '@tiptap/pm/state';
 import { FacetType } from '@/editor/defs/custom-action.type';
 import { PromptsManager } from '@/editor/prompts/prompts-manager';
 
-export const createSlashExtension = (extensionName: string) => {
+export const createSlashExtension = (extensionName: string, promptsManager: PromptsManager = PromptsManager.getInstance()) => {
 	return Node.create({
 		name: "slash-command",
 		addOptions() {
@@ -42,7 +42,7 @@ export const createSlashExtension = (extensionName: string) => {
 					},
 					items: () => {
 						const articleType = this.editor.commands.getArticleType();
-						return (PromptsManager.getInstance().getActions(FacetType.SLASH_COMMAND, articleType) || []);
+						return (promptsManager.getActions(FacetType.SLASH_COMMAND, articleType) || []);
 					},
 					render: () => {
 						let component: ReactRenderer<unknown, SlashView>;
