@@ -20,7 +20,7 @@ export const Sidebar: React.FC<any> = ({ editor }) => {
 	const { t } = useTranslation();
 
 	return <aside className={'z-40 w-96 h-screen'} aria-label="Sidebar">
-		<div className={'h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800'}>
+		<div className={'h-full px-3 py-4 overflow-y-auto'}>
 			<Accordion.Root className={'accordion-root'} type="multiple" defaultValue={['similar', 'bg-context']}>
 				<Accordion.Item className={'accordion-item'} value="item-6">
 					<AccordionTrigger>{t('Custom Related Resource Link')}</AccordionTrigger>

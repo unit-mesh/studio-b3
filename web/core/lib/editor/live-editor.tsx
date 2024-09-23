@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { EditorContent, useEditor } from '@tiptap/react'
 import { Color } from '@tiptap/extension-color'

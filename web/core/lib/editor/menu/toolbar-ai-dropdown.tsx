@@ -1,5 +1,5 @@
 import { CookieIcon } from "@radix-ui/react-icons";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Editor } from "@tiptap/core";
 import { Button, DropdownMenu } from "@radix-ui/themes";
 

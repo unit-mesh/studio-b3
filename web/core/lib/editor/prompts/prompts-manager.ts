@@ -6,7 +6,7 @@ import { TypeOptions } from "@/editor/defs/type-options.type";
 import RequirementsPrompts from "@/editor/prompts/requirements-prompts";
 
 export class PromptsManager {
-	// private backgroundContext: string = "";
+	private backgroundContext: string = "";
 
 	private constructor() {
 	}
@@ -32,7 +32,7 @@ export class PromptsManager {
 				typedPrompts = ArticlePrompts;
 		}
 
-		let actions = typedPrompts.filter(prompt => prompt.facetType === type);
+		const actions = typedPrompts.filter(prompt => prompt.facetType === type);
 		return actions.map(prompt => {
 			if (prompt.i18Name) {
 				prompt.name = i18next.t(prompt.name)
