@@ -114,18 +114,18 @@ export const QuickBoxView = ({ content, cancel, go }: AiBlockEditorProps) => {
 					<div className={"ai-block-actions"}>
 						<button
 							onClick={() => {
-								editor.commands.callAi(editor.getText() || "");
-							}}
-						>
-							Go
-							<EnterIcon/>
-						</button>
-						<button
-							onClick={() => {
 								editor.commands.cancelAi();
 							}}
 						>
 							Cancel <span>esc</span>
+						</button>
+						<button
+							onClick={() => {
+								editor.commands.callAi(editor.getText() || "");
+							}}
+						>
+							Go
+							<EnterIcon />
 						</button>
 					</div>
 				</div>
