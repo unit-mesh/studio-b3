@@ -50,7 +50,7 @@ export const setupExtensions = (promptsManager: PromptsManager, actionExecutor: 
         if (adviceId) AdviceManager.getInstance().setActiveId(adviceId);
       }
     }),
-    InlineCompletion,
+    // InlineCompletion,
     StarterKit.configure({
       bulletList: {
         keepMarks: true,
