@@ -16,6 +16,12 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
