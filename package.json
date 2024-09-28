@@ -4,7 +4,7 @@
   "directories": {
     "doc": "docs"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "scripts": {
     "serve-llmapi": "pnpm -F @studio-b3/llmapi watch",
     "serve-core": "pnpm -F @studio-b3/web-core watch",
