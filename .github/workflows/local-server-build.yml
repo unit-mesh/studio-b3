@@ -47,4 +47,5 @@ jobs:
             ${{ runner.os }}-cargo-build-
 
       - name: Build Server
-        run: cargo build --release --manifest-path=local_server/Cargo.toml
+        working-directory: local_server
+        run: cargo build --release --manifest-path=Cargo.toml
