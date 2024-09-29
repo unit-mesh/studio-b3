@@ -18,13 +18,6 @@ const BubbleMenuPrompts: PromptAction[] = [
 		facetType: FacetType.BUBBLE_MENU,
 		outputForm: OutputForm.STREAMING,
 		changeForm: ChangeForm.DIFF,
-	},
-	{
-		name: 'Polish',
-		i18Name: true,
-		template: `You are an assistant helping to polish sentence. Output in markdown format. \n ###{{${DefinedVariable.SELECTION}}}###`,
-		facetType: FacetType.BUBBLE_MENU,
-		outputForm: OutputForm.STREAMING,
 	}
 ];
 

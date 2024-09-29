@@ -19,15 +19,16 @@ export class PromptsManager {
 		return PromptsManager.instance;
 	}
 
+	actionsMap = {
+		"article": ArticlePrompts,
+		"requirements": RequirementsPrompts
+	}
+
 	getActions(type: FacetType, articleType: TypeOptions): PromptAction[] {
 		let typedPrompts: PromptAction[] = []
 
-		switch (articleType?.value) {
-			case "requirements":
-				typedPrompts = RequirementsPrompts;
-				break;
-			default:
-				typedPrompts = ArticlePrompts;
+		if (articleType?.value) {
+			typedPrompts = this.actionsMap[articleType.value]
 		}
 
 		const actions = typedPrompts.filter(prompt => prompt.facetType === type);
@@ -40,14 +41,13 @@ export class PromptsManager {
 		})
 	}
 
-	save(prompt: PromptAction[]) {
-		// todo: implement this
-	}
-
 	variableList(): string[] {
 		return Object.values(DefinedVariable);
 	}
 
+	updateActionsMap(articleType: string, prompts: PromptAction[]) {
+		this.actionsMap[articleType] = prompts
+	}
 
 	compile(string: string, data: object) {
 		const template = Handlebars.compile(string)

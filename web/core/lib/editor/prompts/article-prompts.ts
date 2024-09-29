@@ -1,6 +1,4 @@
 import {
-	BuiltInFunc,
-	ChangeForm,
 	DefinedVariable,
 	FacetType,
 	OutputForm,
@@ -39,29 +37,6 @@ export const ToolbarMenuPrompts: PromptAction[] = [
 ];
 
 export const BubbleMenuPrompts: PromptAction[] = [
-	{
-		name: 'Polish',
-		i18Name: true,
-		template: `You are an assistant helping to polish sentence. Output in markdown format. \n ###{{${DefinedVariable.SELECTION}}}###`,
-		facetType: FacetType.BUBBLE_MENU,
-		outputForm: OutputForm.STREAMING,
-	},
-	{
-		name: 'Simplify Content',
-		i18Name: true,
-		template: `You are an assistant helping to simplify content. Output in markdown format. \n ###{{${DefinedVariable.SELECTION}}}###`,
-		facetType: FacetType.BUBBLE_MENU,
-		outputForm: OutputForm.STREAMING,
-		changeForm: ChangeForm.DIFF,
-	},
-	{
-		name: 'Similar Chunk',
-		i18Name: true,
-		template: `{{${DefinedVariable.SELECTION}}}`,
-		builtinFunction: BuiltInFunc.SIMILAR_CHUNKS,
-		facetType: FacetType.BUBBLE_MENU,
-		outputForm: OutputForm.STREAMING,
-	},
 	{
 		name: 'Translate',
 		i18Name: true,

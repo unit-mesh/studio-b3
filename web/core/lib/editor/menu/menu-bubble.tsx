@@ -36,7 +36,7 @@ export const MenuBubble = ({ editor }: {
 
     innerSmartMenus.push({
       name: '润色',
-      template: `优化表达：###{{${DefinedVariable.SELECTION}}}###`,
+      template: `请润色并重写如下的内容：###{{${DefinedVariable.SELECTION}}}###`,
       facetType: FacetType.BUBBLE_MENU,
       changeForm: ChangeForm.DIFF,
       outputForm: OutputForm.TEXT
