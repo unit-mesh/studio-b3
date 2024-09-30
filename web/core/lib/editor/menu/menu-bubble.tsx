@@ -75,7 +75,6 @@ export const MenuBubble = ({ editor }: {
                   setLoading(true);
 
                   const text = await editor.commands?.callLlm(menu)
-                  console.log(text);
                   setLoading(false);
 
                   const newComment = newAdvice(text || '');
