@@ -7,6 +7,7 @@ import { BuiltinFunctionExecutor } from '@/editor/action/BuiltinFunctionExecutor
 export class AiActionExecutor {
   editor: Editor;
   endpointUrl: string = '/api/completion';
+  markdownParser: MarkdownParser;
 
   constructor() {
   }
@@ -16,6 +17,8 @@ export class AiActionExecutor {
       console.error('editor is null, will not set it');
       return;
     }
+
+    this.markdownParser = new MarkdownParser(editor, {});
     this.editor = editor;
   }
 
@@ -80,8 +83,7 @@ export class AiActionExecutor {
     const pos = actionPosition(action, this.editor.state.selection);
     this.editor.chain().focus()?.insertContentAt(pos, buffer).run();
 
-    const markdownParser = new MarkdownParser(this.editor, {});
-    const markdownNode = markdownParser.parse(allText);
+    const markdownNode = this.markdownParser.parse(allText);
 
     this.editor.chain().focus()?.deleteRange({
       from: originalSelection.from,
@@ -116,7 +118,8 @@ export class AiActionExecutor {
 
     const msg = await response.text();
     const posInfo = actionPosition(action, this.editor.state.selection);
-    this.editor.chain().focus()?.insertContentAt(posInfo, msg).run();
+    const node = this.markdownParser.parse(msg);
+    this.editor.chain().focus()?.insertContentAt(posInfo, node).run();
 
     this.editor.setEditable(true);
 
