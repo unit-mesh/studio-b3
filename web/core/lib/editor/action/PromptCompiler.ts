@@ -1,4 +1,4 @@
-import { ChangeForm, DefinedVariable, PromptAction, SourceType } from "@/editor/defs/custom-action.type";
+import { ChangeForm, DefinedVariable, PromptAction } from "@/editor/defs/custom-action.type";
 import { Editor, Range } from "@tiptap/core";
 import { Selection } from "prosemirror-state";
 import { PromptsManager } from "@/editor/prompts/prompts-manager";
@@ -14,7 +14,7 @@ export class PromptCompiler {
 
 	compile() {
 		const promptManager = PromptsManager.getInstance();
-		let state = this.editor.state;
+		const state = this.editor.state;
 
 		const range = actionPosition(this.action, state.selection);
 		const selection = state.doc.textBetween(range.from, range.to);
@@ -23,7 +23,7 @@ export class PromptCompiler {
 		const all = this.editor.getText();
 		let title = '';
 
-		state.doc.descendants((node, pos) => {
+		state.doc.descendants((node) => {
 			if (node.type.name === 'heading' && node.attrs.level === 1) {
 				title = node.textContent;
 			}
@@ -31,7 +31,7 @@ export class PromptCompiler {
 
 		const similarChunks = "";
 
-		let context = {
+		const context = {
 			[DefinedVariable.BEFORE_CURSOR]: beforeCursor,
 			[DefinedVariable.AFTER_CURSOR]: afterCursor,
 			[DefinedVariable.SELECTION]: selection,
