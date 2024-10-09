@@ -1,8 +1,9 @@
-import i18next from "i18next";
-import { DefinedVariable, FacetType, PromptAction } from "@/editor/defs/custom-action.type";
-import ArticlePrompts from "@/editor/prompts/article-prompts";
-import { TypeOptions } from "@/editor/defs/type-options.type";
-import RequirementsPrompts from "@/editor/prompts/requirements-prompts";
+import i18next from 'i18next';
+import { DefinedVariable, FacetType, PromptAction } from '@/editor/defs/custom-action.type';
+import ArticlePrompts from '@/editor/prompts/article-prompts';
+import { TypeOptions } from '@/editor/defs/type-options.type';
+import RequirementsPrompts from '@/editor/prompts/requirements-prompts';
+import { render } from '@/editor/prompts/TemplateRender.ts';
 
 export class PromptsManager {
 	private constructor() {
@@ -59,18 +60,3 @@ export class PromptsManager {
 	}
 }
 
-function render(template: string, data: object) {
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-expect-error
-	return template.replace(/\$\{([\s\S]+?)\}/g, (match, p1) => {
-		const keys = p1.trim().split('.');
-		let value = data;
-		for (const key of keys) {
-			value = value[key];
-			if (value === undefined) {
-				return '';
-			}
-		}
-		return value;
-	});
-}
