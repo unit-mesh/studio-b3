@@ -14,7 +14,7 @@ import { newAdvice } from '@/editor/extensions/advice/advice';
 import { ToolbarMenu } from '@/editor/menu/toolbar-menu';
 import { BounceLoader } from 'react-spinners';
 
-export const MenuBubble = ({ editor }: {
+export const MenuBubble = ({ editor } : {
   editor: Editor
 }) => {
   const [loading, setLoading] = React.useState(false);
@@ -28,7 +28,7 @@ export const MenuBubble = ({ editor }: {
 
     innerSmartMenus.push({
       name: '扩写',
-      template: `根据如下的内容扩写，只返回三句，限 100 字以内。###{{${DefinedVariable.SELECTION}}}###。`,
+      template: `根据如下的内容扩写，只返回三句，限 100 字以内。###\${${DefinedVariable.SELECTION}}###。`,
       facetType: FacetType.BUBBLE_MENU,
       changeForm: ChangeForm.DIFF,
       outputForm: OutputForm.TEXT
@@ -36,7 +36,7 @@ export const MenuBubble = ({ editor }: {
 
     innerSmartMenus.push({
       name: '润色',
-      template: `请润色并重写如下的内容：###{{${DefinedVariable.SELECTION}}}###`,
+      template: `请润色并重写如下的内容：###\${${DefinedVariable.SELECTION}}###`,
       facetType: FacetType.BUBBLE_MENU,
       changeForm: ChangeForm.DIFF,
       outputForm: OutputForm.TEXT

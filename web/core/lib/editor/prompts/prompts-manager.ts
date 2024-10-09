@@ -1,4 +1,3 @@
-import Handlebars from 'handlebars'
 import i18next from "i18next";
 import { DefinedVariable, FacetType, PromptAction } from "@/editor/defs/custom-action.type";
 import ArticlePrompts from "@/editor/prompts/article-prompts";
@@ -50,11 +49,28 @@ export class PromptsManager {
 	}
 
 	compile(string: string, data: object) {
-		const template = Handlebars.compile(string)
-		return template(data)
+		const template = render(string, data)
+		console.log(template)
+		return template
 	}
 
 	saveBackgroundContext(context: string) {
 		(this as any).backgroundContext = context
 	}
+}
+
+function render(template: string, data: object) {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-expect-error
+	return template.replace(/\$\{([\s\S]+?)\}/g, (match, p1) => {
+		const keys = p1.trim().split('.');
+		let value = data;
+		for (const key of keys) {
+			value = value[key];
+			if (value === undefined) {
+				return '';
+			}
+		}
+		return value;
+	});
 }
