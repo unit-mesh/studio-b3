@@ -71,7 +71,12 @@ export const CustomEditorCommands = (
         runAiAction:
           (action: PromptAction) =>
             ({ editor }: { editor: Editor }) => {
-              editor.commands.callLlm(action);
+              if (action.action) {
+                action.action(editor).then(() => {});
+                return;
+              } else {
+                editor.commands.callLlm(action);
+              }
             },
         callQuickAction:
           (text: string) =>
