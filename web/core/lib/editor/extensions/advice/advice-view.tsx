@@ -2,6 +2,7 @@ import { Editor } from "@tiptap/core"
 import React, { useEffect, useRef, useState } from "react";
 import { AdviceManager } from "@/editor/extensions/advice/advice-manager";
 import { Advice } from "@/editor/extensions/advice/advice";
+import { MarkdownParser } from '@/../node_modules/tiptap-markdown/src/parse/MarkdownParser';
 
 export interface AdviceViewProps {
 	editor: Editor
@@ -78,7 +79,17 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 						<button
 							className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 							onClick={() => {
-								editor.commands?.replaceRange(advice.content)
+								const originalSelection = editor.state.selection;
+								const markdownParser = new MarkdownParser(editor, {});
+								const markdownNode = markdownParser.parse(advice.content)
+
+								editor.chain().focus()?.deleteRange({
+									from: originalSelection.from,
+									to: editor.state.selection.to
+								}).run();
+
+								editor.chain().insertContentAt(editor.state.selection, markdownNode).run();
+
 								setActiveId(null)
 								editor.commands.unsetAdvice(advice.id)
 								AdviceManager.getInstance().removeAdvice(advice.id)
