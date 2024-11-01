@@ -21,3 +21,6 @@ export { BuiltinFunctionExecutor } from '@/editor/action/BuiltinFunctionExecutor
 export {
   default as ArticlePrompts, ToolbarMenuPrompts, BubbleMenuPrompts, SlashCommandsPrompts
 } from '@/editor/prompts/article-prompts';
+
+/// export all types
+export * from '@/editor/defs/custom-action.type';

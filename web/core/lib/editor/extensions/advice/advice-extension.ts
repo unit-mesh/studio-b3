@@ -10,6 +10,7 @@ declare module "@tiptap/core" {
 			setAdviceCommand: (newComment: Advice) => ReturnType;
 			setAdvice: (commentId: string) => ReturnType;
 			unsetAdvice: (commentId: string) => ReturnType;
+			updateAdvice: (commentId: string, newComment: Advice) => ReturnType;
 		};
 	}
 }
