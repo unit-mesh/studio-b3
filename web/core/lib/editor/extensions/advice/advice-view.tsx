@@ -80,7 +80,9 @@ export const AdviceView = ({ editor }: AdviceViewProps) => {
 							className='rounded-md bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20'
 							onClick={() => {
 								const originalSelection = editor.state.selection;
-								const markdownParser = new MarkdownParser(editor, {});
+								const markdownParser = new MarkdownParser(editor, {
+									html: true,
+								});
 								const markdownNode = markdownParser.parse(advice.content)
 
 								editor.chain().focus()?.deleteRange({
