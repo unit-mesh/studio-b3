@@ -14,35 +14,39 @@ import { newAdvice } from '@/editor/extensions/advice/advice';
 import { ToolbarMenu } from '@/editor/menu/toolbar-menu';
 import { BounceLoader } from 'react-spinners';
 
-export const MenuBubble = ({ editor } : {
-  editor: Editor
+function innerSmartActions() : PromptAction[] {
+  const innerSmartMenus: PromptAction[] = [];
+
+  innerSmartMenus.push({
+    name: '扩写',
+    template: `根据如下的内容扩写，只返回三句，限 100 字以内。###\${${DefinedVariable.SELECTION}}###。`,
+    facetType: FacetType.BUBBLE_MENU,
+    changeForm: ChangeForm.DIFF,
+    outputForm: OutputForm.TEXT
+  });
+
+  innerSmartMenus.push({
+    name: '润色',
+    template: `请润色并重写如下的内容：###\${${DefinedVariable.SELECTION}}###`,
+    facetType: FacetType.BUBBLE_MENU,
+    changeForm: ChangeForm.DIFF,
+    outputForm: OutputForm.TEXT
+  });
+
+  return innerSmartMenus;
+}
+
+export const MenuBubble = ({ editor, customActions } : {
+  editor: Editor,
+  customActions?: PromptAction[]
 }) => {
   const [loading, setLoading] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const [smartMenus, setSmartMenus] = React.useState<PromptAction[]>([]);
+  const [smartMenus, setSmartMenus] = React.useState<PromptAction[]>(customActions ? innerSmartActions().concat(customActions) : innerSmartActions);
   const [menus, setMenus] = React.useState<any[]>([]);
 
   useEffect(() => {
-    const innerSmartMenus: PromptAction[] = [];
-
-    innerSmartMenus.push({
-      name: '扩写',
-      template: `根据如下的内容扩写，只返回三句，限 100 字以内。###\${${DefinedVariable.SELECTION}}###。`,
-      facetType: FacetType.BUBBLE_MENU,
-      changeForm: ChangeForm.DIFF,
-      outputForm: OutputForm.TEXT
-    });
-
-    innerSmartMenus.push({
-      name: '润色',
-      template: `请润色并重写如下的内容：###\${${DefinedVariable.SELECTION}}###`,
-      facetType: FacetType.BUBBLE_MENU,
-      changeForm: ChangeForm.DIFF,
-      outputForm: OutputForm.TEXT
-    });
-
-    setSmartMenus(innerSmartMenus);
     setMenus(editor?.commands?.getAiActions(FacetType.BUBBLE_MENU) || []);
   }, [editor, isOpen]);
 
