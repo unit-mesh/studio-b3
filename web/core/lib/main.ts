@@ -13,6 +13,8 @@ export { CustomEditorCommands } from '@/editor/action/custom-editor-commands.ts'
 export { Sidebar } from '@/editor/components/sidebar.tsx';
 export { AdviceManager } from '@/editor/extensions/advice/advice-manager';
 export { AdviceView } from '@/editor/extensions/advice/advice-view';
+export { newAdvice } from '@/editor/extensions/advice/advice';
+export type { Advice } from '@/editor/extensions/advice/advice';
 export { Settings } from '@/editor/components/settings';
 export { AiActionExecutor } from '@/editor/action/AiActionExecutor.ts';
 export { OutputForm } from '@/editor/defs/custom-action.type';

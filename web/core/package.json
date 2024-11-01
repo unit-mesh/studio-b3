@@ -1,6 +1,6 @@
 {
   "name": "@studio-b3/web-core",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "type": "module",
   "main": "dist/main.js",
   "types": "dist-types/main.d.ts",
