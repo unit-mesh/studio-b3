@@ -1,3 +1,5 @@
+import { Editor } from '@tiptap/core';
+
 export enum FacetType {
 	TOOLBAR_MENU = 0,
 	BUBBLE_MENU = 1,
@@ -161,7 +163,7 @@ export interface PromptAction {
 	/**
 	 * The icon of the prompt, will be displayed in the menu
 	 */
-	icon?: any;
+	icon?: never;
 	/**
 	 * The description of the prompt, will be displayed in the menu
 	 */
@@ -177,6 +179,6 @@ export interface PromptAction {
 	/**
 	 * Menu Action
 	 */
-	action?: (context: any) => void;
+	action?: (editor: Editor) => Promise<void>;
 }
 

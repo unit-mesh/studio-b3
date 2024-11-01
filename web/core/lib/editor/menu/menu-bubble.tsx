@@ -86,7 +86,8 @@ export const MenuBubble = ({ editor, customActions } : {
                     editor.commands?.setAdvice(newComment.id);
                     editor.commands?.setAdviceCommand(newComment);
                   } else {
-                    menu.action?.(editor);
+                    await menu.action?.(editor);
+                    setLoading(false);
                   }
 
                   editor.view?.focus();
