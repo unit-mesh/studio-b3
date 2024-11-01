@@ -78,13 +78,17 @@ export const MenuBubble = ({ editor, customActions } : {
                   setIsOpen(false);
                   setLoading(true);
 
-                  const text = await editor.commands?.callLlm(menu)
-                  setLoading(false);
+                  if (!menu.action) {
+                    const text = await editor.commands?.callLlm(menu)
+                    setLoading(false);
 
-                  const newComment = newAdvice(text || '');
-                  editor.commands?.setAdvice(newComment.id);
-                  editor.commands?.setAdviceCommand(newComment);
-                  menu.action?.(editor);
+                    const newComment = newAdvice(text || '');
+                    editor.commands?.setAdvice(newComment.id);
+                    editor.commands?.setAdviceCommand(newComment);
+                  } else {
+                    menu.action?.(editor);
+                  }
+
                   editor.view?.focus();
                 }}
               >
