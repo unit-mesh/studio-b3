@@ -1,30 +1,94 @@
-# React + TypeScript + Vite
+# Studio B3 Editor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+## Usage
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Custom Menu examples
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```typescript
+const BubbleMenu: PromptAction[] = [
+	{
+		name: 'Polish',
+		i18Name: true,
+		template: `You are an assistant helping to polish sentence. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
+		facetType: FacetType.BUBBLE_MENU,
+		outputForm: OutputForm.STREAMING,
+	},
+	{
+		name: 'Similar Chunk',
+		i18Name: true,
+		template: `You are an assistant helping to find similar content. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
+		facetType: FacetType.BUBBLE_MENU,
+		outputForm: OutputForm.STREAMING,
+	},
+	{
+		name: 'Simplify Content',
+		i18Name: true,
+		template: `You are an assistant helping to simplify content. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
+		facetType: FacetType.BUBBLE_MENU,
+		outputForm: OutputForm.STREAMING,
+		changeForm: ChangeForm.DIFF,
+	},
+];
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Custom Smamples:
+
+
+```tsx
+const actionExecutor: AiActionExecutor = new AiActionExecutor();
+actionExecutor.setEndpointUrl("/api/chat");
+
+const instance = PromptsManager.getInstance();
+const map = customSlashActions?.map((action) => {
+  return {
+    name: action.name,
+    i18Name: false,
+    template: `123125`,
+    facetType: FacetType.SLASH_COMMAND,
+    outputForm: OutputForm.STREAMING,
+    action: async (editor: Editor) => {
+      if (action.action) {
+        await action.action(editor);
+      }
+    },
+  };
+}) || [];
+
+instance.updateActionsMap("article", ArticlePrompts.concat(map));
+
+const editor = useEditor({
+  extensions: setupExtensions(instance, actionExecutor).concat([
+    Markdown.configure({
+      transformPastedText: true,
+      transformCopiedText: false,
+    }),
+  ]),
+  content: md.render(value),
+  immediatelyRender: false,
+  editorProps: {
+    attributes: {
+      class: "prose lg:prose-xl bb-editor-inner",
+    },
+  },
+  onUpdate: ({ editor }) => {
+    if (onChange) {
+      const schema = editor.state.schema;
+      try {
+        const serializer = DOMSerializer.fromSchema(schema);
+        const serialized: HTMLElement | DocumentFragment = serializer.serializeFragment(editor.state.doc.content);
+
+        const html: string = Array.from(serialized.childNodes)
+                .map((node: ChildNode) => (node as HTMLElement).outerHTML)
+                .join("");
+
+        const turndownService = new TurndownService();
+        const markdown = turndownService.turndown(html);
+        onChange(markdown);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  },
+});
+```
