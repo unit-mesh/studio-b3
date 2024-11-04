@@ -7,7 +7,6 @@ import * as Dialog from '@radix-ui/react-dialog'
 import * as Tabs from '@radix-ui/react-tabs'
 import Select from 'react-select';
 
-import styles from '@/styles/Home.module.css'
 import { ARTICLE_TYPE_OPTIONS } from "@/editor/defs/type-options.type";
 
 // all options
@@ -105,7 +104,7 @@ export const Settings = ({ editor }: { editor: Editor }) => {
 
 		<Dialog.Root>
 			<Dialog.Trigger asChild>
-				<Button className={styles.setting} onClick={() => {
+				<Button onClick={() => {
 					// show some dialog
 				}}>
 					<GearIcon/>

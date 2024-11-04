@@ -72,6 +72,41 @@ Demo Videos: [开源 AI 原生编辑器 Studio B3](https://www.bilibili.com/vide
 
 ## Usage
 
+See in [web-core](./web-core/README.md)
+
+### Install
+
+```bash
+npm install -g @studio-b3/web-core
+```
+
+Use
+
+```typescript jsx
+import Head from 'next/head'
+
+import "../styles/editor-styles.css"
+import { LiveEditor }  from '@studio-b3/web-core'
+import '@/i18n/i18n';
+
+export default function Home() {
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>Studio B3 - all you need is editor!</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main>
+        <div>
+          <LiveEditor />
+        </div>
+      </main>
+    </div>
+  );
+}
+```
+
 ### Custom Menu examples
 
 ```typescript

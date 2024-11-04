@@ -18,7 +18,6 @@ import { Theme } from '@radix-ui/themes';
 
 import './editor.css';
 
-import { InlineCompletion } from '@/editor/extensions/inline-completion/inline-completion';
 import { MenuBubble } from '@/editor/menu/menu-bubble';
 import { createSlashExtension } from '@/editor/extensions/slash-command/slash-extension.ts';
 import { createQuickBox } from '@/editor/extensions/quick-box/quick-box-extension';
