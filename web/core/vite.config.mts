@@ -22,6 +22,7 @@ export default defineConfig({
     externalizeDeps(),
     dts({
       outDir: './dist-types',
+      rollupTypes: true
     }),
     libInjectCss(),
     react(),

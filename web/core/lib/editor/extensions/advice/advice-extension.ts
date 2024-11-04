@@ -1,7 +1,6 @@
 // This code based on https://github.com/sereneinserenade/tiptap-comment-extension which is licensed under MIT License
-import { Mark, mergeAttributes, Range } from "@tiptap/core";
 import { Mark as PMMark } from "@tiptap/pm/model";
-import { CommandProps } from "@tiptap/react";
+import { CommandProps, Mark, mergeAttributes, Range } from "@tiptap/react";
 import { Advice } from "./advice";
 
 declare module "@tiptap/core" {
@@ -56,7 +55,6 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 		};
 	},
 
-	// @ts-ignore
 	parseHTML() {
 		return [
 			{
@@ -69,7 +67,7 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 	},
 
 	renderHTML({ HTMLAttributes }: {
-		HTMLAttributes: Record<string, any>
+		HTMLAttributes: Record<string, unknown>
 	}) {
 		return ["span", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0,];
 	},
@@ -96,7 +94,8 @@ export const AdviceExtension = Mark.create<CommentOptions, CommentStorage>({
 		};
 	},
 
-	// @ts-ignore
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-expect-error
 	addCommands() {
 		return {
 			setAdviceCommand: (comment: Advice) => ({ commands }: CommandProps) => {

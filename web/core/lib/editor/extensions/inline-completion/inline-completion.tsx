@@ -1,6 +1,6 @@
-import { findChildren, Node, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
-import { Editor } from "@tiptap/core";
-import React, { useEffect, useRef } from "react";
+import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
+import { Node, Editor } from '@tiptap/core';
+import React, { useEffect, useRef } from 'react';
 import { KeyboardIcon } from "@radix-ui/react-icons";
 
 declare module '@tiptap/core' {

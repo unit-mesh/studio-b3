@@ -4,10 +4,10 @@
  * origin: https://github.com/ueberdosis/tiptap/blob/develop/packages/extension-code-block/src/code-block.ts
  */
 import {
-	Node,
 	RawCommands,
 	ReactNodeViewRenderer,
 } from "@tiptap/react";
+import { Node } from "@tiptap/core";
 
 import QuickBoxViewWrapper from "./quick-box-view-wrapper";
 
