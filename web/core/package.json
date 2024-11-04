@@ -1,6 +1,6 @@
 {
   "name": "@studio-b3/web-core",
-  "version": "0.9.1",
+  "version": "0.9.1-RC-1",
   "type": "module",
   "main": "dist/main.js",
   "types": "dist-types/main.d.ts",
@@ -39,6 +39,10 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "resolutions": {
+    "@tiptap/core": "^2.1.12",
+    "@tiptap/react": "^2.1.12"
   },
   "dependencies": {
     "@radix-ui/colors": "^3.0.0",
