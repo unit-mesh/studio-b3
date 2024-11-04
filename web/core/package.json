@@ -1,6 +1,6 @@
 {
   "name": "@studio-b3/web-core",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "type": "module",
   "main": "dist/main.js",
   "types": "dist-types/main.d.ts",
@@ -11,7 +11,8 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/main.js"
+      "import": "./dist/main.js",
+      "types": "./dist-types/main.d.ts"
     },
     "./package.json": "./package.json",
     "./style.css": "./dist/assets/main.css"
