@@ -72,7 +72,7 @@ Demo Videos: [开源 AI 原生编辑器 Studio B3](https://www.bilibili.com/vide
 
 ## Usage
 
-See in [web-core](./web-core/README.md)
+See in [web-core](./web/core/README.md)
 
 ### Install
 
