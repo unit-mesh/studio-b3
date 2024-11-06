@@ -136,13 +136,15 @@ const BubbleMenu: PromptAction[] = [
 ];
 ```
 
-Custom Smamples:
+Custom Samples:
 
 
 ```tsx
+// custom api endpoint
 const actionExecutor: AiActionExecutor = new AiActionExecutor();
-actionExecutor.setEndpointUrl("/api/chat");
+actionExecutor.setEndpointUrl("/api/chat"); 
 
+// custom prompts 
 const instance = PromptsManager.getInstance();
 const map = customSlashActions?.map((action) => {
   return {
@@ -159,10 +161,12 @@ const map = customSlashActions?.map((action) => {
   };
 }) || [];
 
+// set  prompts group to default article group
 instance.updateActionsMap("article", ArticlePrompts.concat(map));
 
 const editor = useEditor({
   extensions: setupExtensions(instance, actionExecutor).concat([
+    /// configure for copy and paste
     Markdown.configure({
       transformPastedText: true,
       transformCopiedText: false,
@@ -177,6 +181,7 @@ const editor = useEditor({
   },
   onUpdate: ({ editor }) => {
     if (onChange) {
+      /// update markdown
       const schema = editor.state.schema;
       try {
         const serializer = DOMSerializer.fromSchema(schema);
