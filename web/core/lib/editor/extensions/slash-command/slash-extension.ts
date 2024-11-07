@@ -78,7 +78,10 @@ export const createSlashExtension = (promptsManager: PromptsManager = PromptsMan
 								if (!isEditable) return;
 
 								component.updateProps(props);
-								props.editor.storage[extensionName].rect = props.clientRect!();
+								if (props.editor?.storage[extensionName]) {
+									props.editor.storage[extensionName].rect = props.clientRect!();
+								}
+
 								popup[0].setProps({
 									getReferenceClientRect: props.clientRect,
 								});
