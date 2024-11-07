@@ -22,9 +22,9 @@ Additionally, we aim to share insights from the article
 titled [Why Chatbots Are Not the Future](https://wattenberger.com/thoughts/boo-chatbots). Our vision includes delivering
 a writing experience akin to [Copilot for Docs](https://githubnext.com/projects/copilot-for-docs/) in documentation.
 
-About name: In the documentary "10 Years with Hayao Miyazaki"  the esteemed artist (宫崎骏, 宮﨑駿／みやざきはやお) chooses a 3B
-pencil,
-deeming conventional ones too inflexible for his creative process. Let us pay homage to his lofty ideals.
+About name: In the documentary "10 Years with Hayao Miyazaki"  the esteemed artist (宫崎骏, 宮﨑駿／みやざきはやお)
+chooses a 3B
+pencil, deeming conventional ones too inflexible for his creative process. Let us pay homage to his lofty ideals.
 
 <p align="center">
   <img src="docs/architecture.svg" alt="architecture diagram" />
@@ -35,6 +35,10 @@ Roadmap: see [Roadmap](https://github.com/unit-mesh/3b/issues/1)
 Online Demo: [https://editor.unitmesh.cc/](https://editor.unitmesh.cc/)
 
 Demo Videos: [开源 AI 原生编辑器 Studio B3](https://www.bilibili.com/video/BV1E64y1j7hJ/)
+
+## Quick Start
+
+See in [web/core](web/core/README.md)
 
 ## Features
 
@@ -69,138 +73,6 @@ Demo Videos: [开源 AI 原生编辑器 Studio B3](https://www.bilibili.com/vide
   they depend on.
 * Change: The effect produced by extensions may depend on other aspects of the system state, or be explicitly
   reconfigured.
-
-## Usage
-
-See in [web-core](./web/core/README.md)
-
-### Install
-
-```bash
-npm install -g @studio-b3/web-core
-```
-
-Use
-
-```typescript jsx
-import Head from 'next/head'
-
-import "../styles/editor-styles.css"
-import { LiveEditor }  from '@studio-b3/web-core'
-import '@/i18n/i18n';
-
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Studio B3 - all you need is editor!</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <div>
-          <LiveEditor />
-        </div>
-      </main>
-    </div>
-  );
-}
-```
-
-### Custom Menu examples
-
-```typescript
-const BubbleMenu: PromptAction[] = [
-	{
-		name: 'Polish',
-		i18Name: true,
-		template: `You are an assistant helping to polish sentence. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
-		facetType: FacetType.BUBBLE_MENU,
-		outputForm: OutputForm.STREAMING,
-	},
-	{
-		name: 'Similar Chunk',
-		i18Name: true,
-		template: `You are an assistant helping to find similar content. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
-		facetType: FacetType.BUBBLE_MENU,
-		outputForm: OutputForm.STREAMING,
-	},
-	{
-		name: 'Simplify Content',
-		i18Name: true,
-		template: `You are an assistant helping to simplify content. Output in markdown format. \n ###${DefinedVariable.SELECTION}###`,
-		facetType: FacetType.BUBBLE_MENU,
-		outputForm: OutputForm.STREAMING,
-		changeForm: ChangeForm.DIFF,
-	},
-];
-```
-
-Custom Samples:
-
-
-```tsx
-// custom api endpoint
-const actionExecutor: AiActionExecutor = new AiActionExecutor();
-actionExecutor.setEndpointUrl("/api/chat"); 
-
-// custom prompts 
-const instance = PromptsManager.getInstance();
-const map = customSlashActions?.map((action) => {
-  return {
-    name: action.name,
-    i18Name: false,
-    template: `123125`,
-    facetType: FacetType.SLASH_COMMAND,
-    outputForm: OutputForm.STREAMING,
-    action: async (editor: Editor) => {
-      if (action.action) {
-        await action.action(editor);
-      }
-    },
-  };
-}) || [];
-
-// set  prompts group to default article group
-instance.updateActionsMap("article", ArticlePrompts.concat(map));
-
-const editor = useEditor({
-  extensions: setupExtensions(instance, actionExecutor).concat([
-    /// configure for copy and paste
-    Markdown.configure({
-      transformPastedText: true,
-      transformCopiedText: false,
-    }),
-  ]),
-  content: md.render(value),
-  immediatelyRender: false,
-  editorProps: {
-    attributes: {
-      class: "prose lg:prose-xl bb-editor-inner",
-    },
-  },
-  onUpdate: ({ editor }) => {
-    if (onChange) {
-      /// update markdown
-      const schema = editor.state.schema;
-      try {
-        const serializer = DOMSerializer.fromSchema(schema);
-        const serialized: HTMLElement | DocumentFragment = serializer.serializeFragment(editor.state.doc.content);
-
-        const html: string = Array.from(serialized.childNodes)
-                .map((node: ChildNode) => (node as HTMLElement).outerHTML)
-                .join("");
-
-        const turndownService = new TurndownService();
-        const markdown = turndownService.turndown(html);
-        onChange(markdown);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  },
-});
-```
 
 ## Refs
 
