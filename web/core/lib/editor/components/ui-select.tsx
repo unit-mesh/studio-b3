@@ -6,24 +6,31 @@ import {
 	ChevronUpIcon,
 } from '@radix-ui/react-icons';
 
-export const BeSelect: React.FC<any> = React.forwardRef(
-	({ children, ...props }, forwardedRef) => {
+interface BeSelectProps {
+	children: React.ReactNode;
+	[key: string]: any;
+}
+
+export const BeSelect = React.forwardRef<HTMLButtonElement, BeSelectProps>(
+	(props, forwardedRef) => {
+		const { children, ...rest } = props;
+
 		return (
-			<SelectPrimitive.Root {...props}>
-				<SelectPrimitive.Trigger className={'SelectTrigger'} ref={forwardedRef as any}>
-					<SelectPrimitive.Value/>
-					<SelectPrimitive.Icon className={"SelectIcon"}>
-						<ChevronDownIcon/>
+			<SelectPrimitive.Root {...rest}>
+				<SelectPrimitive.Trigger className="SelectTrigger" ref={forwardedRef}>
+					<SelectPrimitive.Value />
+					<SelectPrimitive.Icon className="SelectIcon">
+						<ChevronDownIcon />
 					</SelectPrimitive.Icon>
 				</SelectPrimitive.Trigger>
 				<SelectPrimitive.Portal>
 					<SelectPrimitive.Content>
 						<SelectPrimitive.ScrollUpButton className="SelectScrollButton">
-							<ChevronUpIcon/>
+							<ChevronUpIcon />
 						</SelectPrimitive.ScrollUpButton>
 						<SelectPrimitive.Viewport>{children}</SelectPrimitive.Viewport>
 						<SelectPrimitive.ScrollDownButton className="SelectScrollButton">
-							<ChevronDownIcon/>
+							<ChevronDownIcon />
 						</SelectPrimitive.ScrollDownButton>
 					</SelectPrimitive.Content>
 				</SelectPrimitive.Portal>

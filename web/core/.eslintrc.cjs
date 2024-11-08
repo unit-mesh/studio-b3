@@ -5,7 +5,8 @@ module.exports = defineConfig({
   root: true,
   env: {
     node: true,
-    browser: true
+    browser: true,
+    es2022: true
   },
   extends: [
     'eslint:recommended',
@@ -18,23 +19,35 @@ module.exports = defineConfig({
   ignorePatterns: ['dist', 'dist-types'],
   overrides: [
     {
+      files: ['*.ts', '*.tsx'],  // Added *.tsx
       extends: [
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:react-hooks/recommended',
+        'plugin:react/recommended'  // Added React plugin
       ],
-      plugins: ['@typescript-eslint', 'import', 'react-refresh'],
+      plugins: ['@typescript-eslint', 'import', 'react-refresh', 'react'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true
+        },
+        project: './tsconfig.json'  // Add reference to your tsconfig
       },
-      files: ['*.ts'],
+      settings: {
+        react: {
+          version: 'detect'
+        }
+      },
       rules: {
         'react-refresh/only-export-components': [
           'warn',
           { allowConstantExport: true },
         ],
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/no-explicit-any': 'off'
       },
     },
     {
